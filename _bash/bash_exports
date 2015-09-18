@@ -61,3 +61,13 @@ export GREP_OPTIONS="--color=auto --directories=skip --exclude=\.swp --exclude=\
 export HISTCONTROL="ignoredups:ignorespace"
 export HISTTIMEFORMAT="%F %T	"
 export HISTSIZE="1000"
+
+# PATH
+unshift_paths_to_global "/bin"
+unshift_paths_to_global "/sbin"
+unshift_paths_to_global "/usr/bin"
+unshift_paths_to_global "/usr/sbin"
+unshift_paths_to_global "/usr/games"
+unshift_paths_to_global "/usr/local/bin"
+unshift_paths_to_global "/usr/local/sbin"
+unshift_paths_to_global "${HOME}/bin"

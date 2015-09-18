@@ -24,3 +24,27 @@ function source_files_in_directory_if_exists()
         done
     fi
 }
+
+# Unshift paths to $PATH:
+# - Remove specified paths from $PATH if those already exists,
+# - Prepend specified paths to the beginning in $PATH.
+# - Example
+#   $ unshift_paths_to_global "/path1"
+#   $ unshift_paths_to_global "/path1:/path2"
+function unshift_paths_to_global()
+{
+    # Remove the new path from $PATH if it already exists.
+    local new_paths="$1"
+
+    if [ -z "$new_paths" ]; then
+        return 0
+    fi
+
+    local paths="$PATH"
+    local new_path
+    for new_path in $(echo -e ${new_paths//:/\\\n}); do
+        paths=`echo ":$paths:" | sed -e "s:\:$new_path\::\::g" -e "s/^://" -e "s/:$//"`
+    done
+
+    export PATH="$new_paths:$paths"
+}
