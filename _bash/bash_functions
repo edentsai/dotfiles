@@ -90,3 +90,16 @@ function git_current_branch()
         echo "${ref#refs/heads/}"
     fi
 }
+
+# Display the last commit id of current branch.
+function git_last_commit_id()
+{
+    if [ -z `git_current_branch` ]; then
+        return
+    fi
+
+    local last_commit_id=`git rev-parse --short HEAD 2>/dev/null`
+    if [ -n "$last_commit_id" ]; then
+        echo "$last_commit_id"
+    fi
+}
