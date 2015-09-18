@@ -62,3 +62,67 @@ alias move="mv -i"
 # Be careful with remove files
 #   -i | Request confirmation before attempting to remove each file.
 alias remove="rm -i"
+
+# Create parent directories on demand.
+#   -p | Create intermediate directories as required.
+#   -v | Be verbose when creating directories, listing them as they are created.
+alias mkdir="mkdir -pv"
+alias md="mkdir -pv"
+
+# Display free disk space with Human-readable output.
+#   -h | 'Human-readable' output.
+alias df="df -h"
+
+# Display disk usage statistics with Human-readable output.
+#   -c | Display a grand total.
+#   -h | 'Human-readable' output.
+alias du='du -ch'
+
+# Make mount command output pretty and human readable format
+alias mount="mount | column -t"
+alias m="mount"
+
+# List jobs with more information.
+alias jobs="jobs -l"
+alias j="jobs -l"
+
+# Do not verify the peer certificate against trusted CAs.
+alias fetch="fetch --no-verify-peer"
+
+# Start calculator with math support.
+#   -l, --mathlib | Allow specification of an arbitrary precision math library.
+alias bc="bc --mathlib"
+
+# Colorize the tree command output.
+alias tree="tree -CFl --dirsfirst"
+
+# Tmux force to assume the terminal supports 256 colours.
+alias tmux="tmux -2"
+
+# Continue getting a partially-downloaded file.
+alias wget="wget -c"
+
+# Forces OpenSSH clienti to use IPv4 addresses only.
+#   -4             | Force to use IPv4 addresses only.
+#   -6             | Force to use IPv4 addresses only.
+#   -C             | Request compression of all data.
+#   -e escape_char | Sets the escape character for sessions with a pty (default: '~'),
+#                  | Setting the character to “none” disables any escapes and makes the session fully transparent .
+#   -v             | Enables verbose mode.
+alias ssh="ssh -4 -C -e none -v"
+
+# PHPUnit always use colors in output.
+alias phpunit="phpunit --colors"
+
+# Display information about my top cpu processes
+alias topme="top -U $USER"
+
+# Display process status with more information.
+#   -u | Display more information
+#   -a | Display information about other users' processes as well as your own.
+#   -x | include processes which do not have a controlling terminal.
+alias psu="ps -u"
+alias psmem='ps -aux | sort -nr -k 4'
+alias psmem10='psmem | head -n 10'
+alias pscpu='ps -aux | sort -nr -k 3'
+alias pscpu10='pscpu | head -n 10'
