@@ -103,3 +103,22 @@ function git_last_commit_id()
         echo "$last_commit_id"
     fi
 }
+
+# Get time since the git last commit.
+function git_since_last_commit()
+{
+    # Get last commit time
+    local last_commit=`git log --pretty=format:%at -1 2>/dev/null`
+    if [ -z "$last_commit" ]; then
+        return
+    fi
+
+    # Calculate since last commit
+    local now=`date +%s`
+    local seconds_since_last_commit=$((now - last_commit))
+    local minutes_since_last_commit=$((seconds_since_last_commit / 60))
+    local hours_since_last_commit=$((minutes_since_last_commit / 60))
+    local minutes_since_last_commit=$((minutes_since_last_commit % 60))
+
+    echo "${hours_since_last_commit}h ${minutes_since_last_commit}m"
+}
