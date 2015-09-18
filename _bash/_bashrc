@@ -6,5 +6,9 @@ bash_directory="$HOME/.bash"
 if [ -d "$bash_directory" ]; then
     # Source functions first.
     source "$bash_directory/bash_functions"
+
+    # Source exports and aliases.
+    source_file_if_exists "$bash_directory/bash_exports"
+    source_file_if_exists "$bash_directory/bash_aliases"
 fi;
 unset bash_directory
