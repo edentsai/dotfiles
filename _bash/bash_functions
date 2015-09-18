@@ -122,3 +122,25 @@ function git_since_last_commit()
 
     echo "${hours_since_last_commit}h ${minutes_since_last_commit}m"
 }
+
+# Display git current ps1.
+function git_current_ps1()
+{
+    local ref=`git_current_branch`
+    if [ -z "$ref" ]; then
+        return
+    fi
+
+    local git_ps1="$ref"
+    local last_commit_id=`git_last_commit_id`
+    if [ -n "$last_commit_id" ]; then
+        git_ps1="$git_ps1 > $last_commit_id"
+    fi
+
+    local since_last_commit=`git_since_last_commit`
+    if [ -n "$since_last_commit" ]; then
+        git_ps1="$git_ps1 > $since_last_commit"
+    fi
+
+    echo "$git_ps1"
+}
