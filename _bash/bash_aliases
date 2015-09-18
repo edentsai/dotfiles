@@ -48,3 +48,17 @@ case $(uname -s) in
         # TODO Add aliases for ls in Linux
         ;;
 esac
+
+# Be careful with copy files.
+#   -i | Cause cp to write a prompt to the standard error output befor copying a file
+#      | that would overwrite an existing file.
+alias copy="cp -i"
+
+# Be careful with move and rename files.
+#   -i | Cause mv to write a prompt to standard error before moving a file
+#      | that would overwrite an existing file.
+alias move="mv -i"
+
+# Be careful with remove files
+#   -i | Request confirmation before attempting to remove each file.
+alias remove="rm -i"
