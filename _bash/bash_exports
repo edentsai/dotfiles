@@ -44,6 +44,12 @@ export LESSHISTFILE="${HOME}/.lesshst"
 #   MANPAGER | Program used to display files.
 export MANPAGER="less -Is"
 
+# Use 'most' command as MANPAGER better if it exists.
+most_path=`which most`
+if [ -f "$most_path" ]; then
+    export MANPAGER="most -s"
+fi
+
 # Export variable for the 'grep' command.
 #   GREP_OPTIONS | Default options to be placed in front of any explicit options.
 export GREP_OPTIONS="--color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
