@@ -126,3 +126,17 @@ alias psmem='ps -aux | sort -nr -k 4'
 alias psmem10='psmem | head -n 10'
 alias pscpu='ps -aux | sort -nr -k 3'
 alias pscpu10='pscpu | head -n 10'
+
+# List $PATH and force output to be one entry per line
+alias path="echo -e \${PATH//:/\\\n}"
+
+# Display today's date.
+alias today="date '+%Y-%m-%d %T'"
+
+# Vim open last edited file.
+alias vimlast="vim -c \"normal '0\""
+
+# The ping command do not wait interval 1 second, go fast
+#   -c count      | Stop after sending (and receiving) count ECHO_RESPONSE packets.
+#   -s packetsize | Specify the number of data bytes to be sent.
+alias fastping='ping -c 100 -s.2'
