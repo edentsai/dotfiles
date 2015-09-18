@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# vim: set filetype=sh
+
+# Source files in bash directory.
+bash_directory="$HOME/.bash"
+if [ -d "$bash_directory" ]; then
+    # Source functions first.
+    source "$bash_directory/bash_functions"
+fi;
+unset bash_directory
