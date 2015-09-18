@@ -1,2 +1,11 @@
 #!/usr/bin/env bash
 # vim: set filetype=sh
+
+# Source file if it exists.
+function source_file_if_exists()
+{
+    local file_path="$1"
+    if [ -f "$file_path" ]; then
+        source "$file_path"
+    fi
+}
