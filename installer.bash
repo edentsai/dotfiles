@@ -7,6 +7,10 @@ DIFF=`which diff`
 INSTALLER_PATH="$PWD/$0"
 DOTFILES_DIR=$(dirname "$INSTALLER_PATH")
 
+# A directory for backup the old dotfiles.
+BACKUP_TIMESTAMP=`date +%s`
+BACKUP_DIR="$DOTFILES_DIR/backup/$BACKUP_TIMESTAMP"
+
 # Create dotfile links to $HOME.
 function create_dotfile_links()
 {
@@ -16,6 +20,12 @@ function create_dotfile_links()
     if [ -e "$filepath" ]; then
         # Skip if the $filepath is $DOTFILES_DIR
         if [ "$DOTFILES_DIR" != "$filepath" ]; then
+            # Backup $target_filepath if $target_filepath already existed.
+            local target_filepath="$HOME/${filename/_/.}"
+            if [ -e "$target_filepath" ] && [ -n "$($DIFF $filepath $target_filepath)" ]; then
+                backup_dotfile "$target_filepath"
+            fi
+
             # Create a symbolic link from $HOME to $filepath
             if [ ! -e $target_filepath ] || [ -n "$($DIFF $filepath $target_filepath)" ]; then
                 echo "Create symbolic links '$filepath' to '$target_filepath'"
@@ -32,6 +42,25 @@ function create_dotfile_links()
     fi
 
     unset filepath filename target_filepath
+}
+
+# Backup a dotfile to $BACKUP_DIR.
+function backup_dotfile()
+{
+    # Create the backup directory if it not exists.
+    if [ ! -e "$BACKUP_DIR" ]; then
+        echo "Create a directory at '$BACKUP_DIR' for backup the old dotfiles."
+        mkdir -p "$BACKUP_DIR"
+    fi
+
+    local filepath="$1"
+    local filename=`basename $filepath`
+    local backup_filepath="$BACKUP_DIR/$filename"
+
+    echo "Move '$filepath' to '$backup_filepath' for backup"
+    mv "$filepath" "$backup_filepath"
+
+    unset filepath filename backup_filepath
 }
 
 # Run installer.
