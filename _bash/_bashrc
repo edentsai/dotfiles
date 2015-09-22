@@ -10,5 +10,8 @@ if [ -d "$bash_directory" ]; then
     # Source exports and aliases.
     source_file_if_exists "$bash_directory/bash_exports"
     source_file_if_exists "$bash_directory/bash_aliases"
+
+    # Source completions
+    source_files_in_directory_if_exists "$bash_directory/completions"
 fi;
 unset bash_directory
