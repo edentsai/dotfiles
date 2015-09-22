@@ -34,3 +34,42 @@ set page-completions on
 
 # A character denoting a file’s type is appended to the filename when listing possible completions.
 set visible-stats on
+
+# Set editing mode
+set editing-mode emacs
+# set editing-mode vi
+
+# some defaults / modifications for the emacs mode
+$if mode=emacs
+    # Menu complete
+    "\e\t": menu-complete
+    "\e[Z": menu-complete-backward
+
+    # Up/Down arrows for history search
+    "\e[A": history-search-backward
+    "\e[B": history-search-forward
+
+    # Mappings for Ctrl-up-arrow and Ctrl-down-arrow for history moving
+    "\e[1;5A": previous-history
+    "\e[1;5B": next-history
+    "\e[5A": previous-history
+    "\e[5B": next-history
+    "\e\e[A": previous-history
+    "\e\e[B": next-history
+
+    # mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving
+    "\e[1;5C": forward-word
+    "\e[1;5D": backward-word
+    "\e[5C": forward-word
+    "\e[5D": backward-word
+    "\e\e[C": forward-word
+    "\e\e[D": backward-word
+
+    # Allow use Home/End/PageUp/PageDown/Delete/Insert keys
+    "\e[1~": beginning-of-line
+    "\e[4~": end-of-line
+    "\e[5~": beginning-of-history
+    "\e[6~": end-of-history
+    "\e[3~": delete-char
+    "\e[2~": quoted-insert
+$endif
