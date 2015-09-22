@@ -75,6 +75,13 @@
     wc = whatchanged
     who = shortlog -s --
 
+    # Get the current branch name (not so useful in itself, but used in other aliases)
+    branch-name = "!git rev-parse --abbrev-ref HEAD"
+    # Push the current branch to the remote "origin", and set it to track the upstream branch
+    publish = "!git push -u origin $(git branch-name)"
+    # Delete the remote version of the current branch
+    unpublish = "!git push origin :$(git branch-name)"
+
 [pretty]
     ias = format:%C(yellow)%h%Creset %C(cyan)%an%Creset %s
     fulllog = format:%C(yellow)%H%n%C(cyan)%an <%ae>%n%Cgreen%ci%n%n%C(bold black)%s%n%b
