@@ -27,3 +27,55 @@
 
 [push]
     default = simple
+
+[alias]
+    br = branch -v
+    brr = branch -r
+    ci = commit
+    cim = commit -m
+    co = checkout
+    com = checkout master
+    cod = checkout develop
+    cot = checkout tmp
+    chp = cherry-pick
+    dt = difftool
+    df = diff --color-words
+    dfc = diff --color-words --cached
+    dffn = diff --color-words --name-only
+    dfie = diff --color-words --ignore-space-at-eol
+    dfst = diff --color-words --stat
+    lgc = log --pretty=fulllog
+    lg = log --graph --pretty=shortlog --abbrev-commit
+    lgfn = log --pretty=fulllog --name-only
+    lgol = log --pretty=ias
+    lgst = log --graph --pretty=fulllog --stat
+    lgme = log --graph --pretty=fulllog --author=EdenTsai
+    lgmefn = log --pretty=fulllog --author=EdenTsai --name-only
+    lgmeol = log --author=Edentsai --oneline
+    lgmest = log --graph --pretty=fulllog --author=EdenTsai --stat
+    mt = mergetool
+    rb = rebase
+    rbm = rebase master
+    rbd = rebase develop
+    rbt = rebase tmp
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbs = rebase --skip
+    rs = reset
+    rsh = reset HEAD^1
+    st = status
+    staged = diff --staged
+    sh = stash
+    shl = stash list
+    shp = stash pop
+    sha = stash apply
+    shfw = show --pretty=fulllog --color-words
+    shfn = show --pretty=fulllog --name-only
+    shfs = show --pretty=fulllog --stat
+    wc = whatchanged
+    who = shortlog -s --
+
+[pretty]
+    ias = format:%C(yellow)%h%Creset %C(cyan)%an%Creset %s
+    fulllog = format:%C(yellow)%H%n%C(cyan)%an <%ae>%n%Cgreen%ci%n%n%C(bold black)%s%n%b
+    shortlog = format:%Cred%h%Creset - %C(bold blue)<%an>%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
