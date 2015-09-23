@@ -48,3 +48,16 @@ set show-changes = yes
 # Colors
 color cursor white color236
 color diff-stat green color233
+
+# Bindings.
+
+## Generic bindings.
+bind generic <Ctrl-b> scroll-page-up
+bind generic <Ctrl-f> scroll-page-down
+bind generic + move-page-down
+
+# Easy jump to previous/next patches in stage/diff view
+bind stage <Ctrl-J> :/^diff --
+bind stage <Ctrl-K> :?^diff --
+bind diff <Ctrl-J> :/^diff --
+bind diff <Ctrl-K> :?^diff --
