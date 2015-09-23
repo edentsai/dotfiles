@@ -2,3 +2,13 @@
 
 # Ignore files which are auto installed at '_bin/' directory.
 _bin/composer
+_bin/git-flow*
+_bin/git-flow-config
+_bin/git-flow-feature
+_bin/git-flow-hotfix
+_bin/git-flow-init
+_bin/git-flow-release
+_bin/git-flow-support
+_bin/git-flow-version
+_bin/gitflow-common
+_bin/gitflow-shFlags
