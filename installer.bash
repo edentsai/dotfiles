@@ -11,6 +11,9 @@ DOTFILES_DIR=$(dirname "$INSTALLER_PATH")
 BACKUP_TIMESTAMP=`date +%s`
 BACKUP_DIR="$DOTFILES_DIR/backup/$BACKUP_TIMESTAMP"
 
+# A directory for install useful commands.
+BIN_DIR="$DOTFILES_DIR/_bin"
+
 # Create dotfile links to $HOME.
 function create_dotfile_links()
 {
@@ -69,3 +72,11 @@ create_dotfile_links $DOTFILES_DIR
 
 echo "Source '$HOME/.bash_profile' after installed."
 source "$HOME/.bash_profile"
+
+# Install dependency tools
+INSTALLERS_DIR="$DOTFILES_DIR/installers"
+for installer_script in `ls $INSTALLERS_DIR/*-installer.bash`; do
+    if [ -f "$installer_script" ]; then
+        bash $installer_script $BIN_DIR
+    fi
+done
