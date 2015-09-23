@@ -4,3 +4,6 @@
 [submodule "_bin/submodules/bd"]
     path = _bin/submodules/bd
     url = https://github.com/vigneshwaranr/bd
+[submodule "_bin/submodules/icdiff"]
+    path = _bin/submodules/icdiff
+    url = https://github.com/jeffkaufman/icdiff
