@@ -28,7 +28,27 @@ function install_composer()
     echo "-- Composer installed."
 }
 
+function composer_install_dependencies
+{
+    local composer=`which composer`
+
+    if [ -z "$composer" ]; then
+        echo "The 'composer' command not found, cannot install dependencies,"
+        echo "please be sure to set up your \$PATH for composer."
+        return 0
+    fi
+
+    # install PHPUnit (https://phpunit.de)
+    echo "Installing PHPUnit via Composer:"
+    $composer global require --profile "phpunit/phpunit:@stable"
+    echo "-- PHPUnit installed."
+
+    return 1
+}
+
 install_prefix="$1"
 install_composer "$install_prefix"
+
+composer_install_dependencies
 
 unset install_prefix
