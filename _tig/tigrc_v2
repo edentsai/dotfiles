@@ -1,0 +1,50 @@
+# Basics
+set line-graphics = yes
+set vertical-split = false
+
+## Main-View
+set main-view = \
+    line-number:yes,interval=5,width=5 \
+    date:default \
+    author:full,width=12 \
+    id:yes \
+    commit-title:yes,graph=yes,refs=yes,overflow=yes
+
+## Stash-View
+set stash-view = \
+    line-number:yes,interval=1,width=5 \
+    date:default \
+    author:full,width=12 \
+    id:yes \
+    commit-title:yes,graph=yes,refs=yes,overflow=yes
+
+## Status-View
+set status-view = \
+    line-number:yes,interval=1,width=5 \
+    status:long \
+    file-name:auto
+
+## Blame-View
+set blame-view = \
+    line-number:yes,interval=1,width=5 \
+    date:default \
+    author:full,width=12 \
+    id:yes \
+    text:yes
+
+# Speeding up Tig in large repositories.
+# - Reference: https://github.com/jonas/tig/blob/master/contrib/large-repo.tigrc
+
+## Use Git's default (reverse chronological) order, never automatically,
+## use topo-order for the commit graph.
+set commit-order = default
+
+## Show staged and unstaged changes in the main view.
+set show-changes = yes
+
+## Limit number of commits loaded by default to 1000.
+# set main-options = -n 1000
+
+# Colors
+color cursor white color236
+color diff-stat green color233
