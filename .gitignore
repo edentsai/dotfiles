@@ -12,3 +12,6 @@ _bin/git-flow-support
 _bin/git-flow-version
 _bin/gitflow-common
 _bin/gitflow-shFlags
+
+# Ignore TMUX plugins
+_tmux/plugins

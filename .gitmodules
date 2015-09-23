@@ -7,3 +7,6 @@
 [submodule "_bin/submodules/icdiff"]
     path = _bin/submodules/icdiff
     url = https://github.com/jeffkaufman/icdiff
+[submodule "_tmux/plugins/tpm"]
+    path = _tmux/plugins/tpm
+    url = https://github.com/tmux-plugins/tpm
