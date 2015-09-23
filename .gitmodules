@@ -1,3 +1,6 @@
 [submodule "_bash/submodules/bash-it"]
     path = _bash/submodules/bash-it
     url = https://github.com/Bash-it/bash-it
+[submodule "_bin/submodules/bd"]
+    path = _bin/submodules/bd
+    url = https://github.com/vigneshwaranr/bd
