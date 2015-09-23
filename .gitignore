@@ -1,0 +1,4 @@
+# vim: set filetype=sh
+
+# Ignore files which are auto installed at '_bin/' directory.
+_bin/composer
