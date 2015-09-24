@@ -114,6 +114,12 @@ alias ssh="ssh -4 -C -e none -v"
 # PHPUnit always use colors in output.
 alias phpunit="phpunit --colors"
 
+# Quickly go back to a specific parent directory
+alias bd=". bd -s"
+
+# icdiff always display line numbers.
+alias icdiff="icdiff --line-numbers"
+
 # Display information about my top cpu processes
 alias topme="top -U $USER"
 
