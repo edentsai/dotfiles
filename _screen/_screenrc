@@ -1,0 +1,40 @@
+ # vim: set filetype=screen:
+
+# Don't display the copyright page on startup
+startup_message off
+
+# Set default encoding using UTF-8
+defencoding utf8
+defutf8 on
+
+# Log 10000 lines for
+defscrollback 10000
+
+# Disabled visual bell & message
+vbell off
+bell_msg ""
+msgwait 5
+
+# Turns off alternate screen switching in xterms,
+# so that text in screen will go into the xterm's scrollback buffer:
+termcapinfo xterm* ti@:te@
+termcapinfo screen* ti@:te@
+
+# Refresh the display when exiting programs
+altscreen on
+
+term screen-256color
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+termcapinfo screen 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+# defbce on
+
+deflogin on
+autodetach on
+
+# caption always "%-w%<%{=B GK}%n %t%{= KW}%+w"
+hardstatus alwayslastline "%000=%{=b RW} %2n %t | %H %{= BW} %-w%{=bu BW}%-035>%n %t%{= BW}%+w%> %-024=%{= KW} %D | %Y-%m-%d %c "
+
+bindkey -k k2 screen        # F2 - Create a new window
+bindkey -k k3 prev          # F3 - Switch to the previous window
+bindkey -k k4 next          # F4 - Switch to the next window

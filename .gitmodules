@@ -1,0 +1,15 @@
+[submodule "_bash/submodules/bash-it"]
+    path = _bash/submodules/bash-it
+    url = https://github.com/Bash-it/bash-it
+[submodule "_bin/submodules/bd"]
+    path = _bin/submodules/bd
+    url = https://github.com/vigneshwaranr/bd
+[submodule "_bin/submodules/icdiff"]
+    path = _bin/submodules/icdiff
+    url = https://github.com/jeffkaufman/icdiff
+[submodule "_bin/submodules/pathpicker"]
+    path = _bin/submodules/pathpicker
+    url = https://github.com/facebook/pathpicker/
+[submodule "_tmux/plugins/tpm"]
+    path = _tmux/plugins/tpm
+    url = https://github.com/tmux-plugins/tpm
