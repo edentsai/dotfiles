@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# vim: set filetype=sh
+
+# My Profile
+export EMAIL="edentsai231@gmail.com"
+export FULL_NAME="Eden Tsai"
+export NICK_NAME="Eden"
+
+# Locale, Terminal, Editor and Pager
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+export TERM="screen-256color"
+export EDITOR="vim"
+export GIT_PAGER="less"
+
+# Export variables for the 'ls' command.
+#   BLOCKSIZE | The block size in bytes by the -l and -s options.
+#   CLICOLOR  | Use ANSI color sequences to distinguish file types.
+#   LSCOLORS  | Describes what color to use for which attribute when colors are enabled with CLICOLOR,
+#             | the origin setting of LSCOLORS is "Dxfxcxdxbxegedabagacad".
+export BLOCKSIZE="K"
+export CLICOLOR=1
+case $(uname -s) in
+    "FreeBSD")
+        export LSCOLORS="ExfxcxdxbxEgEdabagacad"
+        ;;
+    "Darwin")
+        export LS_COLORS="di=1;;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=1;;46:cd=1;;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:"
+        ;;
+    "Linux")
+        export LSCOLORS="ExfxcxdxbxEgEdabagacad"
+        ;;
+esac
+
+# Export variable for the 'less' command.
+#   LESS         | Options which are passed to less automatically.
+#   LESSHISTSIZE | The maximum number of commands to save in the history file.
+#   LESSHISTFILE | The history file used to remember search commands and shell commands between invocations of less.
+export LESS="-emrSwX"
+export LESSHISTSIZE=100
+export LESSHISTFILE="${HOME}/.lesshst"
+
+# Export variables for the 'man' command.
+#   MANPAGER | Program used to display files.
+export MANPAGER="less -Is"
+
+# Use 'most' command as MANPAGER better if it exists.
+most_path=`which most`
+if [ -f "$most_path" ]; then
+    export MANPAGER="most -s"
+fi
+
+# Export variable for the 'grep' command.
+#   GREP_OPTIONS | Default options to be placed in front of any explicit options.
+export GREP_OPTIONS="--color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
+
+# Export variables for the 'history' command.
+#   HISTCONTROL    | Ignore duplicate commands or commands that have leading whitespace.
+#   HISTTIMEFORMAT | Display the time stamp information associated with each history entry.
+#   HISTSIZE       | The number of lines or commands that are stored in memory in a history list.
+export HISTCONTROL="ignoredups:ignorespace"
+export HISTTIMEFORMAT="%F %T	"
+export HISTSIZE="1000"
+
+# Customize Bash Prompt (PS1)
+color_reset="\[[0m\]"
+color_whitebold="\[[38;5;15m\]"
+color_lightgraybold="\[[38;5;144m\]"
+color_lightgray="\[[38;5;255m\]"
+color_red_bg="\[[48;5;88m\]"
+color_lightgray_bg="\[[48;5;237m\]"
+color_darkgray_bg="\[[48;5;234m\]"
+color_reset_bg="\[[49m\]"
+ps1_part1="${color_whitebold}${color_red_bg} \\u@\\h "
+ps1_part2="${color_lightgraybold}${color_lightgray_bg} \$(pwd) "
+ps1_part3="${color_lightgray}${color_darkgray_bg} \$(git_current_ps1) "
+ps1_part3="${ps1_part3}${color_lightgraybold}${color_lightgray_bg} "
+ps1_part3="${ps1_part3}${color_reset}${color_reset_bg}\n"
+ps1_part4="${color_lightgraybold}${color_lightgray_bg} \\t ${color_reset}${color_reset_bg} "
+export PS1="${ps1_part1}${ps1_part2}${ps1_part3}${ps1_part4}"
+
+# MySQL Prompt
+export MYSQL_PS1="[\u@\h] : (\d)\n[\R:\m:\s] mysql> "
+
+# PATH
+unshift_paths_to_global "/bin"
+unshift_paths_to_global "/sbin"
+unshift_paths_to_global "/usr/bin"
+unshift_paths_to_global "/usr/sbin"
+unshift_paths_to_global "/usr/games"
+unshift_paths_to_global "/usr/local/bin"
+unshift_paths_to_global "/usr/local/sbin"
+unshift_paths_to_global "${HOME}/bin"
