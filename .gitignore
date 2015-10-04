@@ -16,3 +16,4 @@ _bin/gitflow-shFlags
 # Ignore TMUX plugins
 _tmux/plugins
 _tmux/sidebar
+_tmux/storage/tmux-resurrect
