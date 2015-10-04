@@ -72,6 +72,7 @@
     shfw = show --pretty=fulllog --color-words
     shfn = show --pretty=fulllog --name-only
     shfs = show --pretty=fulllog --stat
+    sm = submodule
     wc = whatchanged
     who = shortlog -s --
 
