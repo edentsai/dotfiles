@@ -94,7 +94,7 @@ function git_current_branch()
 # Display the last commit id of current branch.
 function git_last_commit_id()
 {
-    if [ -z `git_current_branch` ]; then
+    if [ -z `__git_ps1` ]; then
         return
     fi
 
@@ -126,7 +126,7 @@ function git_since_last_commit()
 # Display git current ps1.
 function git_current_ps1()
 {
-    local ref=`git_current_branch`
+    local ref=`__git_ps1`
     if [ -z "$ref" ]; then
         return
     fi
