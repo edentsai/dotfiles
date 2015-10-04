@@ -67,6 +67,10 @@ function backup_dotfile()
 }
 
 # Run installer.
+cd $DOTFILES_DIR
+echo "Initialize all submodules:"
+git submodule update --recursive --init
+
 echo "Install and create symbolic links to '$DOTFILES_DIR':"
 create_dotfile_links $DOTFILES_DIR
 
