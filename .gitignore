@@ -16,3 +16,9 @@ _bin/gitflow-shFlags
 # Ignore TMUX plugins
 _tmux/plugins
 _tmux/sidebar
+_tmux/storage/tmux-resurrect
+
+# Ignore NPM packages
+_npm_packages/bin/*
+_npm_packages/etc/*
+_npm_packages/lib/*

@@ -13,5 +13,8 @@ if [ -d "$bash_directory" ]; then
 
     # Source completions
     source_files_in_directory_if_exists "$bash_directory/completions"
+
+    # Source prompts
+    source_file_if_exists "$bash_directory/prompts/git-prompt.sh"
 fi;
 unset bash_directory
