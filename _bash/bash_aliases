@@ -45,7 +45,12 @@ case $(uname -s) in
         alias lla="ls -GFlA -D '%Y-%m-%d %T'"   # List all files in the long format.
         ;;
     "Linux")
-        # TODO Add aliases for ls in Linux
+        alias ls="ls --color=auto -F"
+        alias l.="ls -F -d .*"                 # List hidden files only.
+        alias l1="ls -F1"                      # Force output to be one entry per line.
+        alias la="ls -FA"                      # List all files.
+        alias ll="ls -Fl --time-style=+'%Y-%m-%d %T'"     # List files in the long format.
+        alias lla="ls -FlA --time-style=+'%Y-%m-%d %T'"   # List all files in the long format.
         ;;
 esac
 
