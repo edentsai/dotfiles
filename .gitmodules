@@ -13,3 +13,6 @@
 [submodule "_tmux/plugins/tpm"]
     path = _tmux/plugins/tpm
     url = https://github.com/tmux-plugins/tpm
+[submodule "_vim"]
+    path = _vim
+    url = https://github.com/edentsai/vimrc
