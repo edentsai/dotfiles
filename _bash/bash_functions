@@ -85,7 +85,7 @@ function cd()
 # Display the last commit id of current branch.
 function git_last_commit_id()
 {
-    if [ -z `__git_ps1` ]; then
+    if [ -z "$(__git_ps1)" ]; then
         return
     fi
 
@@ -117,12 +117,11 @@ function git_since_last_commit()
 # Display git current ps1.
 function git_current_ps1()
 {
-    local ref=`__git_ps1`
-    if [ -z "$ref" ]; then
+    local git_ps1=`__git_ps1`
+    if [ -z "$git_ps1" ]; then
         return
     fi
 
-    local git_ps1="$ref"
     local last_commit_id=`git_last_commit_id`
     if [ -n "$last_commit_id" ]; then
         git_ps1="$git_ps1 > $last_commit_id"
