@@ -49,6 +49,30 @@ function unshift_paths_to_global()
     export PATH="$new_paths:$paths"
 }
 
+# Unshift paths to $MANPATH:
+# - Remove specified paths from $MANPATH if those already exists,
+# - Prepend specified paths to the beginning in $MANPATH.
+# - Example
+#   $ unshift_manpaths_to_global "/path1"
+#   $ unshift_manpaths_to_global "/path1:/path2"
+function unshift_manpaths_to_global()
+{
+    # Remove the new path from $MANPATH if it already exists.
+    local new_paths="$1"
+
+    if [ -z "$new_paths" ]; then
+        return 0
+    fi
+
+    local paths="$MANPATH"
+    local new_path
+    for new_path in $(echo -e ${new_paths//:/\\\n}); do
+        paths=`echo ":$paths:" | sed -e "s:\:$new_path\::\::g" -e "s/^://" -e "s/:$//"`
+    done
+
+    export MANPATH="$new_paths:$paths"
+}
+
 # Enhancement `cd` command.
 # - `cd ...`  instead of `cd ../..`
 # - `cd ....` instead of `cd ../../..`
