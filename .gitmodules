@@ -1,18 +1,23 @@
 [submodule "_bash/submodules/bash-it"]
     path = _bash/submodules/bash-it
     url = https://github.com/Bash-it/bash-it
+    ignore= dirty
 [submodule "_bin/submodules/bd"]
     path = _bin/submodules/bd
     url = https://github.com/vigneshwaranr/bd
+    ignore= dirty
 [submodule "_bin/submodules/icdiff"]
     path = _bin/submodules/icdiff
     url = https://github.com/jeffkaufman/icdiff
+    ignore= dirty
 [submodule "_bin/submodules/pathpicker"]
     path = _bin/submodules/pathpicker
     url = https://github.com/facebook/pathpicker/
+    ignore= dirty
 [submodule "_tmux/plugins/tpm"]
     path = _tmux/plugins/tpm
     url = https://github.com/tmux-plugins/tpm
+    ignore= dirty
 [submodule "_vim"]
     path = _vim
     url = https://github.com/edentsai/vimrc
