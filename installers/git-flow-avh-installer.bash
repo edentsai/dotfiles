@@ -10,36 +10,46 @@
 
 function install_git_flow_avh()
 {
-    local gitflow_install_url="https://raw.githubusercontent.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh"
-    local gitflow_installer="$PWD/$(basename $gitflow_install_url)"
+    local make=`which gmake`
+    if [ -z "$make" ]; then
+        make=`which make`
+    fi
+    echo "$make"
+    if [ -z "$make" ]; then
+        echo "Cannot install 'git-flow-avh' because 'gmake' and 'make' command not found."
+        return
+    fi
 
     # Set the installation directory.
     local install_prefix="$1"
     if [ ! -d "$install_prefix" ]; then
         install_prefix="$HOME/.bin"
     fi;
+    local shareprefix="$HOME/.bash/share"
 
-    echo "Installing Git-flow (AVH) to $install_prefix:"
-    echo "-- Downloading Git-flow (AVH) installer:"
-    curl -OL $gitflow_install_url
+    # To install 'git-flow-avh' via Git Clone
+    echo "Install 'git-flow-avh' into '$install_prefix'"
+    cd "/tmp"
+    rm -rf "/tmp/gitflow-avh"
 
-    echo "-- Execute $gitflow_installer:"
-    PREFIX=$PWD bash $gitflow_installer install stable
+    echo -n "-- "
+    git clone "https://github.com/petervanderdoes/gitflow-avh"
+    cd "gitflow-avh"
 
-    # Move git-flow scripts to directory of install prefix.
-    for script_file in `ls $PWD/bin/gitflow-* $PWD/bin/git-flow*`; do
-        script_name=`basename $script_file`
-        echo "$install_prefix/$script_name"
-        mv "$script_file" "$install_prefix/$script_name"
-    done
+    echo "-- Compile 'gitflow-avh' files"
+    mkdir -p "installed-gitflow-avh"
+    $make prefix="/tmp/gitflow-avh/installed-gitflow-avh" install
 
-    echo "-- Remove unused files"
-    rm -fv "$gitflow_installer"
-    rm -rfv "$PWD/gitflow"
-    rm -rfv "$PWD/share"
-    rm -dv "$PWD/bin"
+    echo "-- Move commands into '$install_prefix':"
+    cp -rfv installed-gitflow-avh/bin/* $install_prefix/.
 
-    echo "-- Git-flow (AVH) installed."
+    echo "-- Move shares into '$shareprefix':"
+    cp -rfv "installed-gitflow-avh/share" $shareprefix/.
+
+    cd "/tmp"
+    rm -rf "/tmp/gitflow-avh"
+
+    echo "-- 'gitflow-avh' installed."
 }
 
 install_prefix="$1"
