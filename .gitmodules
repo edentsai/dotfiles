@@ -2,6 +2,10 @@
     path = _bash/submodules/bash-it
     url = https://github.com/Bash-it/bash-it
     ignore= dirty
+[submodule "_bash/submodules/z"]
+    path = _bash/submodules/z
+    url = https://github.com/rupa/z
+    ignore= dirty
 [submodule "_bin/submodules/bd"]
     path = _bin/submodules/bd
     url = https://github.com/vigneshwaranr/bd
