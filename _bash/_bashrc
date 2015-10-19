@@ -16,5 +16,8 @@ if [ -d "$bash_directory" ]; then
 
     # Source prompts
     source_file_if_exists "$bash_directory/prompts/git-prompt.sh"
+
+    # Source 'z' functions
+    source_file_if_exists "$bash_directory/submodules/z/z.sh"
 fi;
 unset bash_directory

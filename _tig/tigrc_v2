@@ -47,6 +47,7 @@ set show-changes = yes
 
 # Colors
 color cursor white color236
+color date cyan default
 color diff-stat green color233
 
 # Bindings.

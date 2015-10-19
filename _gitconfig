@@ -25,6 +25,12 @@
 [difftool]
     prompt = false
 
+[merge]
+    tool = vimdiff
+
+[mergetool]
+    prompt = false
+
 [push]
     default = simple
 
@@ -44,6 +50,7 @@
     dffn = diff --color-words --name-only
     dfie = diff --color-words --ignore-space-at-eol
     dfst = diff --color-words --stat
+    icdf = icdiff
     lgc = log --pretty=fulllog
     lg = log --graph --pretty=shortlog --abbrev-commit
     lgfn = log --pretty=fulllog --name-only
