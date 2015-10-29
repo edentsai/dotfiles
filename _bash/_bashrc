@@ -18,5 +18,8 @@ if [ -d "$bash_directory" ]; then
 
     # Source files in 'rc' directory
     source_files_in_directory_if_exists "$bash_directory/rc"
+
+    # Source files in 'rc.os' by OS
+    source_files_in_directory_if_exists "$bash_directory/rc.os/$(uname -s)"
 fi;
 unset bash_directory
