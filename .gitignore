@@ -1,5 +1,9 @@
 # vim: set filetype=sh
-# Ignore files which are auto installed at '_bash/share/man'
+
+# Ignore bash histories of command.
+_bash/histories
+
+# Ignore files which are auto installed at '_bash/share/man'.
 _bash/share/doc
 _bash/share/man
 

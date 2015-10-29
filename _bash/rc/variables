@@ -53,13 +53,6 @@ fi
 #   GREP_OPTIONS | Default options to be placed in front of any explicit options.
 export GREP_OPTIONS="--color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
 
-# Export variables for the 'history' command.
-#   HISTCONTROL    | Ignore duplicate commands or commands that have leading whitespace.
-#   HISTTIMEFORMAT | Display the time stamp information associated with each history entry.
-#   HISTSIZE       | The number of lines or commands that are stored in memory in a history list.
-export HISTCONTROL="ignoredups:ignorespace"
-export HISTTIMEFORMAT="%F %T	"
-export HISTSIZE="1000"
 
 # Customize Bash Prompt (PS1)
 color_reset="\[[0m\]"
