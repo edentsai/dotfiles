@@ -20,7 +20,8 @@
     excludesfile = ~/.gitignore
 
 [diff]
-   tool = vimdiff
+    tool = vimdiff
+    algorithm = patience
 
 [difftool]
     prompt = false
