@@ -69,18 +69,10 @@ function backup_dotfile()
 # Run installer.
 cd $DOTFILES_DIR
 echo "Initialize all submodules:"
-git submodule update --recursive --init
+git submodule update --init
 
 echo "Install and create symbolic links to '$DOTFILES_DIR':"
 create_dotfile_links $DOTFILES_DIR
 
 echo "Source '$HOME/.bash_profile' after installed."
 source "$HOME/.bash_profile"
-
-# Install dependency tools
-INSTALLERS_DIR="$DOTFILES_DIR/installers"
-for installer_script in `ls $INSTALLERS_DIR/*-installer.bash`; do
-    if [ -f "$installer_script" ]; then
-        bash $installer_script $BIN_DIR
-    fi
-done
