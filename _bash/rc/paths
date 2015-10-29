@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# vim: set filetype=sh
+#
+# The 'PATH' environment variable.
+#
+
+unshift_paths_to_global "/bin"
+unshift_paths_to_global "/sbin"
+unshift_paths_to_global "/usr/bin"
+unshift_paths_to_global "/usr/sbin"
+unshift_paths_to_global "/usr/games"
+unshift_paths_to_global "/usr/local/bin"
+unshift_paths_to_global "/usr/local/sbin"
+unshift_paths_to_global "$HOME/bin"
+unshift_paths_to_global "$HOME/.bin"
+unshift_paths_to_global "$HOME/.composer/vendor/bin"
+unshift_paths_to_global "$HOME/.local/bin"
+unshift_paths_to_global "$HOME/.npm-packages/bin"
+
+# MANPATH
+unshift_manpaths_to_global "$HOME/.bash/share/man"
