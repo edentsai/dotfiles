@@ -13,9 +13,6 @@ if [ -d "$bash_directory" ]; then
     # Source prompts
     source_file_if_exists "$bash_directory/prompts/git-prompt.sh"
 
-    # Source 'z' functions
-    source_file_if_exists "$bash_directory/submodules/z/z.sh"
-
     # Source files in 'rc' directory
     source_files_in_directory_if_exists "$bash_directory/rc"
 
