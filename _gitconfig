@@ -46,11 +46,11 @@
     cot = checkout tmp
     chp = cherry-pick
     dt = difftool
-    df = diff --color-words
-    dfc = diff --color-words --cached
-    dffn = diff --color-words --name-only
-    dfie = diff --color-words --ignore-space-at-eol
-    dfst = diff --color-words --stat
+    df = diff
+    dfc = diff --cached
+    dffn = diff --name-only
+    dfie = diff --ignore-space-at-eol
+    dfst = diff --stat
     icdf = icdiff
     lgc = log --pretty=fulllog
     lg = log --graph --pretty=shortlog --abbrev-commit
