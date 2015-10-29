@@ -31,14 +31,6 @@ case $(uname -s) in
         ;;
 esac
 
-# Export variable for the 'less' command.
-#   LESS         | Options which are passed to less automatically.
-#   LESSHISTSIZE | The maximum number of commands to save in the history file.
-#   LESSHISTFILE | The history file used to remember search commands and shell commands between invocations of less.
-export LESS="-emrSwX"
-export LESSHISTSIZE=100
-export LESSHISTFILE="${HOME}/.lesshst"
-
 # Export variables for the 'man' command.
 #   MANPAGER | Program used to display files.
 export MANPAGER="less -Is"
@@ -52,7 +44,6 @@ fi
 # Export variable for the 'grep' command.
 #   GREP_OPTIONS | Default options to be placed in front of any explicit options.
 export GREP_OPTIONS="--color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
-
 
 # Customize Bash Prompt (PS1)
 color_reset="\[[0m\]"

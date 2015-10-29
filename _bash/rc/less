@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# vim: set filetype=sh
+#
+# Less options: export variables for the 'less' command.
+#   LESS         | Options which are passed to less automatically.
+#   LESSHISTSIZE | The maximum number of commands to save in the history file.
+#   LESSHISTFILE | The history file used to remember search commands and shell commands between invocations of less.
+#
+
+export LESS="-emrSwX"
+export LESSHISTSIZE="100"
+export LESSHISTFILE="$HOME/.lesshst-$USER-$HOSTNAME"
