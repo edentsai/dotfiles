@@ -21,5 +21,8 @@ if [ -d "$bash_directory" ]; then
 
     # Source files in 'rc.os' by OS
     source_files_in_directory_if_exists "$bash_directory/rc.os/$(uname -s)"
+
+    # Source files in 'rc.host' by HOSTNAME
+    source_file_if_exists "$bash_directory/rc.host/$HOSTNAME"
 fi;
 unset bash_directory
