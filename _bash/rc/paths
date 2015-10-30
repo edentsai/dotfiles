@@ -16,6 +16,3 @@ unshift_paths_to_global "$HOME/.bin"
 unshift_paths_to_global "$HOME/.composer/vendor/bin"
 unshift_paths_to_global "$HOME/.local/bin"
 unshift_paths_to_global "$HOME/.npm-packages/bin"
-
-# MANPATH
-unshift_manpaths_to_global "$HOME/.bash/share/man"
