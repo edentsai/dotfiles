@@ -35,7 +35,13 @@ alias cps="composer"
 #   -A        | Include directory entries whose names begin with a dot ('.').
 #   -l        | List files in the long format.
 #   -D format | When printing in the long (-l) format, use format to format the date and time output.
-case $(uname -s) in
+os=`uname -s`
+if [ "Darwin" == "$os" ] && [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
+    # For coreutils installed...
+    os="Linux"
+fi
+
+case "$os" in
     "FreeBSD" | "Darwin")
         alias ls="ls -GF"
         alias l.="ls -GF -d .*"                 # List hidden files only.
