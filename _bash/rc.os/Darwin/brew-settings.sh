@@ -4,6 +4,9 @@
 # Homebrew settings for installed package.
 #
 
+# Specify your defaults in this environment variable
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
 # If you really need to use these commands with their normal names, you
 # can add a "gnubin" directory to your PATH from your bashrc like:
 unshift_paths_to_global "/usr/local/opt/coreutils/libexec/gnubin"
