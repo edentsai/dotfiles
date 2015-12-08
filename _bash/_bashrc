@@ -21,5 +21,8 @@ if [ -d "$bash_directory" ]; then
 
     # Source files in 'rc.host' by HOSTNAME
     source_file_if_exists "$bash_directory/rc.host/$HOSTNAME"
+
+    # Source fzf files
+    source_file_if_exists "$HOME/.fzf.bash"
 fi;
 unset bash_directory

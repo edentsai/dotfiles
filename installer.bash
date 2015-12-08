@@ -71,6 +71,9 @@ cd $DOTFILES_DIR
 echo "Initialize all submodules:"
 git submodule update --init
 
+# Install fzf
+source "$DOTFILES_DIR/installers/fzf-installer.bash" "$DOTFILES_DIR"
+
 echo "Install and create symbolic links to '$DOTFILES_DIR':"
 create_dotfile_links $DOTFILES_DIR
 
