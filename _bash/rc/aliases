@@ -35,7 +35,13 @@ alias cps="composer"
 #   -A        | Include directory entries whose names begin with a dot ('.').
 #   -l        | List files in the long format.
 #   -D format | When printing in the long (-l) format, use format to format the date and time output.
-case $(uname -s) in
+os=`uname -s`
+if [ "Darwin" == "$os" ] && [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
+    # For coreutils installed...
+    os="Linux"
+fi
+
+case "$os" in
     "FreeBSD" | "Darwin")
         alias ls="ls -GF"
         alias l.="ls -GF -d .*"                 # List hidden files only.
@@ -45,7 +51,12 @@ case $(uname -s) in
         alias lla="ls -GFlA -D '%Y-%m-%d %T'"   # List all files in the long format.
         ;;
     "Linux")
-        # TODO Add aliases for ls in Linux
+        alias ls="ls --color=auto -F"
+        alias l.="ls -F -d .*"                 # List hidden files only.
+        alias l1="ls -F1"                      # Force output to be one entry per line.
+        alias la="ls -FA"                      # List all files.
+        alias ll="ls -Fl --time-style=+'%Y-%m-%d %T'"     # List files in the long format.
+        alias lla="ls -FlA --time-style=+'%Y-%m-%d %T'"   # List all files in the long format.
         ;;
 esac
 
@@ -144,6 +155,9 @@ alias today="date '+%Y-%m-%d %T'"
 
 # Vim open last edited file.
 alias vimlast="vim -c \"normal '0\""
+
+# Open Vim faster without plugins
+alias vimfast="vim --noplugin"
 
 # The ping command do not wait interval 1 second, go fast
 #   -c count      | Stop after sending (and receiving) count ECHO_RESPONSE packets.
