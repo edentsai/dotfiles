@@ -12,10 +12,3 @@ if [ -f "$bashrc_file" ]; then
     source "$bashrc_file"
 fi
 unset bashrc_file
-
-# Include .bashrc_local if it exists
-bashrc_file="$HOME/.bashrc_local"
-if [ -f "$bashrc_file" ]; then
-    source "$bashrc_file"
-fi
-unset bashrc_file

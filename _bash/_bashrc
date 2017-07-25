@@ -26,3 +26,10 @@ if [ -d "$bash_directory" ]; then
     source_file_if_exists "$HOME/.fzf.bash"
 fi;
 unset bash_directory
+
+# Include .bashrc_local if it exists
+bashrc_file="$HOME/.bashrc_local"
+if [ -f "$bashrc_file" ]; then
+    source "$bashrc_file"
+fi
+unset bashrc_file
