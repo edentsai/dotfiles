@@ -28,3 +28,6 @@
 [submodule "_vim"]
     path = _vim
     url = https://github.com/edentsai/vimrc
+[submodule "_tig/colorschemes/tig-theme-molokai-like"]
+    path = _tig/colorschemes/tig-theme-molokai-like
+    url = https://github.com/edentsai/tig-theme-molokai-like.git
