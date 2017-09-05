@@ -62,3 +62,5 @@ bind stage <Ctrl-J> :/^diff --
 bind stage <Ctrl-K> :?^diff --
 bind diff <Ctrl-J> :/^diff --
 bind diff <Ctrl-K> :?^diff --
+
+source ~/.tig/colorschemes/tig-theme-molokai-like/colors/molokai-like-theme.tigrc
