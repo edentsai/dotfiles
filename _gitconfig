@@ -90,6 +90,8 @@
     publish = "!git push -u origin $(git branch-name)"
     # Delete the remote version of the current branch
     unpublish = "!git push origin :$(git branch-name)"
+    # Display reflog information in tig
+    reflog-tig = "!git reflog --pretty=raw | tig --pretty=raw"
 
 [pretty]
     ias = format:%C(yellow)%h%Creset %C(cyan)%an%Creset %s
