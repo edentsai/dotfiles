@@ -134,6 +134,9 @@ alias icdiff="icdiff --line-numbers"
 # Display information about my top cpu processes
 alias topme="top -U $USER"
 
+# httping always use colors.
+alias httping="httping --colors"
+
 # Display process status with more information.
 #   -u | Display more information
 #   -a | Display information about other users' processes as well as your own.
