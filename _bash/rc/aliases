@@ -21,6 +21,8 @@ alias s="screen"
 alias so="source"
 alias t="telnet"
 alias cps="composer"
+alias gc="gcloud"
+alias kc="kubectl"
 
 # List directory contents with colorized output.
 #   -G        | Enable colorized output.
