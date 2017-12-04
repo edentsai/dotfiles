@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # vim: set filetype=sh
 
-# Kill the ssh-agent before logout
-trap "test -n '$SSH_AGENT_PID' && eval `ssh-agent -k`" 0
+# To kill ssh-agent on logout.
+if [ -n "$SSH_AGENT_PID" ]; then
+    eval `ssh-agent -k`
+fi

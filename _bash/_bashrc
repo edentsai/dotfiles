@@ -27,9 +27,14 @@ if [ -d "$bash_directory" ]; then
 fi;
 unset bash_directory
 
-# Include .bashrc_local if it exists
+# Include .bashrc_local if it exists.
 bashrc_file="$HOME/.bashrc_local"
 if [ -f "$bashrc_file" ]; then
     source "$bashrc_file"
 fi
 unset bashrc_file
+
+# Run ssh-agent automatically.
+if [ -z "$SSH_AGENT_PID" ]; then
+    eval `ssh-agent -s`
+fi
