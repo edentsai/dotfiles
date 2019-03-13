@@ -24,6 +24,11 @@ alias cps="composer"
 alias gc="gcloud"
 alias kc="kubectl"
 
+# Grep
+alias grep="grep --color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
+alias egrep="egrep --color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
+alias fgrep="fgrep --color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
+
 # List directory contents with colorized output.
 #   -G        | Enable colorized output.
 #   -F        | Display a slash ('/') immediately after each pathname that is a directory,

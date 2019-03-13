@@ -43,9 +43,5 @@ if [ -f "$most_path" ]; then
     export MANPAGER="most -s"
 fi
 
-# Export variable for the 'grep' command.
-#   GREP_OPTIONS | Default options to be placed in front of any explicit options.
-export GREP_OPTIONS="--color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
-
 # MySQL Prompt
 export MYSQL_PS1="[\u@\h] : (\d)\n[\R:\m:\s] mysql> "
