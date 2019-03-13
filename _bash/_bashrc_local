@@ -7,5 +7,3 @@ export PATH="$GOPATH/bin:$PATH"
 
 export WORKON_HOME="$HOME/.virtualenvs"
 export PATH="$HOME/workspace/Arcanist/arcanist/bin:$PATH"
-
-source $HOME/Library/Python/2.7/bin/virtualenvwrapper.sh
