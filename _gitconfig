@@ -35,6 +35,9 @@
 [push]
     default = simple
 
+[pager]
+	branch = false
+
 [alias]
     br = branch -v
     brr = branch -r
