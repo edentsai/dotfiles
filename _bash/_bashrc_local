@@ -2,7 +2,6 @@
 # vim: set filetype=sh
 
 export GOPATH="$HOME/workspace/go"
-export PATH="$GOPATH/bin:$PATH"
+unshift_paths_to_global "$GOPATH/bin"
 
 export WORKON_HOME="$HOME/.virtualenvs"
-export PATH="$HOME/workspace/Arcanist/arcanist/bin:$PATH"
