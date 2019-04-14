@@ -101,3 +101,6 @@
     ias = format:%C(yellow)%h%Creset %C(cyan)%an%Creset %s
     fulllog = format:%C(yellow)%H%n%C(cyan)%an <%ae>%n%Cgreen%ci%n%n%C(bold black)%s%n%b
     shortlog = format:%Cred%h%Creset - %C(bold blue)<%an>%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
+
+[include]
+    path = ~/.gitconfig-edentsai
