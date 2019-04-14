@@ -37,7 +37,7 @@
     default = simple
 
 [pager]
-	branch = false
+    branch = false
 
 [alias]
     br = branch -v
