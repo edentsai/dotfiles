@@ -38,12 +38,7 @@ function composer_install_dependencies
         return 0
     fi
 
-    # install PHPUnit (https://phpunit.de)
-    echo "Installing PHPUnit via Composer:"
-    $composer global require --profile "phpunit/phpunit:@stable"
-    echo "-- PHPUnit installed."
-
-    # install PsySH (http://psysh.org)
+    # Install PsySH (http://psysh.org)
     echo "Installing PsySH via Composer:"
     $composer global require --profile "psy/psysh:@stable"
     echo "-- PsySH installed."
