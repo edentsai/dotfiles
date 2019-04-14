@@ -22,6 +22,7 @@ alias so="source"
 alias t="telnet"
 alias cps="composer"
 alias gc="gcloud"
+alias gcc="gcloud compute"
 alias kc="kubectl"
 
 # Grep
@@ -120,14 +121,14 @@ alias tmux="tmux -2"
 # Continue getting a partially-downloaded file.
 alias wget="wget -c"
 
-# Forces OpenSSH clienti to use IPv4 addresses only.
+# Forces OpenSSH client to use IPv4 addresses only.
 #   -4             | Force to use IPv4 addresses only.
-#   -6             | Force to use IPv4 addresses only.
+#   -6             | Force to use IPv6 addresses only.
 #   -C             | Request compression of all data.
 #   -e escape_char | Sets the escape character for sessions with a pty (default: '~'),
 #                  | Setting the character to “none” disables any escapes and makes the session fully transparent .
 #   -v             | Enables verbose mode.
-alias ssh="ssh -4 -C -e none -v"
+alias ssh="ssh -4 -C -e none"
 
 # PHPUnit always use colors in output.
 alias phpunit="phpunit --colors"
