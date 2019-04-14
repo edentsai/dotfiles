@@ -18,6 +18,7 @@
 
 [core]
     excludesfile = ~/.gitignore
+    ignorecase = false
 
 [diff]
     tool = vimdiff
