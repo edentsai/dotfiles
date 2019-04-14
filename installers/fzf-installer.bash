@@ -21,6 +21,6 @@ function install_fzf()
 }
 
 dotfiles_dir="$1"
-install_composer "$dotfiles_dir"
+install_fzf "$dotfiles_dir"
 
 unset dotfiles_dir
