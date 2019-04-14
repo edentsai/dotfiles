@@ -63,4 +63,7 @@ bind stage <Ctrl-K> :?^diff --
 bind diff <Ctrl-J> :/^diff --
 bind diff <Ctrl-K> :?^diff --
 
+bind main ! ?git revert %(commit)
+bind diff ! ?git revert %(commit)
+
 source ~/.tig/colorschemes/tig-theme-molokai-like/colors/molokai-like-theme.tigrc
