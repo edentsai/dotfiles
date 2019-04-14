@@ -35,6 +35,6 @@ fi
 unset bashrc_file
 
 # Run ssh-agent automatically.
-if [ -z "$SSH_AGENT_PID" ]; then
+if [ -z "$SSH_AGENT_PID" ] && [ -z "$TMUX"]; then
     eval `ssh-agent -s`
 fi

@@ -2,6 +2,6 @@
 # vim: set filetype=sh
 
 # To kill ssh-agent on logout.
-if [ -n "$SSH_AGENT_PID" ]; then
+if [ -n "$SSH_AGENT_PID" ] && [ -z "$TMUX" ]; then
     eval `ssh-agent -k`
 fi
