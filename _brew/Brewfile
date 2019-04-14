@@ -3,6 +3,7 @@ tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/core"
+
 brew "ack"
 brew "aspell"
 brew "autoconf"
@@ -96,7 +97,6 @@ cask "karabiner-elements"
 cask "kawa"
 cask "keka"
 cask "key-codes"
-cask "kkbox"
 cask "kobo"
 cask "libreoffice"
 cask "loading"
@@ -168,6 +168,7 @@ mas "com.daftlogicstudio.Coinverter.OSX", id: 926121450
 mas "com.DigiDNA.iMazingHEICConverterMac", id: 1292198261
 mas "com.flexibits.fantastical", id: 435003921
 mas "com.greedyint.1checker", id: 766176336
+mas "com.kkbox.KKBOXForMac", id: 1105332179
 mas "com.kryolokovlin.Noizio", id: 928871589
 mas "com.nscoding.ColorPicker", id: 641027709
 mas "com.pilotmoon.popclip", id: 445189367
