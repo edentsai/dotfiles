@@ -1,0 +1,13 @@
+# vim: set filetype=gitconfig
+#
+# Usage: Add the following into your ~/.gitconfig
+# [includeIf "gitdir:PATH/TO/SPECIFIC/DIRECTORY/"]
+#     path = ~/.gitconfig-template
+#
+[user]
+    name = Eden Tsai
+    email = edentsai231@gmail.com
+    signingkey = <GPG_SIGNING_KEY>
+
+[commit]
+    gpgsign = true
