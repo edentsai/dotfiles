@@ -1,7 +1,7 @@
 # vim: set filetype=gitconfig
 #
 # Usage: Add the following into your ~/.gitconfig
-# [includeIf "gitdir:PATH/TO/SPECIFIC/DIRECTORY/"]
+# [includeIf "gitdir:PATH/TO/SPECIFIC-WORKSPACE/"]
 #     path = ~/.gitconfig-template
 #
 [user]

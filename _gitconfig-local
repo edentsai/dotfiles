@@ -1,0 +1,10 @@
+# vim: set filetype=gitconfig
+#
+# Usage Templates:
+#
+# [include]
+#     path = ~/.gitconfig-template1
+#     path = ~/.gitconfig-template2
+#
+# [includeIf "gitdir:~/PATH/TO/SPECIFIC-WORKSPACE"]
+#     path = ~/.gitconfig-template

@@ -104,3 +104,4 @@
 
 [include]
     path = ~/.gitconfig-edentsai
+    path = ~/.gitconfig-local
