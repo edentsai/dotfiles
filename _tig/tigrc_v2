@@ -49,6 +49,9 @@ set show-changes = yes
 set log-options = --show-signature
 set diff-options = --show-signature
 
+## Use diff-highlight in diff view.
+set diff-highlight = true
+
 # Colors
 color cursor white color236
 color date cyan default
