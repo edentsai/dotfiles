@@ -3,8 +3,8 @@
 # Usage Templates:
 #
 # [include]
-#     path = ~/.gitconfig-template1
-#     path = ~/.gitconfig-template2
+#     path = ~/.gitconfig_template1
+#     path = ~/.gitconfig_template2
 #
 # [includeIf "gitdir:~/PATH/TO/SPECIFIC-WORKSPACE"]
-#     path = ~/.gitconfig-template
+#     path = ~/.gitconfig_template

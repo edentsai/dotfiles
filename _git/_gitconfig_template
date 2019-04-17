@@ -2,7 +2,7 @@
 #
 # Usage: Add the following into your ~/.gitconfig
 # [includeIf "gitdir:PATH/TO/SPECIFIC-WORKSPACE/"]
-#     path = ~/.gitconfig-template
+#     path = ~/.gitconfig_template
 #
 [user]
     name = Eden Tsai
