@@ -15,7 +15,7 @@ function install_fzf()
 
     echo "Installing fzf by '$installer_file':"
     gem install curses --user-install
-    source "$installer_file"
+    bash "$installer_file"
 
     echo "-- fzf installed."
 }
