@@ -45,6 +45,10 @@ set show-changes = yes
 ## Limit number of commits loaded by default to 1000.
 # set main-options = -n 1000
 
+## Show GPG signature in log view and diff view.
+set log-options = --show-signature
+set diff-options = --show-signature
+
 # Colors
 color cursor white color236
 color date cyan default
