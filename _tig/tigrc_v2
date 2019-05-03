@@ -39,8 +39,12 @@ set blame-view = \
 ## use topo-order for the commit graph.
 set commit-order = default
 
-## Show staged and unstaged changes in the main view.
+## Show stages/unstaged/untracked changes in the main view.
 set show-changes = yes
+set show-untracked = yes
+
+## Show notes for a commit.
+set show-notes = yes
 
 ## Limit number of commits loaded by default to 1000.
 # set main-options = -n 1000
