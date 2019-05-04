@@ -2,12 +2,29 @@
 set line-graphics = yes
 set vertical-split = false
 
+## Blame-View
+set blame-view = \
+    line-number:yes,interval=1,width=5 \
+    date:default \
+    author:full,width=12 \
+    id:yes \
+    text:yes
+
 ## Main-View
 set main-view = \
     line-number:yes,interval=5,width=5 \
     date:default \
     author:full,width=12 \
     id:yes \
+    commit-title:yes,graph=yes,refs=yes,overflow=yes
+
+## Refs-View
+set refs-view = \
+    line-number:yes,interval=1,width=5 \
+    date:default \
+    author:full,width=12 \
+    id:yes \
+    ref:yes \
     commit-title:yes,graph=yes,refs=yes,overflow=yes
 
 ## Stash-View
@@ -20,17 +37,19 @@ set stash-view = \
 
 ## Status-View
 set status-view = \
-    line-number:yes,interval=1,width=5 \
+    line-number:no,interval=1,width=5 \
     status:long \
-    file-name:auto
+    file-name:always
 
-## Blame-View
-set blame-view = \
-    line-number:yes,interval=1,width=5 \
+## Tree-View
+set tree-view = \
+    line-number:yes,interval=5,width=5 \
     date:default \
-    author:full,width=12 \
+    author:full \
     id:yes \
-    text:yes
+    mode:yes \
+    file-size:units \
+    file-name:always
 
 # Speeding up Tig in large repositories.
 # - Reference: https://github.com/jonas/tig/blob/master/contrib/large-repo.tigrc
