@@ -77,9 +77,9 @@ set diff-options = --show-signature
 set diff-highlight = true
 
 # Colors
-# color cursor white color236
-# color date cyan default
-# color diff-stat green color233
+color cursor    default 237
+color date      67      default
+color diff-stat 166     234
 
 # Bindings.
 
