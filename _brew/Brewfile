@@ -41,6 +41,7 @@ brew "mas"
 brew "mitmproxy"
 brew "mosh"
 brew "most"
+brew "node"
 brew "pinentry-mac"
 brew "pip-completion"
 brew "rsync"
@@ -56,6 +57,7 @@ brew "vim"
 brew "watch"
 brew "wget"
 brew "whois"
+brew "yarn"
 brew "youtube-dl"
 brew "z"
 brew "zsh"
@@ -81,6 +83,7 @@ cask "docker"
 cask "duet"
 cask "epubquicklook"
 cask "firefox"
+cask "fliqlo"
 cask "font-inconsolata-dz-for-powerline"
 cask "font-noto-sans-cjk"
 cask "font-noto-serif-cjk"
@@ -167,6 +170,7 @@ mas "com.apple.iWork.Numbers", id: 409203825
 mas "com.apple.iWork.Pages", id: 409201541
 mas "com.brother.pdfreaderprofree.mac", id: 919472673
 mas "com.daftlogicstudio.Coinverter.OSX", id: 926121450
+mas "com.devhd.feedly.osx", id: 865500966
 mas "com.DigiDNA.iMazingHEICConverterMac", id: 1292198261
 mas "com.flexibits.fantastical", id: 435003921
 mas "com.greedyint.1checker", id: 766176336
@@ -175,6 +179,7 @@ mas "com.kryolokovlin.Noizio", id: 928871589
 mas "com.nscoding.ColorPicker", id: 641027709
 mas "com.pilotmoon.popclip", id: 445189367
 mas "com.readitlater.PocketMac", id: 568494494
+mas "com.reederapp.macOS", id: 1449412482
 mas "com.xwavesoft.pomodoromaclite", id: 973134470
 mas "jp.naver.line.mac", id: 539883307
 mas "net.shinyfrog.bear", id: 1091189122
