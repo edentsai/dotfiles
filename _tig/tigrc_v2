@@ -140,7 +140,7 @@ bind status <Esc>ci ?git commit
 bind status <Esc>ca ?git commit --amend
 bind status <Esc>co ?git checkout %(file)
 bind status <Esc>po ?git push origin
-bind status <Esc>ss ?git stash save -- %(file)
+bind status <Esc>ss ?git stash push -- %(file)
 
 # Colorscheme.
 source ~/.tig/colorschemes/tig-theme-molokai-like/colors/molokai-like-theme.tigrc
