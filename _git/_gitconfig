@@ -96,6 +96,8 @@
     unpublish = "!git push origin :$(git branch-name)"
     # Display reflog information in tig
     reflog-tig = "!git reflog --pretty=raw | tig --pretty=raw"
+#   # Display URL of remote webistes
+    remote-sites = "!git remote --verbose | sed -e 's/:/\\//g' -e 's/git@/https:\\/\\//g' -e 's/.git (.\\+)$//g' | sort -u | column -t"
 
 [pretty]
     ias = format:%C(yellow)%h%Creset %C(cyan)%an%Creset %s
