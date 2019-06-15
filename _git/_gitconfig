@@ -96,8 +96,36 @@
     unpublish = "!git push origin :$(git branch-name)"
     # Display reflog information in tig
     reflog-tig = "!git reflog --pretty=raw | tig --pretty=raw"
-#   # Display URL of remote webistes
-    remote-sites = "!git remote --verbose | sed -e 's/:/\\//g' -e 's/git@/https:\\/\\//g' -e 's/.git (.\\+)$//g' | sort -u | column -t"
+    # Display links of remote repositories
+    remote-links = "!git remote --verbose \
+        | sed -e 's/ (.\\+)$//g' \
+        | sed -e 's/git@\\(.\\+\\):\\(.\\+\\)\\.git/& https:\\/\\/\\1\\/\\2/g' \
+        | sort -u \
+        | awk ' \
+            BEGIN { \
+                FS = \"[[:blank:]]+\"; \
+            } \
+            { \
+                name = $1; \
+                url = $2; \
+                printf \"\\033[36m%-24s \\033[0m%s \\n\", name, url; \
+            } \
+            /https?:\\/\\/github/ { \
+                subname = \"GitHub\"; \
+                url = $3; \
+                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, url; \
+            } \
+            /https?:\\/\\/gitlab/ { \
+                subname = \"GitLab\"; \
+                url = $3; \
+                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, url; \
+                \
+                subname = \"GitLab/pipelines\"; \
+                url = sprintf(\"%s/pipelines\", $3); \
+                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, url; \
+            } \
+        ' \
+        "
 
 [pretty]
     ias = format:%C(yellow)%h%Creset %C(cyan)%an%Creset %s
