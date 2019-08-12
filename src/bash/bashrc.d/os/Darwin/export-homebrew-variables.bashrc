@@ -14,6 +14,3 @@ unshift_paths_to_global "/usr/local/opt/coreutils/libexec/gnubin"
 # Additionally, you can access their man pages with normal names if you add
 # the "gnuman" directory to your MANPATH from your bashrc as well:
 unshift_manpaths_to_global "/usr/local/opt/coreutils/libexec/gnuman"
-
-# Source completions
-source_file_if_exists "$(brew --prefix)/etc/bash_completion"
