@@ -43,18 +43,6 @@ if [ -d "${bash_directory}" ]; then
         done
         unset file
     fi
-
-    # Source bash completions if exists.
-    if [ -f "/usr/share/bash-completion/bash_completion" ]; then
-        source "/usr/share/bash-completion/bash_completion"
-    fi
-
-    if ls ${bash_directory}/share/bash-completion/completions/*.bash > /dev/null 2>&1; then
-        for file in ${bash_directory}/share/bash-completion/completions/*.bash; do
-            source "${file}"
-        done
-        unset file
-    fi
 fi;
 unset bash_directory
 
