@@ -1,0 +1,67 @@
+# SSH Configuration Reference: http://man.openbsd.org/ssh_config
+
+Host *
+    # Use MacOS's keychain.
+    # UseKeychain yes
+
+    # Specifies a file from which the user's DSA, ECDSA,
+    # Ed25519 or RSA authentication identity is read.
+    # IdentityFile ~/.ssh/id_rsa
+
+    # Specifies whether keys should be automatically added to a running ssh-agent.
+    AddKeysToAgent yes
+
+    # Specifies whether the connection to the authentication agent (if any)
+    # will be forwarded to the remote machine.
+    ForwardAgent yes
+
+    # Sets the number of server alive messages (see below)
+    # which may be sent without SSH receiving any messages back from the server.
+    ServerAliveCountMax 3
+
+    # Sets a timeout interval in seconds after which if no data has been received from the server.
+    ServerAliveInterval 60
+
+    # Specifies one or more files to use for the user host key database.
+    UserKnownHostsFile ~/.ssh/known_hosts ~/.ssh/known_hosts2
+
+    # If this flag is set to yes,
+    # SSH will never automatically add host keys to the ~/.ssh/known_hosts file.
+    StrictHostKeyChecking yes
+
+    # If this flag is set to yes,
+    # an ASCII art representation of the remote host key fingerprint is printed
+    # in addition to the fingerprint string at login and for unknown host keys.
+    VisualHostKey yes
+
+    # Enables the sharing of multiple sessions over a single network connection.
+    # When set to yes,
+    # SSH will listen for connections on a control socket specified using the ControlPath argument.
+    ControlMaster auto
+
+    # Specify the path to the control socket used for connection sharing as described
+    # in the ControlMaster section above or the string none to disable connection sharing.
+    #
+    # Pattern: ~/.ssh/control/{USERNAME}@{HOST}:{PORT}.sock
+    #     %r    The remote username.
+    #     %h    The remote hostname.
+    #     %p    The remote port.
+    ControlPath ~/.ssh/control/%r@%h:%p.sock
+
+    # When used in conjunction with ControlMaster,
+    # specifies that the master connection should remain open
+    # in the background (waiting for future client connections)
+    # after the initial client connection has been closed.
+    ControlPersist 5m
+
+    # Specifies whether to use compression.
+    Compression no
+
+# Configuration Example
+# Host example-alias
+#     Hostname example.com
+#     Port 22
+#     User username-on-the-host
+#     IdentityFile ~/.ssh/id_rsa
+#     ForwardAgent yes
+#     StrictHostKeyChecking yes
