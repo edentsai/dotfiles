@@ -1,0 +1,27 @@
+function jq() {                                                                                   
+if [ -f $1 ]; then
+  FILE=$1; shift
+  # Move FILE at the end as expected by native jq
+  command jq "$@" "$FILE"
+else
+  command jq "$@"
+fi
+}
+
+function _jq() {
+COMPREPLY=()
+local curr prev
+curr=$2
+prev=$3
+#set -x
+case $COMP_CWORD in
+  1)
+  COMPREPLY=( $(compgen -f -- $curr) )
+  ;;
+  2)
+  keys=$(command jq -c ". | keys" $prev | grep -P '(?<=")(\w+)(?=")' -o | sed 's=^=\.=')
+  COMPREPLY=( $(compgen -W "$keys" -- $curr ) )
+  ;;
+esac
+}
+complete -F _jq jq
