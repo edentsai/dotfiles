@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # vim: set filetype=sh
 
-# Exit if not running bash.
-if [ -z "$BASH_VERSION" ]; then
-    exit
+# Return if not running interactive bash.
+if [ -z "${BASH_VERSION:-}" ] || [ -z "${PS1:-}" ]; then
+    return
 fi
 
-# Include .bashrc if it exists
-bashrc_file="$HOME/.bashrc"
-if [ -f "$bashrc_file" ]; then
-    source "$bashrc_file"
+# Include .bashrc if exists.
+bashrc_file="${HOME}/.bashrc"
+if [ -f "${bashrc_file}" ]; then
+    source "${bashrc_file}"
 fi
 unset bashrc_file

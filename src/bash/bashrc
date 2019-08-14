@@ -1,25 +1,48 @@
 #!/usr/bin/env bash
 # vim: set filetype=sh
 
-# Source files in bash directory.
+# Return if not running interactive bash.
+if [ -z "${BASH_VERSION:-}" ] || [ -z "${PS1:-}" ]; then
+    return
+fi
+
+# Source files in bash directory if exists.
 bash_directory="$HOME/.bash"
-if [ -d "$bash_directory" ]; then
+if [ -d "${bash_directory}" ]; then
     # Source functions first.
-    source "$bash_directory/functions.bashrc"
+    source "${bash_directory}/functions.bashrc"
 
     # Source prompts
-    source_file_if_exists "$bash_directory/bashrc.d/git-prompt.sh"
+    source "${bash_directory}/bashrc.d/git-prompt.sh"
 
-    # Source files in bashrc.d
-    source_files_in_directory_if_exists "$bash_directory/bashrc.d"
+    # Source files in bashrc.d if exists
+    if ls ${bash_directory}/bashrc.d/*.bashrc > /dev/null 2>&1; then
+        for file in ${bash_directory}/bashrc.d/*.bashrc; do
+            source "${file}"
+        done
+        unset file
+    fi
 
-    # Source files in bashrc.d.os by OS type
+    # Source files in bashrc.d.os by OS Type if exists:
+    # - Darwin (MacOS)
+    # - FreeBSD
+    # - Linux
     os_type=$(uname -s)
-    source_files_in_directory_if_exists "$bash_directory/bashrc.d/$os_type"
+    if ls ${bash_directory}/bashrc.d.os/${os_type}/*.bashrc > /dev/null 2>&1; then
+        for file in ${bash_directory}/bashrc.d.os/${os_type}/*.bashrc; do
+            source "${file}"
+        done
+        unset file
+    fi
+    unset os_type
 
-    # Source files in bashrc.d.host by Hostname
-    # Source files in 'rc.host' by HOSTNAME
-    source_file_if_exists "$bash_directory/bashrc.d.host/$HOSTNAME"
+    # Source files in bashrc.d.host by Hostname if exists
+    if ls ${bash_directory}/bashrc.d.host/${HOSTNAME}/*.bashrc > /dev/null 2>&1; then
+        for file in ${bash_directory}/bashrc.d.host/${HOSTNAME}/*.bashrc; do
+            source "${file}"
+        done
+        unset file
+    fi
 
     # Source completions
     source_file_if_exists "/usr/share/bash-completion/bash_completion"
@@ -27,10 +50,10 @@ if [ -d "$bash_directory" ]; then
 fi;
 unset bash_directory
 
-# Include .bashrc_local if it exists.
-bashrc_file="$HOME/.bashrc_local"
-if [ -f "$bashrc_file" ]; then
-    source "$bashrc_file"
+# Include .bashrc_local if exists.
+bashrc_file="${HOME}/.bashrc_local"
+if [ -f "${bashrc_file}" ]; then
+    source "${bashrc_file}"
 fi
 unset bashrc_file
 
