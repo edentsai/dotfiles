@@ -56,8 +56,3 @@ if [ -f "${bashrc_file}" ]; then
     source "${bashrc_file}"
 fi
 unset bashrc_file
-
-# Run ssh-agent automatically.
-if [ -z "$PS1" ] && [ -z "$SSH_AGENT_PID" ] && [ -z "$TMUX" ]; then
-    eval `ssh-agent -s`
-fi
