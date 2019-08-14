@@ -9,4 +9,17 @@
 
 export LESS="-emrSwX"
 export LESSHISTSIZE="100"
-export LESSHISTFILE="$HOME/.lesshst-$USER-$HOSTNAME"
+
+username=$(whoami)
+export LESSHISTFILE="$HOME/.bash/tmp/histories/$HOSTNAME/lesshst-${username}"
+unset username
+
+# Init LESSHISTFILE if not exist.
+if ! test -f "${LESSHISTFILE}"; then
+    dir=$(dirname "${LESSHISTFILE}")
+    mkdir -v -p -m 600 "${dir}"
+    unset dir
+
+    touch "${LESSHISTFILE}"
+    chmod 600 "${LESSHISTFILE}"
+fi
