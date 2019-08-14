@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# vim: set filetype=sh
+
+# Source files in bash directory.
+bash_directory="$HOME/.bash"
+if [ -d "$bash_directory" ]; then
+    # Source functions first.
+    source "$bash_directory/functions.bashrc"
+
+    # Source prompts
+    source_file_if_exists "$bash_directory/bashrc.d/git-prompt.sh"
+
+    # Source files in bashrc.d
+    source_files_in_directory_if_exists "$bash_directory/bashrc.d"
+
+    # Source files in bashrc.d.os by OS type
+    os_type=$(uname -s)
+    source_files_in_directory_if_exists "$bash_directory/bashrc.d/$os_type"
+
+    # Source files in bashrc.d.host by Hostname
+    # Source files in 'rc.host' by HOSTNAME
+    source_file_if_exists "$bash_directory/bashrc.d.host/$HOSTNAME"
+
+    # Source completions
+    source_file_if_exists "/usr/share/bash-completion/bash_completion"
+    source_files_in_directory_if_exists "$bash_directory/completions"
+
+    # Source fzf files
+    source_file_if_exists "$HOME/.fzf.bash"
+fi;
+unset bash_directory
+
+# Include .bashrc_local if it exists.
+bashrc_file="$HOME/.bashrc_local"
+if [ -f "$bashrc_file" ]; then
+    source "$bashrc_file"
+fi
+unset bashrc_file
+
+# Run ssh-agent automatically.
+if [ -z "$PS1" ] && [ -z "$SSH_AGENT_PID" ] && [ -z "$TMUX" ]; then
+    eval `ssh-agent -s`
+fi

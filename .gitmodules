@@ -1,12 +1,12 @@
 [submodule "_bash/submodules/bash-it"]
-    path = _bash/submodules/bash-it
+	path = src/bash/submodules/bash-it
     url = https://github.com/Bash-it/bash-it
     ignore= dirty
 [submodule "_bash/submodules/fzf"]
-    path = _bash/submodules/fzf
+	path = src/bash/submodules/fzf
     url = https://github.com/junegunn/fzf
 [submodule "_bash/submodules/z"]
-    path = _bash/submodules/z
+	path = src/bash/submodules/z
     url = https://github.com/rupa/z
     ignore= dirty
 [submodule "_bin/submodules/bd"]

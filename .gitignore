@@ -1,11 +1,4 @@
-# vim: set filetype=sh
-
-# Ignore bash histories of command.
-_bash/histories
-
-# Ignore files which are auto installed at '_bash/share/man'.
-_bash/share/doc
-_bash/share/man
+# vim: set filetype=conf
 
 # Ignore files which are auto installed at '_bin/' directory.
 _bin/composer

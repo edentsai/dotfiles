@@ -8,7 +8,20 @@
 #   HISTSIZE       | The number of lines or commands that are stored in memory in a history list.
 #
 
-export HISTFILE="$HOME/.bash/histories/.bash_history-$USER-$HOSTNAME"
 export HISTCONTROL="ignoredups:ignorespace"
 export HISTTIMEFORMAT="%F %T	"
 export HISTSIZE="1000"
+
+username=$(whoami)
+export HISTFILE="${HOME}/.bash/tmp/histories/${HOSTNAME}/bash-history-${username}"
+unset username
+
+# Init HISTFILE if not exist.
+if ! test -f "${HISTFILE}"; then
+    dir=$(dirname "${HISTFILE}")
+    mkdir -v -p -m 600 "${dir}"
+    unset dir
+
+    touch "${HISTFILE}"
+    chmod 600 "${HISTFILE}"
+fi
