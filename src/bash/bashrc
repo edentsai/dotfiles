@@ -24,9 +24,6 @@ if [ -d "$bash_directory" ]; then
     # Source completions
     source_file_if_exists "/usr/share/bash-completion/bash_completion"
     source_files_in_directory_if_exists "$bash_directory/completions"
-
-    # Source fzf files
-    source_file_if_exists "$HOME/.fzf.bash"
 fi;
 unset bash_directory
 
