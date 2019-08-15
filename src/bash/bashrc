@@ -37,8 +37,8 @@ if [ -d "${bash_directory}" ]; then
     unset os_type
 
     # Source files in bashrc.d.host by Hostname if exists
-    if ls ${bash_directory}/bashrc.d.host/${HOSTNAME}/*.bashrc > /dev/null 2>&1; then
-        for file in ${bash_directory}/bashrc.d.host/${HOSTNAME}/*.bashrc; do
+    if ls ${bash_directory}/bashrc.d/host/${HOSTNAME}/*.bashrc > /dev/null 2>&1; then
+        for file in ${bash_directory}/bashrc.d/host/${HOSTNAME}/*.bashrc; do
             source "${file}"
         done
         unset file
