@@ -1,13 +1,13 @@
 [submodule "_bin/submodules/bd"]
-    path = _bin/submodules/bd
+	path = bin/submodules/bd
     url = https://github.com/vigneshwaranr/bd
     ignore= dirty
 [submodule "_bin/submodules/icdiff"]
-    path = _bin/submodules/icdiff
+	path = bin/submodules/icdiff
     url = https://github.com/jeffkaufman/icdiff
     ignore= dirty
 [submodule "_bin/submodules/pathpicker"]
-    path = _bin/submodules/pathpicker
+	path = bin/submodules/pathpicker
     url = https://github.com/facebook/pathpicker/
     ignore= dirty
 [submodule "_tmux/plugins/tpm"]
