@@ -49,8 +49,8 @@ if [ -d "${bash_directory}" ]; then
         source "/usr/share/bash-completion/bash_completion"
     fi
 
-    if ls ${bash_directory}/completions/*.bash > /dev/null 2>&1; then
-        for file in ${bash_directory}/completions/*.bash; do
+    if ls ${bash_directory}/share/bash-completion/completions/*.bash > /dev/null 2>&1; then
+        for file in ${bash_directory}/share/bash-completion/completions/*.bash; do
             source "${file}"
         done
         unset file
