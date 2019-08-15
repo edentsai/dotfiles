@@ -4,62 +4,175 @@ tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/core"
 
+# Search tool like grep, but optimized for programmers
 brew "ack"
+
+# Spell checker with better logic than ispell
 brew "aspell"
+
+# Automatic configure script builder
 brew "autoconf"
+
+# Bourne-Again SHell, a UNIX command interpreter
 brew "bash"
-brew "bash-completion"
+
+# Programmable completion for Bash 4.1+
+brew "bash-completion@2"
+
+# Fish completion for brew-cask
 brew "brew-cask-completion"
+
+# GNU internationalization (i18n) and localization (l10n) library
 brew "gettext"
+
+# Command-line interface for SQLite
 brew "sqlite"
+
+# Top-like interface for container metrics
 brew "ctop"
+
+# Get a file from an HTTP, HTTPS or FTP server
 brew "curl"
+
+# Get a file from an HTTP, HTTPS or FTP server
 brew "curl-openssl"
+
+# Image manipulation library
 brew "jpeg"
+
+# Play, record, convert, and stream audio and video
 brew "ffmpeg"
+
+# CLI program that accepts piped input and presents files for selection
 brew "fpp"
+
+# Command-line fuzzy finder written in Go
 brew "fzf"
+
+# Program for calculating and printing calendars
 brew "gcal"
+
+# Distributed revision control system
 brew "git"
+
+# Small git utilities
 brew "git-extras"
+
+# Passphrase entry dialog utilizing the Assuan protocol
 brew "pinentry"
+
+# GNU Pretty Good Privacy (PGP) package
 brew "gnupg"
+
+# Open source programming language to build simple/reliable/efficient software
 brew "go"
+
+# Image processing tools collection
 brew "graphicsmagick"
+
+# GNU grep, egrep and fgrep
 brew "grep"
+
+# Popular GNU data compression program
 brew "gzip"
+
+# Powerful, lightweight programming language
 brew "lua"
+
+# Improved top (interactive process viewer)
 brew "htop"
+
+# User-friendly cURL replacement (command-line HTTP client)
 brew "httpie"
+
+# Ping-like tool for HTTP requests
 brew "httping"
+
+# Improved colored diff
 brew "icdiff"
+
+# Tools and libraries to manipulate images in many formats
 brew "imagemagick"
+
+# Lightweight and flexible command-line JSON processor
 brew "jq"
+
+# Pager program similar to more
 brew "less"
+
+# Just-In-Time Compiler (JIT) for the Lua programming language
 brew "luajit"
+
+# Mac App Store command-line interface
 brew "mas"
+
+# Intercept, modify, replay, save HTTP/S traffic
 brew "mitmproxy"
+
+# Remote terminal application
 brew "mosh"
+
+# Powerful paging program
 brew "most"
+
+# Platform built on V8 to build network applications
 brew "node"
+
+# Pinentry for GPG on Mac
 brew "pinentry-mac"
+
+# Bash completion for Pip
 brew "pip-completion"
+
+# Utility that provides fast incremental file transfer
 brew "rsync"
+
+# Terminal multiplexer with VT100/ANSI terminal emulation
 brew "screen"
+
+# Command-line interface for https://speedtest.net bandwidth tests
 brew "speedtest-cli"
+
+# Code-search similar to ack
 brew "the_silver_searcher"
+
+# Text interface for Git repositories
 brew "tig"
+
+# Terminal multiplexer
 brew "tmux"
+
+# Display directories as trees (with optional color/HTML output)
 brew "tree"
+
+# Extraction utility for .zip compressed archives
 brew "unzip"
+
+# Bash completion for Vagrant
 brew "vagrant-completion"
+
+# Vi 'workalike' with many additional features
 brew "vim"
+
+# Executes a program periodically, showing output fullscreen
 brew "watch"
+
+# Internet file retriever
 brew "wget"
+
+# Lookup tool for domain names and other internet resources
 brew "whois"
+
+# JavaScript package manager
 brew "yarn"
+
+# Download YouTube videos from the command-line
 brew "youtube-dl"
+
+# Tracks most-used directories to make cd smarter
 brew "z"
+
+# UNIX shell (command interpreter)
 brew "zsh"
 
 cask "1password-cli"
@@ -162,25 +275,24 @@ cask "xmind-zen"
 cask "xquartz"
 cask "youtube-to-mp3"
 
-mas "com.amazon.Kindle", id: 405399194
-mas "com.apple.garageband10", id: 682658836
-mas "com.apple.iMovieApp", id: 408981434
-mas "com.apple.iWork.Keynote", id: 409183694
-mas "com.apple.iWork.Numbers", id: 409203825
-mas "com.apple.iWork.Pages", id: 409201541
-mas "com.brother.pdfreaderprofree.mac", id: 919472673
-mas "com.daftlogicstudio.Coinverter.OSX", id: 926121450
-mas "com.devhd.feedly.osx", id: 865500966
-mas "com.DigiDNA.iMazingHEICConverterMac", id: 1292198261
-mas "com.flexibits.fantastical", id: 435003921
-mas "com.greedyint.1checker", id: 766176336
-mas "com.kkbox.KKBOXForMac", id: 1105332179
-mas "com.kryolokovlin.Noizio", id: 928871589
-mas "com.nscoding.ColorPicker", id: 641027709
-mas "com.pilotmoon.popclip", id: 445189367
-mas "com.readitlater.PocketMac", id: 568494494
-mas "com.reederapp.macOS", id: 1449412482
-mas "com.xwavesoft.pomodoromaclite", id: 973134470
-mas "jp.naver.line.mac", id: 539883307
-mas "net.shinyfrog.bear", id: 1091189122
-mas "wifiexplorer", id: 494803304
+mas "1Checker", id: 766176336
+mas "Be Focused", id: 973134470
+mas "Bear", id: 1091189122
+mas "Coinverter", id: 926121450
+mas "Color Picker", id: 641027709
+mas "Fantastical", id: 435003921
+mas "feedly", id: 865500966
+mas "GarageBand", id: 682658836
+mas "iMazing HEIC Converter", id: 1292198261
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "KKBOX", id: 1105332179
+mas "LINE", id: 539883307
+mas "Noizio", id: 928871589
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "PDF Reader Pro Lite", id: 919472673
+mas "Pocket", id: 568494494
+mas "PopClip", id: 445189367
+mas "Reeder", id: 1449412482
+mas "WiFi Explorer", id: 494803304
