@@ -28,8 +28,8 @@ if [ -d "${bash_directory}" ]; then
     # - FreeBSD
     # - Linux
     os_type=$(uname -s)
-    if ls ${bash_directory}/bashrc.d.os/${os_type}/*.bashrc > /dev/null 2>&1; then
-        for file in ${bash_directory}/bashrc.d.os/${os_type}/*.bashrc; do
+    if ls ${bash_directory}/bashrc.d/os/${os_type}/*.bashrc > /dev/null 2>&1; then
+        for file in ${bash_directory}/bashrc.d/os/${os_type}/*.bashrc; do
             source "${file}"
         done
         unset file
