@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 # vim: set filetype=sh
 
-# Change directory quickly.
-alias ..="cd .."
-alias ...="cd ../.."
-alias cd..="cd .."
-alias cd...="cd ../.."
-alias cd-="cd -"
-
 # Shorten commands.
 alias c="clear"
 alias cls="clear"
