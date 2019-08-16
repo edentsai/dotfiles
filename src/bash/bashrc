@@ -6,49 +6,64 @@ if [ -z "${BASH_VERSION:-}" ] || [ -z "${PS1:-}" ]; then
     return
 fi
 
-# Source files in bash directory if exists.
-bash_directory="$HOME/.bash"
-if [ -d "${bash_directory}" ]; then
-    # Source functions first.
-    source "${bash_directory}/functions.bashrc"
+# Load bashrc files in directory if exists, for example:
+#     load_bashrc_files_in_directory_if_exists $HOME/bashrc.d
+#     -> source $HOME/bashrc.d/*.bashrc
+function bashrc::load_bashrc_files_in_directory_if_exists()
+{
+    local readonly EXIT_CODE_GENERAL_ERROR=1
 
-    # Source prompts
-    source "${bash_directory}/bashrc.d/git-prompt.sh"
-
-    # Source files in bashrc.d if exists
-    if ls ${bash_directory}/bashrc.d/*.bashrc > /dev/null 2>&1; then
-        for file in ${bash_directory}/bashrc.d/*.bashrc; do
-            source "${file}"
-        done
-        unset file
+    local readonly bashrc_dir="${1}"
+    if ! test -d "$bashrc_dir"; then
+        return ${EXIT_CODE_GENERAL_ERROR}
     fi
 
-    # Source files in bashrc.d.os by OS Type if exists:
-    # - Darwin (MacOS)
-    # - FreeBSD
-    # - Linux
-    os_type=$(uname -s)
-    if ls ${bash_directory}/bashrc.d/os/${os_type}/*.bashrc > /dev/null 2>&1; then
-        for file in ${bash_directory}/bashrc.d/os/${os_type}/*.bashrc; do
-            source "${file}"
+    local readonly bashrc_file_glob="${bashrc_dir}/*.bashrc"
+    if ls ${bashrc_file_glob} > /dev/null 2>&1; then
+        local bashrc_file
+        for bashrc_file in ${bashrc_file_glob}; do
+            source "${bashrc_file}"
         done
-        unset file
+        unset bashrc_file
     fi
-    unset os_type
+}
 
-    # Source files in bashrc.d.host by Hostname if exists
-    if ls ${bash_directory}/bashrc.d/host/${HOSTNAME}/*.bashrc > /dev/null 2>&1; then
-        for file in ${bash_directory}/bashrc.d/host/${HOSTNAME}/*.bashrc; do
-            source "${file}"
-        done
-        unset file
+# Load bashrc configuation.
+function bashrc::load_bashrc_configuration()
+{
+    local readonly bash_dir="$HOME/.bash"
+    if test -d "${bash_dir}"; then
+        # Source functions first.
+        source "${bash_dir}/functions.bashrc"
+
+        # Source functions for Git prompts.
+        source "${bash_dir}/bashrc.d/git-prompt.sh"
+
+        # Source bashrc.d/*.bashrc if exists.
+        bashrc::load_bashrc_files_in_directory_if_exists "${bash_dir}/bashrc.d"
+
+        # Source bashrc.d/os/${OS_TYPE}/*.bashrc if exists,
+        # the following OS types are supported:
+        #     - Darwin (MacOS)
+        #     - FreeBSD
+        #     - Linux
+        local readonly os_type=$(uname -s)
+        bashrc::load_bashrc_files_in_directory_if_exists "${bash_dir}/bashrc.d/os/${os_type}"
+
+        # Source bashrc.d/host/${HOSTNAME}/*.bashrc if exists.
+        local readonly hostname=$(hostname)
+        bashrc::load_bashrc_files_in_directory_if_exists "${bash_dir}/bashrc.d/host/${hostname}"
     fi
-fi;
-unset bash_directory
+}
 
-# Include .bashrc_local if exists.
-bashrc_file="${HOME}/.bashrc_local"
-if [ -f "${bashrc_file}" ]; then
-    source "${bashrc_file}"
-fi
-unset bashrc_file
+# Load $HOME/.bashrc_local if exists.
+function bashrc::load_bashrc_local_if_exists()
+{
+    local readonly bashrc_file="${HOME}/.bashrc_local"
+    if test -r "${bashrc_file}"; then
+        source "${bashrc_file}"
+    fi
+}
+
+bashrc::load_bashrc_configuration
+bashrc::load_bashrc_local_if_exists

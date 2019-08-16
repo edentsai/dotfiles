@@ -2,6 +2,15 @@
 # vim: set filetype=sh
 
 # Clear the console screen on exit to increase privacy.
-if [ "${SHLVL}" = "1" ] && [ -x "/usr/bin/clear_console" ]; then
-    trap 'test "${SHLVL}" = "1" && test -x "/usr/bin/clear_console" && /usr/bin/clear_console -q' EXIT
-fi
+
+# Set a trap for clear the console screen on EXIT to increase privacy
+function bashrc::set_trap_for_clear_console_on_exit()
+{
+    if [ "${SHLVL}" = "1" ] && [ -x "/usr/bin/clear_console" ]; then
+        trap 'test "${SHLVL}" = "1" && test -x "/usr/bin/clear_console" && /usr/bin/clear_console -q' EXIT
+    fi
+
+    return
+}
+
+bashrc::set_trap_to_clear_console_on_exit
