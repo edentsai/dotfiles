@@ -15,15 +15,5 @@ export TERM="screen-256color"
 export EDITOR="vim"
 export GIT_PAGER="less"
 
-# Export variables for the 'man' command.
-#   MANPAGER | Program used to display files.
-export MANPAGER="less -Is"
-
-# Use 'most' command as MANPAGER better if it exists.
-most_path=`which most`
-if [ -f "$most_path" ]; then
-    export MANPAGER="most -s"
-fi
-
 # MySQL Prompt
 export MYSQL_PS1="[\u@\h] : (\d)\n[\R:\m:\s] mysql> "

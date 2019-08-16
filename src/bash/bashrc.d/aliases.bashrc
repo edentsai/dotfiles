@@ -98,9 +98,6 @@ alias httping="httping --colors"
 # List $PATH and force output to be one entry per line
 alias path="echo -e \${PATH//:/\\\n}"
 
-# List $MANPATH and force output to be one entry per line
-alias manpath="echo -e \${MANPATH//:/\\\n}"
-
 # Display today's date.
 alias today="date '+%Y-%m-%d %T'"
 
