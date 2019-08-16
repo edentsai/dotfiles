@@ -15,24 +15,6 @@ export TERM="screen-256color"
 export EDITOR="vim"
 export GIT_PAGER="less"
 
-# Export variables for the 'ls' command.
-#   BLOCKSIZE | The block size in bytes by the -l and -s options.
-#   CLICOLOR  | Use ANSI color sequences to distinguish file types.
-#   LSCOLORS  | Describes what color to use for which attribute when colors are enabled with CLICOLOR,
-#             | the origin setting of LSCOLORS is "Dxfxcxdxbxegedabagacad".
-export BLOCKSIZE="K"
-export CLICOLOR=1
-case $(uname -s) in
-    "FreeBSD")
-        export LSCOLORS="ExfxcxdxbxEgEdabagacad"
-        ;;
-    "Darwin")
-        export LSCOLORS="ExfxcxdxbxEgEdabagacad"
-        ;;
-    "Linux")
-        ;;
-esac
-
 # Export variables for the 'man' command.
 #   MANPAGER | Program used to display files.
 export MANPAGER="less -Is"
