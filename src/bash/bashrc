@@ -37,7 +37,7 @@ function bashrc::load_bashrc_configuration()
         source "${bash_dir}/functions.bashrc"
 
         # Source functions for Git prompts.
-        source "${bash_dir}/bashrc.d/git-prompt.sh"
+        source "${bash_dir}/functions/git-prompt.sh"
 
         # Source bashrc.d/*.bashrc if exists.
         bashrc::load_bashrc_files_in_directory_if_exists "${bash_dir}/bashrc.d"
