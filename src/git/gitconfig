@@ -133,5 +133,4 @@
     shortlog = format:%Cred%h%Creset - %C(bold blue)<%an>%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
 
 [include]
-    path = ~/.gitconfig_edentsai
     path = ~/.gitconfig_local
