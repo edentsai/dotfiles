@@ -95,16 +95,6 @@ alias topme="top -U $USER"
 # httping always use colors.
 alias httping="httping --colors"
 
-# Display process status with more information.
-#   -u | Display more information
-#   -a | Display information about other users' processes as well as your own.
-#   -x | include processes which do not have a controlling terminal.
-alias psu="ps -u"
-alias psmem='ps -aux | sort -nr -k 4'
-alias psmem10='psmem | head -n 10'
-alias pscpu='ps -aux | sort -nr -k 3'
-alias pscpu10='pscpu | head -n 10'
-
 # List $PATH and force output to be one entry per line
 alias path="echo -e \${PATH//:/\\\n}"
 
