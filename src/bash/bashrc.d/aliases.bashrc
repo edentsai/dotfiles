@@ -129,6 +129,3 @@ alias vimfast="vim --noplugin"
 #   -c count      | Stop after sending (and receiving) count ECHO_RESPONSE packets.
 #   -s packetsize | Specify the number of data bytes to be sent.
 alias fastping='ping -c 100 -s.2'
-
-# Tig Reflog
-alias tig-reflog="git reflog --pretty=raw | tig --pretty=raw"
