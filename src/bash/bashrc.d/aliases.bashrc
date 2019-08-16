@@ -18,11 +18,6 @@ alias gc="gcloud"
 alias gcc="gcloud compute"
 alias kc="kubectl"
 
-# Grep
-alias grep="grep --color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
-alias egrep="egrep --color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
-alias fgrep="fgrep --color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
-
 # Be careful with copy files.
 #   -i | Cause cp to write a prompt to the standard error output befor copying a file
 #      | that would overwrite an existing file.
