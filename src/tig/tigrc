@@ -1,1 +1,146 @@
-tigrc_v2
+# Basics
+set line-graphics = default
+set vertical-split = false
+set ignore-case = yes
+
+## Blame-View
+set blame-view = \
+    line-number:yes,interval=1,width=5 \
+    date:default \
+    author:full,width=12 \
+    id:yes \
+    text:yes
+
+## Main-View
+set main-view = \
+    line-number:yes,interval=5,width=5 \
+    date:default \
+    author:full,width=12 \
+    id:yes \
+    commit-title:yes,graph=yes,refs=yes,overflow=yes
+
+## Refs-View
+set refs-view = \
+    line-number:yes,interval=1,width=5 \
+    date:default \
+    author:full,width=12 \
+    id:yes \
+    ref:yes \
+    commit-title:yes,graph=yes,refs=yes,overflow=yes
+
+## Stash-View
+set stash-view = \
+    line-number:yes,interval=1,width=5 \
+    date:default \
+    author:full,width=12 \
+    id:yes \
+    commit-title:yes,graph=yes,refs=yes,overflow=yes
+
+## Status-View
+set status-view = \
+    line-number:no,interval=1,width=5 \
+    status:long \
+    file-name:always
+
+## Tree-View
+set tree-view = \
+    line-number:yes,interval=5,width=5 \
+    date:default \
+    author:full \
+    id:yes \
+    mode:yes \
+    file-size:units \
+    file-name:always
+
+# Speeding up Tig in large repositories.
+# - Reference: https://github.com/jonas/tig/blob/master/contrib/large-repo.tigrc
+
+## Use Git's default (reverse chronological) order, never automatically,
+## use topo-order for the commit graph.
+set commit-order = default
+
+## Show stages/unstaged/untracked changes in the main view.
+set show-changes = yes
+set show-untracked = yes
+
+## Show notes for a commit.
+set show-notes = yes
+
+## Limit number of commits loaded by default to 1000.
+# set main-options = -n 1000
+
+## Show GPG signature in log view and diff view.
+set log-options = --show-signature
+set diff-options = --show-signature
+
+## Use diff-highlight in diff view.
+set diff-highlight = true
+
+# Colors
+color cursor    default 237
+color date      67      default
+color diff-stat 166     234
+
+# Bindings.
+
+## Page navigation.
+bind generic + move-page-down
+bind generic - move-page-up
+bind generic <Ctrl-b> scroll-page-up
+bind generic <Ctrl-f> scroll-page-down
+
+## Easy jump to previous / next patches in stage / diff views.
+bind stage <Ctrl-J> :/^diff --(git|cc)
+bind stage <Ctrl-K> :?^diff --(git|cc)
+bind diff <Ctrl-J> :/^diff --(git|cc)
+bind diff <Ctrl-K> :?^diff --(git|cc)
+
+## Easy jump to previous / next chunks in stage and diff views.
+bind diff J :/^@@
+bind diff K :?^@@
+bind stage J :/^@@
+bind stage K :?^@@
+
+## Useful bindings.
+bind diff <Esc>! ?git revert %(commit)
+bind diff <Esc>rb ?git rebase --interactive --autosquash %(commit)
+bind diff <Esc>rv ?git revert %(commit)
+
+bind generic <Esc>rf >sh -c "git reflog --pretty=raw | tig --pretty=raw"
+
+bind log <Ctrl-J> :/^commit
+bind log <Ctrl-K> :/?commit
+
+bind main ^ :goto %(commit)^
+bind main <Esc>! ?git revert %(commit)
+bind main <Esc>ca ?git commit --amend
+bind main <Esc>cf ?git commit --fixup %(commit)
+bind main <Esc>chp ?git cherry-pick %(commit)
+bind main <Esc>rb ?git rebase --interactive --autosquash %(commit)
+bind main <Esc>rv ?git revert %(commit)
+bind main <Esc>t ?git tag "%(prompt Enter Tag name: )" %(commit)
+
+bind refs <Esc>bD ?git branch --force --delete %(ref)
+bind refs <Esc>bd ?git branch --delete %(ref)
+bind refs <Esc>co ?git checkout %(ref)
+bind refs <Esc>f ?git fetch --all --prune
+
+bind stage 1 stage-update-line
+bind stage <Esc>1 stage-update-line
+
+bind stash <Esc>sa ?git stash apply %(stash)
+bind stash <Esc>sc ?git stash clear
+bind stash <Esc>sd ?git stash drop %(stash)
+bind stash <Esc>sp ?git stash pop %(stash)
+
+bind status <Esc>rm ?rm %(file)
+bind status <Esc>ai ?git add --intent-to-add %(file)
+bind status <Esc>ap ?git add --patch %(file)
+bind status <Esc>ci ?git commit
+bind status <Esc>ca ?git commit --amend
+bind status <Esc>co ?git checkout %(file)
+bind status <Esc>po ?git push origin
+bind status <Esc>ss ?git stash push -- %(file)
+
+# Colorscheme.
+source ~/.tig/colorschemes/tig-theme-molokai-like/colors/molokai-like-theme.tigrc
