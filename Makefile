@@ -45,19 +45,18 @@ all: install
 backup: ## Backup existing configurations
 backup: backup-bash
 backup: backup-bin
-backup: backup-brew
 backup: backup-dotfiles
-backup: backup-fonts
-backup: backup-git
-backup: backup-inputrc
-backup: backup-mostrc
-backup: backup-mycli
-backup: backup-mysql
-backup: backup-pgcli
-backup: backup-screen
-backup: backup-tig
-backup: backup-tmux
-backup: backup-vim
+# backup: backup-fonts
+# backup: backup-git
+# backup: backup-inputrc
+# backup: backup-mostrc
+# backup: backup-mycli
+# backup: backup-mysql
+# backup: backup-pgcli
+# backup: backup-screen
+# backup: backup-tig
+# backup: backup-tmux
+# backup: backup-vim
 
 .PHONY: backup-bash
 backup-bash: ## Backup Bash configurations
@@ -91,18 +90,18 @@ install: ## Install all of symbolic links.
 install: install-bash
 install: install-bin
 install: install-dotfiles
-install: install-fonts
-install: install-git
-install: install-homebrew
-install: install-inputrc
-install: install-mostrc
-install: install-mycli
-install: install-mysql
-install: install-pgcli
-install: install-screen
-install: install-tig
-install: install-tmux
-install: install-vim
+# install: install-fonts
+# install: install-git
+# install: install-homebrew
+# install: install-inputrc
+# install: install-mostrc
+# install: install-mycli
+# install: install-mysql
+# install: install-pgcli
+# install: install-screen
+# install: install-tig
+# install: install-tmux
+# install: install-vim
 
 .PHONY: install-bash
 install-bash: ## Install symbolic links for Bash configurations
@@ -151,19 +150,18 @@ install-ssh: _install-ssh-link-if-not-installed
 uninstall: ## Delete all of symbolic links which created by Makefile
 uninstall: uninstall-bash
 uninstall: uninstall-bin
-uninstall: uninstall-brew
 uninstall: uninstall-dotfiles
-uninstall: uninstall-fonts
-uninstall: uninstall-git
-uninstall: uninstall-inputrc
-uninstall: uninstall-mostrc
-uninstall: uninstall-mycli
-uninstall: uninstall-mysql
-uninstall: uninstall-pgcli
-uninstall: uninstall-screen
-uninstall: uninstall-tig
-uninstall: uninstall-tmux
-uninstall: uninstall-vim
+# uninstall: uninstall-fonts
+# uninstall: uninstall-git
+# uninstall: uninstall-inputrc
+# uninstall: uninstall-mostrc
+# uninstall: uninstall-mycli
+# uninstall: uninstall-mysql
+# uninstall: uninstall-pgcli
+# uninstall: uninstall-screen
+# uninstall: uninstall-tig
+# uninstall: uninstall-tmux
+# uninstall: uninstall-vim
 
 .PHONY: uninstall-bash
 uninstall-bash: ## Delete the symbolic links of Bash configurations
@@ -432,7 +430,7 @@ _docker-image-build-%: DOCKER_BUILD_CONTEXT ?= $(PROJECT_DIR)
 _docker-image-build-%: DOCKER_BUILD_STAGE ?= $(*)
 _docker-image-build-%: DOCKER_BUILD_OPTS ?=
 _docker-image-build-%: DOCKER_IMAGE_REPOSITORY ?= $(PROJECT_PATH)/$(DOCKER_BUILD_STAGE)
-_docker-image-build-%: DOCKER_IMAGE_TAG ?= latest
+_docker-image-build-%: DOCKER_IMAGE_TAG ?= latest
 _docker-image-build-%: DOCKER_IMAGE_WITH_TAG ?= $(DOCKER_IMAGE_REPOSITORY):$(DOCKER_IMAGE_TAG)
 _docker-image-build-%: _docker-image-remove-%-if-exists
 	@DOCKER_BUILDKIT=$(DOCKER_BUILDKIT) docker image build --pull \
@@ -488,21 +486,5 @@ _docker-container-run-%:
 		"$(DOCKER_IMAGE_WITH_TAG)" $(DOCKER_CONTAINER_ARGS); \
 	echo ""
 
-# --volume "$(PROJECT_DIR):/home/edentsai/.dotfiles" \
-# --workdir "/home/edentsai/.dotfiles" \
-
-# _docker-run-container-%: ## Run a temporary container with the image
-# _docker-run-container-%: ## which built by specific build stage in Dockerfile
-# _docker-run-container-%: BUILD_STAGE ?= $(*)
-# _docker-run-container-%: BUILD_IMAGE_TAG ?= $(GIT_COMMIT_REF_SLUG)
-# _docker-run-container-%: BUILD_IMAGE_WITH_TAG ?= $(IMAGE_NAMESPACE)/$(BUILD_STAGE):$(BUILD_IMAGE_TAG)
-# _docker-run-container-%: CONTAINER_NAME ?= $(BUILD_STAGE)
-# _docker-run-container-%: CONTAINER_FULLNAME ?= $(CONTAINER_NAMESPACE)-$(CONTAINER_NAME)
-# _docker-run-container-%: DOCKER_CONTAINER_USER ?= $(USER_PUID):$(USER_PGID)
-# _docker-run-container-%: DOCKER_CONTAINER_WORKDIR ?= $(PROJECT_DIR)
-# _docker-run-container-%: DOCKER_CONTAINER_RUN_OPT_PUBLISH ?=
-# _docker-run-container-%: DOCKER_CONTAINER_RUN_OPT_TTY ?= --tty
-# _docker-run-container-%: DOCKER_CONTAINER_RUN_OPT_VOLUME ?=
-# _docker-run-container-%: DOCKER_CONTAINER_RUN_OPTS ?=
-# _docker-run-container-%: DOCKER_CONTAINER_RUN_ARGS ?=
-# _docker-run-container-%:
+_docker-image-build-ubuntu-workspace:
+_docker-container-run-ubuntu-workspace:
