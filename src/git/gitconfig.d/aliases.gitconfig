@@ -1,0 +1,137 @@
+# vim: set filetype=gitconfig
+
+# Git aliases
+[alias]
+    # Branch aliases
+
+    # When in list mode, show sha1 and commit subject line for each head,
+    # along with relationship to upstream branch (if any).
+    br = branch --verbose
+
+    # List the remote-tracking branches.
+    brr = branch --verbose --remotes
+
+    # Commit aliases
+    ci = commit
+
+    #
+    cif = commit --fixup
+
+    # Use the given message as the commit message
+    cim = commit --message
+    cis = commit --squash
+
+    # Checkout
+    co = checkout
+    com = checkout master
+    cod = checkout develop
+    cot = checkout tmp
+
+    # Cherry Pick
+    chp = cherry-pick
+    chpe = cherry-pick --edit
+    chpc = cherry-pick --continue
+    chpq = cherry-pick --quit
+    chpa = cherry-pick --abort
+
+    # Diff
+    df = diff
+    dfc = diff --cached
+    dffn = diff --name-only
+    dfie = diff --ignore-space-at-eol
+    dfst = diff --stat
+
+    # Difftool
+    dt = difftool
+
+    icdf = icdiff
+    lgc = log --pretty=fulllog
+    lg = log --graph --pretty=shortlog --abbrev-commit
+    lgfn = log --pretty=fulllog --name-only
+    lgol = log --pretty=ias
+    lgst = log --graph --pretty=fulllog --stat
+    lgme = log --graph --pretty=fulllog --author=EdenTsai
+    lgmefn = log --pretty=fulllog --author=EdenTsai --name-only
+    lgmeol = log --author=Edentsai --oneline
+    lgmest = log --graph --pretty=fulllog --author=EdenTsai --stat
+    mt = mergetool
+    rb = rebase
+    rbm = rebase master
+    rbd = rebase develop
+    rbt = rebase tmp
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbs = rebase --skip
+    rs = reset
+    rsh = reset HEAD^1
+    st = status
+    staged = diff --staged
+    sh = stash
+    shl = stash list
+    shp = stash pop
+    sha = stash apply
+    shfw = show --pretty=fulllog --color-words
+    shfn = show --pretty=fulllog --name-only
+    shfs = show --pretty=fulllog --stat
+    sm = submodule
+    wc = whatchanged
+    who = shortlog -s --
+
+    # Get the current branch name (not so useful in itself, but used in other aliases)
+    branch-name = "!git rev-parse --abbrev-ref HEAD"
+    # Push the current branch to the remote "origin", and set it to track the upstream branch
+    publish = "!git push -u origin $(git branch-name)"
+    # Delete the remote version of the current branch
+    unpublish = "!git push origin :$(git branch-name)"
+    # Display reflog information in tig
+    reflog-tig = "!git reflog --pretty=raw | tig --pretty=raw"
+    tig-reflog = "!git reflog --pretty=raw | tig --pretty=raw"
+
+    # Display links of remote repositories
+    remote-links = "!git remote --verbose \
+        | sed -e 's/ (..*)$//g' \
+        | sed -e 's/\\([^[:space:]]*\\)[[:space:]]*\\([^[:space:]]*\\)@\\(..*\\):\\(.[^\\/]*\\)\\/\\(..*\\)\\.git/\\1 \\3 \\4 \\5 \\2/g' \
+        | sort -u \
+        | awk ' \
+            BEGIN { \
+                FS = \"[[:blank:]]+\"; \
+            } \
+            { \
+                remote_name = $1; \
+                domain = $2; \
+                namespace = $3; \
+                project_path = $4; \
+                remote_url = sprintf(\"git@%s:%s/%s\", domain, namespace, project_path); \
+                printf \"\\033[36m%-24s \\033[0m%s \\n\", remote_name, remote_url; \
+            } \
+            / github/ { \
+                service = \"GitHub\"; \
+                domain = $2; \
+                namespace = $3; \
+                project_path = $4; \
+                \
+                subname = \"GitHub\"; \
+                github_url = sprintf(\"https://%s/%s/%s\", domain, namespace, project_path); \
+                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, github_url; \
+            } \
+            / gitlab/ { \
+                service = \"GitLab\"; \
+                domain = $2; \
+                namespace = $3; \
+                project_path = $4; \
+                \
+                subname = \"GitLab\"; \
+                gitlab_url = sprintf(\"https://%s/%s/%s\", domain, namespace, project_path); \
+                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, gitlab_url; \
+                \
+                subname = \"GitLab/pipelines\"; \
+                pipelines_url = sprintf(\"https://%s/%s/%s/pipelines\", domain, namespace, project_path); \
+                url = sprintf(\"%s/pipelines\", $3); \
+                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, pipelines_url; \
+                \
+                subname = \"GitLab/pages\"; \
+                pages_url = sprintf(\"https://%s.kkbox.io/%s\", namespace, project_path); \
+                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, pages_url; \
+            } \
+        ' \
+        "
