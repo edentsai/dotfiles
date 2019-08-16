@@ -104,12 +104,6 @@ alias manpath="echo -e \${MANPATH//:/\\\n}"
 # Display today's date.
 alias today="date '+%Y-%m-%d %T'"
 
-# Vim open last edited file.
-alias vimlast="vim -c \"normal '0\""
-
-# Open Vim faster without plugins
-alias vimfast="vim --noplugin"
-
 # The ping command do not wait interval 1 second, go fast
 #   -c count      | Stop after sending (and receiving) count ECHO_RESPONSE packets.
 #   -s packetsize | Specify the number of data bytes to be sent.
