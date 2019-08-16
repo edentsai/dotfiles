@@ -27,17 +27,42 @@
 [difftool]
     prompt = false
 
+[fetch]
+    all = true
+    prune = true
+    pruneTags = true
+
+[help]
+    autocorrect = 0
+
+[log]
+    follow = true
+
 [merge]
     tool = vimdiff
+    stat = true
 
 [mergetool]
     prompt = false
 
-[push]
-    default = simple
-
 [pager]
     branch = false
+
+[pull]
+    stat = true
+
+[push]
+    default = simple
+    followTags = true
+
+[rebase]
+    stat = true
+    autoSquash = true
+    autoStash = true
+    missingCommitsCheck = warn
+
+[status]
+    showStash = true
 
 [alias]
     br = branch -v
