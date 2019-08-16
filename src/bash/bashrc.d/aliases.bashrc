@@ -30,44 +30,6 @@ alias grep="grep --color=auto --directories=skip --exclude=\.swp --exclude=\.svn
 alias egrep="egrep --color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
 alias fgrep="fgrep --color=auto --directories=skip --exclude=\.swp --exclude=\.svn --exclude=\.git"
 
-# List directory contents with colorized output.
-#   -G        | Enable colorized output.
-#   -F        | Display a slash ('/') immediately after each pathname that is a directory,
-#             | an asterisk ('*') after each that is executable,
-#             | an at sign ('@') after each symbolic link,
-#             | an equals sign ('=') after each socket,
-#             | a percent sign ('%') after each whiteout,
-#             | and a vertical bar ('|') after each that is a FIFO.
-#   -d        | Directories are listed as plain files (not searched recursively).
-#   -1        | Force output to be one entry per line.
-#   -A        | Include directory entries whose names begin with a dot ('.').
-#   -l        | List files in the long format.
-#   -D format | When printing in the long (-l) format, use format to format the date and time output.
-os=`uname -s`
-if [ "Darwin" == "$os" ] && [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
-    # For coreutils installed...
-    os="Linux"
-fi
-
-case "$os" in
-    "FreeBSD" | "Darwin")
-        alias ls="ls -GF"
-        alias l.="ls -GF -d .*"                 # List hidden files only.
-        alias l1="ls -GF1"                      # Force output to be one entry per line.
-        alias la="ls -GFA"                      # List all files.
-        alias ll="ls -GFl -D '%Y-%m-%d %T'"     # List files in the long format.
-        alias lla="ls -GFlA -D '%Y-%m-%d %T'"   # List all files in the long format.
-        ;;
-    "Linux")
-        alias ls="ls --color=auto -F"
-        alias l.="ls -F -d .*"                 # List hidden files only.
-        alias l1="ls -F1"                      # Force output to be one entry per line.
-        alias la="ls -FA"                      # List all files.
-        alias ll="ls -Fl --time-style=+'%Y-%m-%d %T'"     # List files in the long format.
-        alias lla="ls -FlA --time-style=+'%Y-%m-%d %T'"   # List all files in the long format.
-        ;;
-esac
-
 # Be careful with copy files.
 #   -i | Cause cp to write a prompt to the standard error output befor copying a file
 #      | that would overwrite an existing file.
