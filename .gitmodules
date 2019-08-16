@@ -1,5 +1,5 @@
 [submodule "_tmux/plugins/tpm"]
-    path = _tmux/plugins/tpm
+    path = src/tmux/plugins/tpm
     url = https://github.com/tmux-plugins/tpm
     ignore= dirty
 [submodule "_vim"]

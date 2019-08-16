@@ -1,0 +1,9 @@
+# vim: set filetype=conf
+
+# Plugins
+plugins
+sidebar
+storage/tmux-resurrect
+
+# Temporary files
+tmp/*
