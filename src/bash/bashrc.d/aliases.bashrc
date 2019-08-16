@@ -65,9 +65,6 @@ alias bc="bc --mathlib"
 # Colorize the tree command output.
 alias tree="tree -CFl --dirsfirst"
 
-# Tmux force to assume the terminal supports 256 colours.
-alias tmux="tmux -2"
-
 # Continue getting a partially-downloaded file.
 alias wget="wget -c"
 
