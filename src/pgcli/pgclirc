@@ -16,10 +16,10 @@ wider_completion_menu = False
 multi_line = False
 
 # log_file location.
-log_file = ~/.pgcli.log
+log_file = ~/.pgcli/tmp/pgcli.log
 
 # history_file location.
-history_file = ~/.pgcli-history
+history_file = ~/.pgcli/tmp/pgcli-history
 
 # Default log level. Possible values: "CRITICAL", "ERROR", "WARNING", "INFO"
 # and "DEBUG".
@@ -69,4 +69,3 @@ Token.Toolbar.Arg.Text = 'nobold'
 
 # Named queries are queries you can execute by name.
 [named queries]
-
