@@ -5,8 +5,6 @@
 export EMAIL="edentsai231@gmail.com"
 export FULL_NAME="Eden Tsai"
 export NICK_NAME="Eden"
-export TMUX_RESURRECT_DIR_CATEGORY="$HOSTNAME"
-export TMUX_TMPDIR="$HOME/.tmux/tmp"
 
 # Locale, Terminal, Editor and Pager
 export LANG="en_US.UTF-8"
