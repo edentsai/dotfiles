@@ -1,0 +1,11 @@
+# vim: set filetype=gitconfig
+
+# GPG signature settings.
+
+[user]
+    name = <Name>
+    email = <Email>
+    signingkey = <GPG_SIGNING_KEY>
+
+[commit]
+    gpgsign = true
