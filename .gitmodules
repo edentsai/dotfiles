@@ -3,7 +3,7 @@
     url = https://github.com/tmux-plugins/tpm
     ignore= dirty
 [submodule "_vim"]
-    path = _vim
+    path = src/vim
     url = https://github.com/edentsai/vimrc
 [submodule "src/tig/colorschemes/tig-theme-molokai-like"]
     path = src/tig/colorschemes/tig-theme-molokai-like
