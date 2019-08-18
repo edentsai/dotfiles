@@ -1,6 +1,1 @@
 # vim: set filetype=conf
-
-# Ignore NPM packages
-_npm_packages/bin/*
-_npm_packages/etc/*
-_npm_packages/lib/*
