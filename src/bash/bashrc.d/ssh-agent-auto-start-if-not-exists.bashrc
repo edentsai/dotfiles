@@ -12,6 +12,7 @@ bashrc::ssh_agent_auto_start_if_not_exists()
         && test "${SSH_AGENT_PID:-}" == "" \
         && command -v ssh-agent > /dev/null;
     then \
+        echo "Auto start a ssh-agent: "
         eval `ssh-agent -s`
         trap 'test "${TMUX:-}" == "" && test "${SSH_AGENT_PID:-}" != "" && eval `ssh-agent -k`' EXIT
     fi
