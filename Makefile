@@ -515,3 +515,82 @@ define HELP_AWK_SCRIPT
 		printf "\n"; \
 	}
 endef
+
+.PHONY: clean
+clean: ## Clean all of dependencies, containers, images and artficats that created by Makefile
+clean: clean-docker-images
+
+.PHONY: clean-docker-images
+clean-docker-images: ## Clean all docker images which builded by Makefile
+clean-docker-images: DOCKER_IMAGE_NAMESPACE ?= $(PROJECT_PATH)
+clean-docker-images:
+	@image_ids="$$(docker image list --quiet '$(DOCKER_IMAGE_NAMESPACE)/*')"; \
+	if [ -n "$${image_ids}" ]; then \
+		docker image list "$(DOCKER_IMAGE_NAMESPACE)/*"; \
+		docker image rm $$(docker image list --quiet "$(DOCKER_IMAGE_NAMESPACE)/*"); \
+		echo ''; \
+	fi
+
+_docker-image-build-%: ## Build an image by specific build stage in Dockerfile
+_docker-image-build-%: DOCKERFILE ?= $(PROJECT_DIR)/Dockerfile
+_docker-image-build-%: DOCKER_BUILDKIT ?= 1
+_docker-image-build-%: DOCKER_BUILD_CONTEXT ?= $(PROJECT_DIR)
+_docker-image-build-%: DOCKER_BUILD_STAGE ?= $(*)
+_docker-image-build-%: DOCKER_BUILD_OPTS ?=
+_docker-image-build-%: DOCKER_IMAGE_REPOSITORY ?= $(PROJECT_PATH)/$(DOCKER_BUILD_STAGE)
+_docker-image-build-%: DOCKER_IMAGE_TAG ?= latest
+_docker-image-build-%: DOCKER_IMAGE_WITH_TAG ?= $(DOCKER_IMAGE_REPOSITORY):$(DOCKER_IMAGE_TAG)
+_docker-image-build-%: _docker-image-remove-%-if-exists
+	@DOCKER_BUILDKIT=$(DOCKER_BUILDKIT) docker image build --pull \
+		--file "$(DOCKERFILE)" \
+		--target "$(DOCKER_BUILD_STAGE)" \
+		--tag "$(DOCKER_IMAGE_WITH_TAG)" \
+		--build-arg "VERSION=$(DOCKER_IMAGE_TAG)" \
+		--build-arg "HOST_OS_TYPE=$(shell uname -s)" \
+		--build-arg "USER_NAME=$(shell whoami)" \
+		--build-arg "USER_PUID=$(shell id -u)" \
+		--build-arg "USER_PGID=$(shell id -g)" \
+		$(DOCKER_BUILD_OPTS) \
+		"$(DOCKER_BUILD_CONTEXT)"; \
+	echo "";
+
+_docker-image-remove-%-if-exists: ## Remove the image which built by specific build stage in Dockerfile
+_docker-image-remove-%-if-exists: DOCKER_BUILD_STAGE ?= $(*)
+_docker-image-remove-%-if-exists: DOCKER_IMAGE_REPOSITORY ?= $(PROJECT_PATH)/$(DOCKER_BUILD_STAGE)
+_docker-image-remove-%-if-exists: DOCKER_IMAGE_TAG ?= latest
+_docker-image-remove-%-if-exists: DOCKER_IMAGE_WITH_TAG ?= $(DOCKER_IMAGE_REPOSITORY):$(DOCKER_IMAGE_TAG)
+_docker-image-remove-%-if-exists:
+	@image_ids="$$(docker image list --quiet '$(DOCKER_IMAGE_WITH_TAG)')"; \
+	if [ -n "$${image_ids}" ]; then \
+		docker image list "$(DOCKER_IMAGE_WITH_TAG)"; \
+		docker image rm "$(DOCKER_IMAGE_WITH_TAG)"; \
+		echo ""; \
+	fi
+
+_docker-container-run-%: ## Run a temporary container by the image
+_docker-container-run-%: ## which built by specific build stage in Dockerfile
+_docker-container-run-%: DOCKER_BUILD_STAGE ?= $(*)
+_docker-container-run-%: DOCKER_IMAGE_REPOSITORY ?= $(PROJECT_PATH)/$(DOCKER_BUILD_STAGE)
+_docker-container-run-%: DOCKER_IMAGE_TAG ?= latest
+_docker-container-run-%: DOCKER_IMAGE_WITH_TAG ?= $(DOCKER_IMAGE_REPOSITORY):$(DOCKER_IMAGE_TAG)
+_docker-container-run-%: DOCKER_CONTAINER_NAME ?= $(PROJECT_PATH_SLUG)-$(DOCKER_BUILD_STAGE)
+_docker-container-run-%: DOCKER_CONTAINER_USER ?= $(USER_PUID):$(USER_PGID)
+_docker-container-run-%: DOCKER_CONTAINER_WORKDIR ?= $(PROJECT_DIR)
+_docker-container-run-%: DOCKER_CONTAINER_OPT_TTY ?= --tty
+_docker-container-run-%: DOCKER_CONTAINER_OPTS ?=
+_docker-container-run-%: DOCKER_CONTAINER_ARGS ?=
+# FIXME
+_docker-container-run-%: DOCKER_CONTAINER_WORKDIR := "/home/edentsai/workspace-dotfiles"
+_docker-container-run-%:
+	@docker container run --rm --interactive $(DOCKER_CONTAINER_OPT_TTY) \
+		--name "$(DOCKER_CONTAINER_NAME)" \
+		--hostname "$(DOCKER_CONTAINER_NAME)" \
+		--user "$(DOCKER_CONTAINER_USER)" \
+		--workdir "$(DOCKER_CONTAINER_WORKDIR)" \
+		--volume "$(PROJECT_DIR):$(PROJECT_DIR)" \
+		$(DOCKER_CONTAINER_OPTS) \
+		"$(DOCKER_IMAGE_WITH_TAG)" $(DOCKER_CONTAINER_ARGS); \
+	echo ""
+
+_docker-image-build-ubuntu-workspace:
+_docker-container-run-ubuntu-workspace:
