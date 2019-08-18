@@ -1,0 +1,224 @@
+# vim: set filetype=gitconfig
+[user]
+    name = Eden Tsai
+    email = edentsai231@gmail.com
+
+[color]
+    ui = auto
+    branch = auto
+    status = auto
+    diff = auto
+    log = auto
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[core]
+    excludesfile = ~/.gitignore
+    ignorecase = false
+
+[diff]
+    tool = vimdiff
+    algorithm = patience
+
+[difftool]
+    prompt = false
+
+[fetch]
+    all = true
+    prune = true
+    pruneTags = true
+
+[help]
+    autocorrect = 0
+
+[log]
+    follow = true
+
+[merge]
+    tool = vimdiff
+    stat = true
+
+[mergetool]
+    prompt = false
+
+[pager]
+    branch = false
+
+[pull]
+    stat = true
+
+[push]
+    default = simple
+    followTags = true
+
+[rebase]
+    stat = true
+    autoSquash = true
+    autoStash = true
+    missingCommitsCheck = warn
+
+[status]
+    showStash = true
+
+[pretty]
+    ias = format:%C(yellow)%h%Creset %C(cyan)%an%Creset %s
+    fulllog = format:%C(yellow)%H%n%C(cyan)%an <%ae>%n%Cgreen%ci%n%n%C(bold black)%s%n%b
+    shortlog = format:%Cred%h%Creset - %C(bold blue)<%an>%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
+
+[alias]
+    # Branch aliases.
+
+    # When in list mode, show sha1 and commit subject line for each head,
+    # along with relationship to upstream branch (if any).
+    br = branch --verbose
+
+    # List the remote-tracking branches.
+    brr = branch --verbose --remotes
+
+    # Commit aliases.
+    ci = commit
+
+    # Use the given message as the commit message.
+    cim = commit --message
+
+    # Replace the tip of the current branch by creating a new commit,
+    # and use the given message as the new commit message.
+    ciam = comit --amend --message
+
+    # Construct a commit message for use with `rebase --autosquash`.
+    cif = commit --fixup
+
+    # Construct a commit message for use with `rebase --autosquash`.
+    cis = commit --squash
+
+    # Checkout aliases.
+    co = checkout
+    com = checkout master
+    cod = checkout develop
+    cot = checkout tmp
+
+    # Cherry Pick
+    chp = cherry-pick
+    chpe = cherry-pick --edit
+    chpc = cherry-pick --continue
+    chpq = cherry-pick --quit
+    chpa = cherry-pick --abort
+
+    # Diff
+    df = diff
+    dfc = diff --cached
+    dffn = diff --name-only
+    dfie = diff --ignore-space-at-eol
+    dfst = diff --stat
+
+    # Difftool
+    dt = difftool
+
+    # icdiff
+    icdf = icdiff
+
+    # Log
+    lgc = log --pretty=fulllog
+    lg = log --graph --pretty=shortlog --abbrev-commit
+    lgfn = log --pretty=fulllog --name-only
+    lgol = log --pretty=ias
+    lgst = log --graph --pretty=fulllog --stat
+    lgme = log --graph --pretty=fulllog --author=EdenTsai
+    lgmefn = log --pretty=fulllog --author=EdenTsai --name-only
+    lgmeol = log --author=Edentsai --oneline
+    lgmest = log --graph --pretty=fulllog --author=EdenTsai --stat
+
+    # Mergetool
+    mt = mergetool
+
+    # Rebase
+    rb = rebase
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbi = rebase --interactive
+    rbs = rebase --skip
+    rbas = rebase --autosquash --autostash
+    rbbm = rebase master
+    rbbd = rebase develop
+    rbbt = rebase tmp
+
+    # Reset
+    rs = reset
+    rss = reset --soft
+    rsh = reset --hard
+    rs1 = reset HEAD^1
+    rs2 = reset HEAD^2
+    rs3 = reset HEAD^3
+
+    # Status
+    st = status --branch --show-stash
+
+    # Stash
+    sh = stash
+    shl = stash list
+    shp = stash pop
+    sha = stash apply
+    shd = stash drop
+    staged = diff --staged
+
+    # Show
+    shfw = show --pretty=fulllog --color-words
+    shfn = show --pretty=fulllog --name-only
+    shfs = show --pretty=fulllog --stat
+
+    # Submodule
+    sm = submodule
+
+    wc = whatchanged
+    who = shortlog -s --
+
+    # Get the current branch name (not so useful in itself, but used in other aliases)
+    branch-name = "!git rev-parse --abbrev-ref HEAD"
+
+    # Push the current branch to the remote "origin", and set it to track the upstream branch
+    publish = "!git push -u origin $(git branch-name)"
+
+    # Delete the remote version of the current branch
+    unpublish = "!git push origin :$(git branch-name)"
+
+    # Display reflog information in tig
+    reflog-tig = "!git reflog --pretty=raw | tig --pretty=raw"
+    tig-reflog = "!git reflog --pretty=raw | tig --pretty=raw"
+
+    # Display links of remote repositories
+    remote-links = "!git remote --verbose \
+        | sed -e 's/ (.\\+)$//g' \
+        | sed -e 's/git@\\(.\\+\\):\\(.\\+\\)\\.git/& https:\\/\\/\\1\\/\\2/g' \
+        | sort -u \
+        | awk ' \
+            BEGIN { \
+                FS = \"[[:blank:]]+\"; \
+            } \
+            { \
+                name = $1; \
+                url = $2; \
+                printf \"\\033[36m%-24s \\033[0m%s \\n\", name, url; \
+            } \
+            /https?:\\/\\/github/ { \
+                subname = \"GitHub\"; \
+                url = $3; \
+                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, url; \
+            } \
+            /https?:\\/\\/gitlab/ { \
+                subname = \"GitLab\"; \
+                url = $3; \
+                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, url; \
+                \
+                subname = \"GitLab/pipelines\"; \
+                url = sprintf(\"%s/pipelines\", $3); \
+                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, url; \
+            } \
+        ' \
+        "
+
+[include]
+    path = ~/.gitconfig_local

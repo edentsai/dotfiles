@@ -1,1 +1,0 @@
-../submodules/z/z.sh
