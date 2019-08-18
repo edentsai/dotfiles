@@ -20,7 +20,7 @@ bashrc::export_path()
     unshift_paths_to_global "${HOME}/.npm_packages/bin"
     unshift_paths_to_global "${HOME}/.bash/submodules/fzf/bin"
     unshift_paths_to_global "${HOME}/Library/Python/2.7/bin"
-    unshift_paths_to_global "${HOME}/opt/tig/bin"
+    unshift_paths_to_global "${HOME}/opt/bin"
 }
 
 bashrc::export_path

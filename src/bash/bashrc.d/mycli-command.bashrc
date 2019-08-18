@@ -13,10 +13,10 @@ bashrc::configure_mycli_command()
     if ! test -w "${MYCLI_HISTFILE}"; then
         local readonly MYCLI_HISTFILE_DIR=$(dirname "${MYCLI_HISTFILE}")
         mkdir -v -p "${MYCLI_HISTFILE_DIR}"
-        chmod 600 "${MYCLI_HISTFILE_DIR}"
+        chmod 750 "${MYCLI_HISTFILE_DIR}"
 
         touch "${MYCLI_HISTFILE}"
-        chmod 600 "${MYCLI_HISTFILE}"
+        chmod 750 "${MYCLI_HISTFILE}"
     fi
 }
 

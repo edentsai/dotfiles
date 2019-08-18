@@ -19,10 +19,10 @@ bashrc::configure_less_command()
     if ! test -f "${LESSHISTFILE}"; then
         local readonly LESSHISTFILE_DIR=$(dirname "${LESSHISTFILE}")
         mkdir -v -p "${LESSHISTFILE_DIR}"
-        chmod 600 "${LESSHISTFILE_DIR}"
+        chmod 750 "${LESSHISTFILE_DIR}"
 
         touch "${LESSHISTFILE}"
-        chmod 600 "${LESSHISTFILE}"
+        chmod 750 "${LESSHISTFILE}"
     fi
 }
 
