@@ -27,35 +27,101 @@
 [difftool]
     prompt = false
 
+[fetch]
+    all = true
+    prune = true
+    pruneTags = true
+
+[help]
+    autocorrect = 0
+
+[log]
+    follow = true
+
 [merge]
     tool = vimdiff
+    stat = true
 
 [mergetool]
     prompt = false
 
-[push]
-    default = simple
-
 [pager]
     branch = false
 
+[pull]
+    stat = true
+
+[push]
+    default = simple
+    followTags = true
+
+[rebase]
+    stat = true
+    autoSquash = true
+    autoStash = true
+    missingCommitsCheck = warn
+
+[status]
+    showStash = true
+
+[pretty]
+    ias = format:%C(yellow)%h%Creset %C(cyan)%an%Creset %s
+    fulllog = format:%C(yellow)%H%n%C(cyan)%an <%ae>%n%Cgreen%ci%n%n%C(bold black)%s%n%b
+    shortlog = format:%Cred%h%Creset - %C(bold blue)<%an>%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
+
 [alias]
-    br = branch -v
-    brr = branch -r
+    # Branch aliases.
+
+    # When in list mode, show sha1 and commit subject line for each head,
+    # along with relationship to upstream branch (if any).
+    br = branch --verbose
+
+    # List the remote-tracking branches.
+    brr = branch --verbose --remotes
+
+    # Commit aliases.
     ci = commit
-    cim = commit -m
+
+    # Use the given message as the commit message.
+    cim = commit --message
+
+    # Replace the tip of the current branch by creating a new commit,
+    # and use the given message as the new commit message.
+    ciam = comit --amend --message
+
+    # Construct a commit message for use with `rebase --autosquash`.
+    cif = commit --fixup
+
+    # Construct a commit message for use with `rebase --autosquash`.
+    cis = commit --squash
+
+    # Checkout aliases.
     co = checkout
     com = checkout master
     cod = checkout develop
     cot = checkout tmp
+
+    # Cherry Pick
     chp = cherry-pick
-    dt = difftool
+    chpe = cherry-pick --edit
+    chpc = cherry-pick --continue
+    chpq = cherry-pick --quit
+    chpa = cherry-pick --abort
+
+    # Diff
     df = diff
     dfc = diff --cached
     dffn = diff --name-only
     dfie = diff --ignore-space-at-eol
     dfst = diff --stat
+
+    # Difftool
+    dt = difftool
+
+    # icdiff
     icdf = icdiff
+
+    # Log
     lgc = log --pretty=fulllog
     lg = log --graph --pretty=shortlog --abbrev-commit
     lgfn = log --pretty=fulllog --name-only
@@ -65,37 +131,64 @@
     lgmefn = log --pretty=fulllog --author=EdenTsai --name-only
     lgmeol = log --author=Edentsai --oneline
     lgmest = log --graph --pretty=fulllog --author=EdenTsai --stat
+
+    # Mergetool
     mt = mergetool
+
+    # Rebase
     rb = rebase
-    rbm = rebase master
-    rbd = rebase develop
-    rbt = rebase tmp
     rba = rebase --abort
     rbc = rebase --continue
+    rbi = rebase --interactive
     rbs = rebase --skip
+    rbas = rebase --autosquash --autostash
+    rbbm = rebase master
+    rbbd = rebase develop
+    rbbt = rebase tmp
+
+    # Reset
     rs = reset
-    rsh = reset HEAD^1
-    st = status
-    staged = diff --staged
+    rss = reset --soft
+    rsh = reset --hard
+    rs1 = reset HEAD^1
+    rs2 = reset HEAD^2
+    rs3 = reset HEAD^3
+
+    # Status
+    st = status --branch --show-stash
+
+    # Stash
     sh = stash
     shl = stash list
     shp = stash pop
     sha = stash apply
+    shd = stash drop
+    staged = diff --staged
+
+    # Show
     shfw = show --pretty=fulllog --color-words
     shfn = show --pretty=fulllog --name-only
     shfs = show --pretty=fulllog --stat
+
+    # Submodule
     sm = submodule
+
     wc = whatchanged
     who = shortlog -s --
 
     # Get the current branch name (not so useful in itself, but used in other aliases)
     branch-name = "!git rev-parse --abbrev-ref HEAD"
+
     # Push the current branch to the remote "origin", and set it to track the upstream branch
     publish = "!git push -u origin $(git branch-name)"
+
     # Delete the remote version of the current branch
     unpublish = "!git push origin :$(git branch-name)"
+
     # Display reflog information in tig
     reflog-tig = "!git reflog --pretty=raw | tig --pretty=raw"
+    tig-reflog = "!git reflog --pretty=raw | tig --pretty=raw"
+
     # Display links of remote repositories
     remote-links = "!git remote --verbose \
         | sed -e 's/ (.\\+)$//g' \
@@ -127,11 +220,5 @@
         ' \
         "
 
-[pretty]
-    ias = format:%C(yellow)%h%Creset %C(cyan)%an%Creset %s
-    fulllog = format:%C(yellow)%H%n%C(cyan)%an <%ae>%n%Cgreen%ci%n%n%C(bold black)%s%n%b
-    shortlog = format:%Cred%h%Creset - %C(bold blue)<%an>%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Creset
-
 [include]
-    path = ~/.gitconfig_edentsai
     path = ~/.gitconfig_local

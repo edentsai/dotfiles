@@ -1,0 +1,12 @@
+# vim: set filetype=gitconfig
+
+# Include the settings if project path in the specific directory.
+
+# All projects in specific directory:
+# (the suffix slash after directory path is very important.)
+[includeIf "gitdir:~/path/to/specific/directory/"]
+    path = ~/path-to-specific-gitconfig
+
+# Specific project in the directory:
+[includeIf "gitdir:~/path/to/specific/directory"]
+    path = ~/path-to-specific-gitconfig
