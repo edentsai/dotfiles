@@ -15,22 +15,18 @@ include $(ROOT_MAKEFILE)
 install-tig-package: OPT_INSTALL_PREFIX ?= $(HOME)/opt
 install-tig-package: TIG_REPOSITORY_URL ?= https://github.com/jonas/tig.git
 install-tig-package: TIG_VERSION ?= master
-install-tig-package: NCURSES_CMD ?= ncurses6-config
 install-tig-package: install-ncurses6-package
 	@if ! test -f "$(OPT_INSTALL_PREFIX)/bin/tig"; then \
 		echo "$(TEXT_INFO) download and install tig@$(TIG_VERSION) from: $(TIG_REPOSITORY_URL)"; \
 		export PATH="$(OPT_INSTALL_PREFIX)/bin:$$PATH"; \
 		if ! ( \
-			command -v "$(NCURSES_CMD)" > /dev/null \
-			&& cd "$$(mktemp -d)" \
+			cd "$$(mktemp -d)" \
 			&& git clone "$(TIG_REPOSITORY_URL)" --branch "$(TIG_VERSION)" \
 			&& cd "tig" \
 			&& git checkout "$(TIG_VERSION)" \
 			&& mkdir -v -p "$(OPT_INSTALL_PREFIX)" \
 			&& make configure \
 			&& ./configure --prefix="$(OPT_INSTALL_PREFIX)" \
-				LDFLAGS="-L$$($(NCURSES_CMD) --libdir)" \
-				CPPFLAGS="-I$$($(NCURSES_CMD) --includedir)" \
 			&& make prefix="$(OPT_INSTALL_PREFIX)" \
 			&& make install prefix="$(OPT_INSTALL_PREFIX)" \
 			&& test -x "$(OPT_INSTALL_PREFIX)/bin/tig" \
