@@ -40,6 +40,40 @@ install-tig-package: install-ncurses6-package
 		echo "     export PATH=\"$(OPT_INSTALL_PREFIX)/bin:\$$PATH\""; \
 	fi; \
 
+# https://github.com/tmux/tmux
+.PHONY: install-tmux-package
+install-tmux-package: OPT_INSTALL_PREFIX ?= $(HOME)/opt
+install-tmux-package: TMUX_REPOSITORY_URL ?= https://github.com/tmux/tmux.git
+install-tmux-package: TMUX_VERSION ?= master
+install-tmux-package:
+	@if ! test -f "$(OPT_INSTALL_PREFIX)/bin/tmux"; then \
+		echo "$(TEXT_INFO) download and install tmux@$(TMUX_VERSION) from: $(TMUX_REPOSITORY_URL)"; \
+		export PATH="$(OPT_INSTALL_PREFIX)/bin:$$PATH"; \
+		if ! command -v yacc > /dev/null; then \
+			echo "$(TEXT_ERROR) require byacc package for build tmux from source," > /dev/stderr; \
+			echo "        please run install byacc first: make install-byacc-package" > /dev/stderr; \
+			exit $(EXIT_CODE_GENERAL_ERROR); \
+		fi; \
+		if ! ( \
+			cd "$$(mktemp -d)" \
+			&& git clone "$(TMUX_REPOSITORY_URL)" --branch "$(TMUX_VERSION)" \
+			&& cd "tmux" \
+			&& mkdir -v -p "$(OPT_INSTALL_PREFIX)" \
+			&& sh autogen.sh \
+			&& ./configure --prefix="$(OPT_INSTALL_PREFIX)" \
+			&& make \
+			&& make install \
+			&& test -x "$(OPT_INSTALL_PREFIX)/bin/tmux" \
+			&& cd .. \
+			&& rm -rf "tmux" \
+		); then \
+			echo "$(TEXT_ERROR) failed, temporary directory at: $${PWD}" > /dev/stderr; \
+			exit $(EXIT_CODE_GENERAL_ERROR); \
+		fi; \
+		echo "$(TEXT_OK) tmux installed, you need to add the bin directory to your PATH from ~/.bashrc, like:"; \
+		echo "     export PATH=\"$(OPT_INSTALL_PREFIX)/bin:\$$PATH\""; \
+	fi; \
+
 .PHONY: install-ncurses6-package
 install-ncurses6-package: OPT_INSTALL_PREFIX := $(HOME)/opt
 install-ncurses6-package: NCURSES_TAR_URL := https://ftp.gnu.org/pub/gnu/ncurses/ncurses-6.1.tar.gz
@@ -66,5 +100,35 @@ install-ncurses6-package:
 			exit $(EXIT_CODE_GENERAL_ERROR); \
 		fi; \
 		echo "$(TEXT_OK) ncurses6 installed, you need to add the bin directory to your PATH from ~/.bashrc, like:"; \
+		echo "     export PATH=\"$(OPT_INSTALL_PREFIX)/bin:\$$PATH\""; \
+	fi; \
+
+# https://invisible-mirror.net/archives/byacc/
+.PHONY: install-byacc-package
+install-byacc-package: OPT_INSTALL_PREFIX ?= $(HOME)/opt
+install-byacc-package: BYACC_TAR_URL ?= https://invisible-mirror.net/archives/byacc/byacc-20190617.tgz
+install-byacc-package: BYACC_TAR_FILENAME := $(shell basename $(BYACC_TAR_URL))
+install-byacc-package: BYACC_DIR := $(BYACC_TAR_FILENAME:%.tgz=%)
+install-byacc-package:
+	@if ! test -f "$(OPT_INSTALL_PREFIX)/bin/yacc"; then \
+		echo "$(TEXT_INFO) download and install byacc from: $(BYACC_TAR_URL)"; \
+		export PATH="$(OPT_INSTALL_PREFIX)/bin:$$PATH"; \
+		if ! ( \
+			cd "$$(mktemp -d)" \
+			&& wget "$(BYACC_TAR_URL)" --output-document "$(BYACC_TAR_FILENAME)" --verbose --server-response \
+			&& tar -vxzf "$(BYACC_TAR_FILENAME)" \
+			&& cd "$(BYACC_DIR)" \
+			&& mkdir -p "$(OPT_INSTALL_PREFIX)" \
+			&& ./configure --prefix="$(OPT_INSTALL_PREFIX)" \
+			&& make \
+			&& make install \
+			&& test -x "$(OPT_INSTALL_PREFIX)/bin/yacc" \
+			&& cd .. \
+			&& rm -rf "byacc" \
+		); then \
+			echo "$(TEXT_ERROR) failed, temporary directory at: $${PWD}" > /dev/stderr; \
+			exit $(EXIT_CODE_GENERAL_ERROR); \
+		fi; \
+		echo "$(TEXT_OK) byacc installed, you need to add the bin directory to your PATH from ~/.bashrc, like:"; \
 		echo "     export PATH=\"$(OPT_INSTALL_PREFIX)/bin:\$$PATH\""; \
 	fi; \

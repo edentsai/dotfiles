@@ -1,10 +1,5 @@
 # vim: set filetype=conf
 
-# Ignore TMUX plugins
-_tmux/plugins
-_tmux/sidebar
-_tmux/storage/tmux-resurrect
-
 # Ignore NPM packages
 _npm_packages/bin/*
 _npm_packages/etc/*
