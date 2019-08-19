@@ -62,3 +62,4 @@ Host *
 # Include the SSH configurations
 # - `Include` directive require SSH 7.3+
 Include ~/.ssh/config.d/*.sshconfig
+Include ~/.ssh/config_local
