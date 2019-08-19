@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 # vim: set filetype=sh
 
+# Bashrc configuration for `ssh` command.
+function bashrc::configure_ssh_command()
+{
+    local ssh_control_dir
+    readonly ssh_control_dir="${HOME}/.ssh/control"
+    if ! test -d "${ssh_control_dir}"; then
+        mkdir -v -p "${ssh_control_dir}";
+    fi
+}
+
 # Auto start ssh-agent if not exists,
 # also set a trap to auto kill ssh-agent on EXIT.
 function bashrc::ssh_agent_auto_start_if_not_exists()
@@ -40,4 +50,5 @@ function bashrc::ssh_agent_auto_start_if_not_exists()
     fi
 }
 
+bashrc::configure_ssh_command
 bashrc::ssh_agent_auto_start_if_not_exists
