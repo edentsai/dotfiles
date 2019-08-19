@@ -383,17 +383,15 @@ _backup/%: BACKUP_TARGET_PATH = $(TARGET_PATH).backup-at-$(BACKUP_TIMESTAMP)
 _backup/%: BACKUP_LOG ?= $(PROJECT_DIR)/backup/$(HOSTNAME)/backup-list-$(BACKUP_TIMESTAMP)
 _backup/%: _error-if-source-path-is-invalid/%
 	@# Backup target path if exists and not equals to source path.
-	@if test -e "$(TARGET_PATH)"; then \
-		if ! test -L "$(TARGET_PATH)" \
-			|| ! test "$(TARGET_PATH)" -ef "$(SOURCE_PATH)"; \
-		then \
-			echo "$(TEXT_INFO) backup the existing target path: $(TARGET_PATH)"; \
-			mkdir -v -p "$(shell dirname $(BACKUP_LOG))"; \
-			printf "%s\t%s\n" "$(TARGET_PATH)" "$(BACKUP_TARGET_PATH)" >> "$(BACKUP_LOG)"; \
-			if ! mv -v -n "$(TARGET_PATH)" "$(BACKUP_TARGET_PATH)"; then \
-				echo "$(TEXT_ERROR) failed" > /dev/stderr; \
-				exit $(EXIT_CODE_GENERAL_ERROR); \
-			fi; \
+	@if ls "$(TARGET_PATH)" > /dev/null 2>&1 \
+		&& ! test "$(TARGET_PATH)" -ef "$(SOURCE_PATH)"; \
+	then \
+		echo "$(TEXT_INFO) backup the existing target path: $(TARGET_PATH)"; \
+		mkdir -v -p "$(shell dirname $(BACKUP_LOG))"; \
+		printf "%s\t%s\n" "$(TARGET_PATH)" "$(BACKUP_TARGET_PATH)" >> "$(BACKUP_LOG)"; \
+		if ! mv -v -n "$(TARGET_PATH)" "$(BACKUP_TARGET_PATH)"; then \
+			echo "$(TEXT_ERROR) failed" > /dev/stderr; \
+			exit $(EXIT_CODE_GENERAL_ERROR); \
 		fi; \
 	fi; \
 
