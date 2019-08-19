@@ -1,3 +1,5 @@
+# vim: set filetype=sshconfig
+
 # SSH Configuration Reference: http://man.openbsd.org/ssh_config
 
 Host *
@@ -57,11 +59,6 @@ Host *
     # Specifies whether to use compression.
     Compression no
 
-# Configuration Example
-# Host example-alias
-#     Hostname example.com
-#     Port 22
-#     User username-on-the-host
-#     IdentityFile ~/.ssh/id_rsa
-#     ForwardAgent yes
-#     StrictHostKeyChecking yes
+# Include the SSH configurations
+# - `Include` directive require SSH 7.3+
+Include ~/.ssh/config.d/*.sshconfig
