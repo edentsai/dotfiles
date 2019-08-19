@@ -35,6 +35,36 @@ install-bash-completion-package:
 		echo "     export XDG_DATA_DIRS=\"$(INSTALL_PREFIX)/share\""; \
 	fi; \
 
+.PHONY: install-php-composer-package
+install-php-composer-package: ## Install PHP Composer package
+install-php-composer-package: COMPOSER_INSTALL_PREFIX ?= $(HOME)/opt/composer
+install-php-composer-package: COMPOSER_INSTALLER_URL ?= https://getcomposer.org/installer
+install-php-composer-package: COMPOSER_INSTALLER ?= composer-setup.php
+install-php-composer-package:
+	@if ! test -f "$(COMPOSER_INSTALL_PREFIX)/bin/composer"; then \
+		echo "$(TEXT_INFO) download and install PHP composer from: $(COMPOSER_INSTALLER_URL)"; \
+		if ! ( \
+			cd "$$(mktemp -d)" \
+			&& wget "$(COMPOSER_INSTALLER_URL)" --output-document "$(COMPOSER_INSTALLER)" --verbose --server-response \
+			&& echo \
+				"a5c698ffe4b8e849a443b120cd5ba38043260d5c4023dbf93e1558871f1f07f58274fc6f4c93bcfd858c6bd0775cd8d1" \
+				"$(COMPOSER_INSTALLER)" \
+				> "sha384sum-$(COMPOSER_INSTALLER).txt" \
+			&& sha384sum --check "sha384sum-$(COMPOSER_INSTALLER).txt" \
+			&& php "$(COMPOSER_INSTALLER)" \
+			&& test -x "composer.phar" \
+			&& mkdir -v -p "$(COMPOSER_INSTALL_PREFIX)/bin" \
+			&& mv "composer.phar" "$(COMPOSER_INSTALL_PREFIX)/bin/composer" \
+			&& test -x "$(COMPOSER_INSTALL_PREFIX)/bin/composer" \
+			&& rm -v "$(COMPOSER_INSTALLER)" "sha384sum-$(COMPOSER_INSTALLER).txt" \
+		); then \
+			echo "$(TEXT_ERROR) failed, temporary directory at: $${PWD}" > /dev/stderr; \
+			exit $(EXIT_CODE_GENERAL_ERROR); \
+		fi; \
+		echo "$(TEXT_OK) php-composer installed, you need to add it to your PATH from ~/.bashrc, like:"; \
+		echo "     export PATH=\"$(COMPOSER_INSTALL_PREFIX)/bin:\$$PATH\""; \
+	fi; \
+
 # [MacOS] Install tig command from source
 # https://gist.github.com/fscm/8b0344179133d1d9d0ad519363e90405
 .PHONY: install-tig-package
