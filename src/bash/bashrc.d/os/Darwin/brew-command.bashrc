@@ -14,10 +14,13 @@ function bashrc::macos::configure_brew_command_if_installed()
         return
     fi
 
-    # Return if not installed
+    # Return if not installed.
     if ! command -v brew > /dev/null; then
         return
     fi
+
+    # Disable anonymous analytics.
+    export HOMEBREW_NO_ANALYTICS=1
 
     # Specify your defaults in this environment variable.
     export HOMEBREW_CASK_OPTS="--appdir=/Applications"
