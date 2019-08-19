@@ -8,13 +8,14 @@ bashrc::ssh_agent_auto_start_if_not_exists()
     # Auto start ssh-agent if not exist,
     # and set a trap for auto stop ssh-agent on exit.
     if test "${PS1:-}" != "" \
-        && test "${TMUX:-}" == "" \
+        && test "${TMUX_PANE:-}" == "" \
+        && test "${SSH_AUTH_SOCK:-}" == "" \
         && test "${SSH_AGENT_PID:-}" == "" \
         && command -v ssh-agent > /dev/null;
     then \
         echo "Auto start a ssh-agent: "
-        eval `ssh-agent -s`
-        trap 'test "${TMUX:-}" == "" && test "${SSH_AGENT_PID:-}" != "" && eval `ssh-agent -k`' EXIT
+        eval "$(ssh-agent -s)"
+        trap 'test "${TMUX:-}" == "" && test "${SSH_AGENT_PID:-}" != "" && eval "$(ssh-agent -k)"' EXIT
     fi
 }
 
