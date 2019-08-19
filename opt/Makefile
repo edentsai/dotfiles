@@ -9,6 +9,32 @@ ROOT_MAKEFILE := $(abspath $(OPT_DIR)/../Makefile)
 
 include $(ROOT_MAKEFILE)
 
+.PHONY: install-bash-completion-package
+install-bash-completion-package: ## Install Bash completion package
+install-bash-completion-package: INSTALL_PREFIX ?= $(HOME)/opt/bash-completion
+install-bash-completion-package: REPOSITORY_URL ?= https://github.com/scop/bash-completion.git
+install-bash-completion-package: VERSION ?= master
+install-bash-completion-package:
+	@if ! test -f "$(INSTALL_PREFIX)/share/bash-completion/bash_completion"; then \
+		echo "$(TEXT_INFO) download and install bash-completion@$(VERSION) from: $(REPOSITORY_URL)"; \
+		if ! ( \
+			cd "$$(mktemp -d)" \
+			&& git clone "$(REPOSITORY_URL)" --branch "$(VERSION)" \
+			&& cd "bash-completion" \
+			&& autoreconf -i \
+			&& ./configure --prefix="$(INSTALL_PREFIX)" \
+			&& make \
+			&& make install \
+			&& test -f "$(INSTALL_PREFIX)/share/bash-completion/bash_completion" \
+		); then \
+			echo "$(TEXT_ERROR) failed, temporary directory at: $${PWD}" > /dev/stderr; \
+			exit $(EXIT_CODE_GENERAL_ERROR); \
+		fi; \
+		echo "$(TEXT_OK) bash-completion installed, you need to add the following settings to your ~/.bashrc, like:"; \
+		echo "     source \"$(INSTALL_PREFIX)/share/bash-completion/bash_completion\""; \
+		echo "     export XDG_DATA_DIRS=\"$(INSTALL_PREFIX)/share\""; \
+	fi; \
+
 # [MacOS] Install tig command from source
 # https://gist.github.com/fscm/8b0344179133d1d9d0ad519363e90405
 .PHONY: install-tig-package
