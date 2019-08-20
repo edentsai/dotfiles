@@ -12,10 +12,10 @@ function bashrc::show_bash_version()
     echo
 }
 
-function bashrc::show_welecome_message()
+function bashrc::show_startup_message()
 {
     local readonly login_at=$(date +%Y-%m-%dT%H:%M:%S%z)
-    echo "Login at ${login_at}"
+    echo "Bash started at ${login_at}"
     echo
 }
 
@@ -79,6 +79,6 @@ function bashrc::load_bashrc_local_if_exists()
 }
 
 bashrc::show_bash_version
-bashrc::show_welecome_message
+bashrc::show_startup_message
 bashrc::load_bashrc_configuration
 bashrc::load_bashrc_local_if_exists
