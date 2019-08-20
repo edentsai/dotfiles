@@ -23,4 +23,14 @@ function bashrc::configure_tmux_command()
     export LD_LIBRARY_PATH="${library_paths#:}"
 }
 
+function bashrc::auto_attach_tmux_session_if_exists()
+{
+    if command -v tmux > /dev/null \
+        && test "${TMUX_PANE:-}" = "" \
+        && tmux list-sessions > /dev/null 2>&1; \
+    then
+        tmux attach-session || true
+    fi
+}
+
 bashrc::configure_tmux_command
