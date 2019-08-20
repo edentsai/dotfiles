@@ -2,7 +2,7 @@
 # vim: set filetype=sh
 
 # Bashrc configuration for `mycli` command.
-bashrc::configure_mycli_command()
+function bashrc::configure_mycli_command()
 {
     # Specify where to write the mycli history file.
     local readonly username=$(whoami)

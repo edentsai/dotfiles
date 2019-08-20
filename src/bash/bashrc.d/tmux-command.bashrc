@@ -2,7 +2,7 @@
 # vim: set filetype=sh
 
 # Bashrc configuration for `tmux` command.
-bashrc::configure_tmux_command()
+function bashrc::configure_tmux_command()
 {
     # Tmux force to assume the terminal supports 256 colours.
     alias tmux="tmux -2"

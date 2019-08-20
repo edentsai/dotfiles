@@ -2,7 +2,7 @@
 # vim: set filetype=sh
 
 # Bashrc configuration for `vim` command.
-bashrc::configure_vim_command()
+function bashrc::configure_vim_command()
 {
     # Vim open last edited file.
     alias vimlast="vim -c \"normal '0\""

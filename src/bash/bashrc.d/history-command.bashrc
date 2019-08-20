@@ -2,7 +2,7 @@
 # vim: set filetype=sh
 
 # Bashrc configuration for `history` command.
-bashrc::configure_history_command()
+function bashrc::configure_history_command()
 {
     # Set to append bash commands to History file, not overwrites.
     shopt -s histappend

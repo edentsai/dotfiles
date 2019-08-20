@@ -3,7 +3,7 @@
 
 # Auto start ssh-agent if not exists,
 # also set a trap to auto kill ssh-agent on EXIT.
-bashrc::ssh_agent_auto_start_if_not_exists()
+function bashrc::ssh_agent_auto_start_if_not_exists()
 {
     # Auto start ssh-agent if not exist,
     # and set a trap for auto stop ssh-agent on exit.

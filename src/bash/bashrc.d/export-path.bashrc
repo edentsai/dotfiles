@@ -2,7 +2,7 @@
 # vim: set filetype=sh
 
 # Export the PATH environment variable.
-bashrc::export_path()
+function bashrc::export_path()
 {
     # The 'PATH' environment variable.
     unshift_paths_to_global "/bin"
