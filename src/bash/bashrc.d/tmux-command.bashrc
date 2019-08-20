@@ -17,6 +17,10 @@ function bashrc::configure_tmux_command()
     # FIXME Confirm this is avaiable
     # https://github.com/tmux-plugins/tmux-resurrect
     export TMUX_RESURRECT_DIR_CATEGORY="${hostname}"
+
+    # Include local libevent.
+    local library_paths="${HOME}/opt/libevent/lib:${LD_LIBRARY_PATH}"
+    export LD_LIBRARY_PATH="${library_paths#:}"
 }
 
 bashrc::configure_tmux_command

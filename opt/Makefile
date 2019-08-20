@@ -99,9 +99,11 @@ install-tig-package: install-ncurses6-package
 	fi; \
 
 # https://github.com/tmux/tmux
+# https://gist.github.com/ryin/3106801
 .PHONY: install-tmux-package
 install-tmux-package: BYACC_INSTALL_PREFIX ?= $(HOME)/opt/byacc
 install-tmux-package: NCURSES_INSTALL_PREFIX ?= $(HOME)/opt/ncurses6
+install-tmux-package: LIBEVENT_INSTALL_PREFIX ?= $(HOME)/opt/libevent
 install-tmux-package: TMUX_INSTALL_PREFIX ?= $(HOME)/opt/tmux
 install-tmux-package: TMUX_REPOSITORY_URL ?= https://github.com/tmux/tmux.git
 install-tmux-package: TMUX_VERSION ?= master
@@ -123,6 +125,16 @@ install-tmux-package:
 			&& mkdir -v -p "$(TMUX_INSTALL_PREFIX)" \
 			&& sh autogen.sh \
 			&& ./configure --prefix="$(TMUX_INSTALL_PREFIX)" \
+				CFLAGS=" \
+					-I$(LIBEVENT_INSTALL_PREFIX)/lib \
+					-I$(LIBEVENT_INSTALL_PREFIX)/include \
+					-I$(NCURSES_INSTALL_PREFIX)/include \
+				" \
+				LDFLAGS=" \
+					-L$(LIBEVENT_INSTALL_PREFIX)/lib \
+					-L$(LIBEVENT_INSTALL_PREFIX)/include \
+					-L$(NCURSES_INSTALL_PREFIX)/include \
+				" \
 			&& make \
 			&& make install \
 			&& test -x "$(TMUX_INSTALL_PREFIX)/bin/tmux" \
@@ -134,6 +146,7 @@ install-tmux-package:
 		fi; \
 		echo "$(TEXT_OK) tmux installed, you need to add the bin directory to your PATH from ~/.bashrc, like:"; \
 		echo "     export PATH=\"$(TMUX_INSTALL_PREFIX)/bin:\$$PATH\""; \
+		echo "     export LD_LIBRARY_PATH=\"$(LIBEVENT_INSTALL_PREFIX)/lib:\$$LD_LIBRARY_PATH\""; \
 	fi; \
 
 .PHONY: install-ncurses6-package
@@ -162,7 +175,35 @@ install-ncurses6-package:
 			exit $(EXIT_CODE_GENERAL_ERROR); \
 		fi; \
 		echo "$(TEXT_OK) ncurses6 installed, you need to add the bin directory to your PATH from ~/.bashrc, like:"; \
-		echo "     export PATH=\"$(NCURSES_INSTALL_PREFIX)/bin:\$$PATH\""; \
+		echo "     export PATH=\"$(NCURSES_INSTALL_PREFIX)/bin:\$$PATH\"";\
+	fi; \
+
+.PHONY: install-libevent-package
+install-libevent-package: LIBEVENT_INSTALL_PREFIX := $(HOME)/opt/libevent
+install-libevent-package: LIBEVENT_TAR_URL := https://github.com/libevent/libevent/releases/download/release-2.1.10-stable/libevent-2.1.10-stable.tar.gz
+install-libevent-package: LIBEVENT_TAR_FILENAME := $(shell basename $(LIBEVENT_TAR_URL))
+install-libevent-package: LIBEVENT_DIR := $(LIBEVENT_TAR_FILENAME:%.tar.gz=%)
+install-libevent-package:
+	@if ! test -f "$(LIBEVENT_INSTALL_PREFIX)/bin/event_rpcgen.py"; then \
+		echo "$(TEXT_INFO) download and install libevent from: $(LIBEVENT_TAR_URL)"; \
+		if ! ( \
+			cd "$$(mktemp -d)" \
+			&& wget "$(LIBEVENT_TAR_URL)" --output-document "$(LIBEVENT_TAR_FILENAME)" --verbose --server-response \
+			&& tar -vxzf "$(LIBEVENT_TAR_FILENAME)" \
+			&& cd "$(LIBEVENT_DIR)" \
+			&& mkdir -p "$(LIBEVENT_INSTALL_PREFIX)" \
+			&& ./configure --prefix="$(LIBEVENT_INSTALL_PREFIX)" \
+			&& make \
+			&& make install \
+			&& test -x "$(LIBEVENT_INSTALL_PREFIX)/bin/event_rpcgen.py" \
+			&& cd .. \
+			&& rm -rf "$(LIBEVENT_DIR)" "$(LIBEVENT_TAR_FILENAME)" \
+		); then \
+			echo "$(TEXT_ERROR) failed, temporary directory at: $${PWD}" > /dev/stderr; \
+			exit $(EXIT_CODE_GENERAL_ERROR); \
+		fi; \
+		echo "$(TEXT_OK) libevent installed, you need to add the bin directory to your PATH from ~/.bashrc, like:"; \
+		echo "     export LD_LIBRARY_PATH=\"$(LIBEVENT_INSTALL_PREFIX)/lib:\$$LD_LIBRARY_PATH\""; \
 	fi; \
 
 # https://invisible-mirror.net/archives/byacc/
