@@ -1,10 +1,9 @@
-[submodule "_tmux/plugins/tpm"]
-    path = src/tmux/plugins/tpm
-    url = https://github.com/tmux-plugins/tpm
-    ignore= dirty
 [submodule "_vim"]
     path = src/vim
     url = https://github.com/edentsai/vimrc
 [submodule "src/tig/colorschemes/tig-theme-molokai-like"]
     path = src/tig/colorschemes/tig-theme-molokai-like
     url = https://github.com/edentsai/tig-theme-molokai-like
+[submodule "src/tmux/plugins/tpm"]
+    path = src/tmux/plugins/tpm
+    url = https://github.com/tmux-plugins/tpm.git
