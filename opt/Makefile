@@ -76,7 +76,6 @@ install-tig-package: install-ncurses6-package
 	@if ! test -f "$(TIG_INSTALL_PREFIX)/bin/tig"; then \
 		echo "$(TEXT_INFO) download and install tig@$(TIG_VERSION) from: $(TIG_REPOSITORY_URL)"; \
 		export PATH="$(NCURSES_INSTALL_PREFIX)/bin:$$PATH"; \
-		export PATH="$(TIG_INSTALL_PREFIX)/bin:$$PATH"; \
 		if ! ( \
 			cd "$$(mktemp -d)" \
 			&& git clone "$(TIG_REPOSITORY_URL)" --branch "$(TIG_VERSION)" \
@@ -112,7 +111,6 @@ install-tmux-package:
 		echo "$(TEXT_INFO) download and install tmux@$(TMUX_VERSION) from: $(TMUX_REPOSITORY_URL)"; \
 		export PATH="$(BYACC_INSTALL_PREFIX)/bin:$$PATH"; \
 		export PATH="$(NCURSES_INSTALL_PREFIX)/bin:$$PATH"; \
-		export PATH="$(TMUX_INSTALL_PREFIX)/bin:$$PATH"; \
 		if ! command -v yacc > /dev/null; then \
 			echo "$(TEXT_ERROR) require byacc package for build tmux from source," > /dev/stderr; \
 			echo "        please run install byacc first: make install-byacc-package" > /dev/stderr; \
@@ -215,7 +213,6 @@ install-byacc-package: BYACC_DIR := $(BYACC_TAR_FILENAME:%.tgz=%)
 install-byacc-package:
 	@if ! test -f "$(BYACC_INSTALL_PREFIX)/bin/yacc"; then \
 		echo "$(TEXT_INFO) download and install byacc from: $(BYACC_TAR_URL)"; \
-		export PATH="$(BYACC_INSTALL_PREFIX)/bin:$$PATH"; \
 		if ! ( \
 			cd "$$(mktemp -d)" \
 			&& wget "$(BYACC_TAR_URL)" --output-document "$(BYACC_TAR_FILENAME)" --verbose --server-response \
