@@ -17,6 +17,27 @@ function bashrc::ssh_agent_auto_start_if_not_exists()
         eval "$(ssh-agent -s)"
         trap 'test "${TMUX:-}" == "" && test "${SSH_AGENT_PID:-}" != "" && eval "$(ssh-agent -k)"' EXIT
     fi
+
+    if test -d "${HOME}/.ssh" \
+        && test "${SSH_AUTH_SOCK:-}" != "" \
+        && ! ssh-add -l > /dev/null; \
+    then
+        echo "Add keys into ssh-agent:"
+        find "${HOME}/.ssh" \
+            -mindepth 1 \
+            -maxdepth 1 \
+            -type f \
+            -not -name "*.pub" \
+            \( \
+                -name "identity" \
+                -o -name "*_dsa" \
+                -o -name "*_ecdsa" \
+                -o -name "*_ed25519" \
+                -o -name "*_rsa" \
+                -o -name "*_rsa1" \
+            \) \
+            -exec ssh-add {} \;
+    fi
 }
 
 bashrc::ssh_agent_auto_start_if_not_exists
