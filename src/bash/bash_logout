@@ -13,4 +13,4 @@ function bashrc::set_trap_for_clear_console_on_exit()
     return
 }
 
-bashrc::set_trap_to_clear_console_on_exit
+bashrc::set_trap_for_clear_console_on_exit
