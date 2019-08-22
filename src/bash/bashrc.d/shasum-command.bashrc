@@ -20,19 +20,19 @@ function bashrc::configure_shasum_command()
     fi
 
     if ! command -v sha224sum > /dev/null; then
-        alias sha1sum="shasum --algorithm 224"
+        alias sha224sum="shasum --algorithm 224"
     fi
 
     if ! command -v sha256sum > /dev/null; then
-        alias sha1sum="shasum --algorithm 256"
+        alias sha256sum="shasum --algorithm 256"
     fi
 
     if ! command -v sha384sum > /dev/null; then
-        alias sha1sum="shasum --algorithm 384"
+        alias sha384sum="shasum --algorithm 384"
     fi
 
     if ! command -v sha512sum > /dev/null; then
-        alias sha1sum="shasum --algorithm 512"
+        alias sha512sum="shasum --algorithm 512"
     fi
 }
 
