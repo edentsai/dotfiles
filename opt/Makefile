@@ -48,9 +48,9 @@ install-php-composer-package:
 			&& wget "$(COMPOSER_INSTALLER_URL)" --output-document "$(COMPOSER_INSTALLER)" --verbose --server-response \
 			&& echo \
 				"a5c698ffe4b8e849a443b120cd5ba38043260d5c4023dbf93e1558871f1f07f58274fc6f4c93bcfd858c6bd0775cd8d1" \
-				"$(COMPOSER_INSTALLER)" \
+				" $(COMPOSER_INSTALLER)" \
 				> "sha384sum-$(COMPOSER_INSTALLER).txt" \
-			&& sha384sum --check "sha384sum-$(COMPOSER_INSTALLER).txt" \
+			&& shasum --algorithm "384" --check "sha384sum-$(COMPOSER_INSTALLER).txt" \
 			&& php "$(COMPOSER_INSTALLER)" \
 			&& test -x "composer.phar" \
 			&& mkdir -v -p "$(COMPOSER_INSTALL_PREFIX)/bin" \
