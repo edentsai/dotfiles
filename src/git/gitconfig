@@ -121,6 +121,9 @@
     # icdiff
     icdf = icdiff
 
+    # Fetch
+    fap = fetch --all --prune
+
     # Log
     lgc = log --pretty=fulllog
     lg = log --graph --pretty=shortlog --abbrev-commit
