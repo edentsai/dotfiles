@@ -44,11 +44,11 @@ Host *
     # Specify the path to the control socket used for connection sharing as described
     # in the ControlMaster section above or the string none to disable connection sharing.
     #
-    # Pattern: ~/.ssh/control/{USERNAME}@{HOST}:{PORT}.sock
+    # Pattern: ~/.ssh/tmp/control-socket-{USERNAME}@{HOST}:{PORT}.sock
     #     %r    The remote username.
     #     %h    The remote hostname.
     #     %p    The remote port.
-    ControlPath ~/.ssh/control/%r@%h:%p.sock
+    ControlPath ~/.ssh/tmp/control-socket-%r@%h:%p.sock
 
     # When used in conjunction with ControlMaster,
     # specifies that the master connection should remain open

@@ -1,3 +1,4 @@
 # vim: set filetype=conf
 
 /config.d/*_local.sshconfig
+/tmp/control-socket-*.sock
