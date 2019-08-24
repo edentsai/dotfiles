@@ -121,6 +121,9 @@
     # icdiff
     icdf = icdiff
 
+    # Fetch
+    fap = fetch --all --prune
+
     # Log
     lgc = log --pretty=fulllog
     lg = log --graph --pretty=shortlog --abbrev-commit
@@ -189,33 +192,61 @@
     reflog-tig = "!git reflog --pretty=raw | tig --pretty=raw"
     tig-reflog = "!git reflog --pretty=raw | tig --pretty=raw"
 
+    # Prune merged branches except protected branches
+    prune-merged-branches = "!git branch --merged \
+        | grep -v \
+            -e '^* ' \
+            -e '^  master' \
+            -e '^  staging' \
+            -e '^  develop' \
+            -e '^  test' \
+        | xargs -n 1 -I {} \
+            git branch --delete '{}' \
+    "
+
     # Display links of remote repositories
     remote-links = "!git remote --verbose \
-        | sed -e 's/ (.\\+)$//g' \
-        | sed -e 's/git@\\(.\\+\\):\\(.\\+\\)\\.git/& https:\\/\\/\\1\\/\\2/g' \
+        | sed -e 's/ (..*)$//g' \
+        | sed -e 's/\\([^[:space:]]*\\)[[:space:]]*\\([^[:space:]]*\\)@\\(..*\\):\\(.[^\\/]*\\)\\/\\(..*\\)\\.git/\\1 \\3 \\4 \\5 \\2/g' \
         | sort -u \
         | awk ' \
             BEGIN { \
                 FS = \"[[:blank:]]+\"; \
+                color_none = \"\\033[0m\"; \
+                color_cyan = \"\\033[0;36m\"; \
             } \
             { \
-                name = $1; \
-                url = $2; \
-                printf \"\\033[36m%-24s \\033[0m%s \\n\", name, url; \
+                remote_name = $1; \
+                domain = $2; \
+                namespace = $3; \
+                project_path = $4; \
+                remote_url = sprintf(\"git@%s:%s/%s\", domain, namespace, project_path); \
+                printf \"%s%-24s %s%s \\n\", color_cyan, remote_name, color_none, remote_url; \
             } \
-            /https?:\\/\\/github/ { \
+            / github/ { \
+                service = \"GitHub\"; \
+                domain = $2; \
+                namespace = $3; \
+                project_path = $4; \
+                \
                 subname = \"GitHub\"; \
-                url = $3; \
-                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, url; \
+                github_url = sprintf(\"https://%s/%s/%s\", domain, namespace, project_path); \
+                printf \"    %s%-20s %s%s \\n\", color_cyan, subname, color_none, github_url; \
             } \
-            /https?:\\/\\/gitlab/ { \
+            / gitlab/ { \
+                service = \"GitLab\"; \
+                domain = $2; \
+                namespace = $3; \
+                project_path = $4; \
+                \
                 subname = \"GitLab\"; \
-                url = $3; \
-                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, url; \
+                gitlab_url = sprintf(\"https://%s/%s/%s\", domain, namespace, project_path); \
+                printf \"    %s%-20s %s%s \\n\", color_cyan, subname, color_none, gitlab_url; \
                 \
                 subname = \"GitLab/pipelines\"; \
+                pipelines_url = sprintf(\"https://%s/%s/%s/pipelines\", domain, namespace, project_path); \
                 url = sprintf(\"%s/pipelines\", $3); \
-                printf \"    \\033[36m%-20s \\033[0m%s \\n\", subname, url; \
+                printf \"    %s%-20s %s%s \\n\", color_cyan, subname, color_none, pipelines_url; \
             } \
         ' \
         "
