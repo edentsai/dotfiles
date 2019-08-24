@@ -192,6 +192,18 @@
     reflog-tig = "!git reflog --pretty=raw | tig --pretty=raw"
     tig-reflog = "!git reflog --pretty=raw | tig --pretty=raw"
 
+    # Prune merged branches except protected branches
+    prune-merged-branches = "!git branch --merged \
+        | grep -v \
+            -e '^* ' \
+            -e '^  master' \
+            -e '^  staging' \
+            -e '^  develop' \
+            -e '^  test' \
+        | xargs -n 1 -I {} \
+            git branch --delete '{}' \
+    "
+
     # Display links of remote repositories
     remote-links = "!git remote --verbose \
         | sed -e 's/ (..*)$//g' \
