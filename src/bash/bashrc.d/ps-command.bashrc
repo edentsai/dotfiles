@@ -2,7 +2,7 @@
 # vim: set filetype=sh
 
 # Bashrc configuration for `ps` command.
-bashrc::configure_ps_command()
+function bashrc::configure_ps_command()
 {
     # Display process status with more information.
     #   -u | Display more information

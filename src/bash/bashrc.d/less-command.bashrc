@@ -2,7 +2,7 @@
 # vim: set filetype=sh
 
 # Bashrc configuration for `less` command.
-bashrc::configure_less_command()
+function bashrc::configure_less_command()
 {
     # Options which are passed to less automatically.
     export LESS="-emrSwX"

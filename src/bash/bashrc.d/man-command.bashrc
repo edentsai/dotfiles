@@ -2,7 +2,7 @@
 # vim: set filetype=sh
 
 # Bashrc configuration for `man` command.
-bashrc::configure_man_command()
+function bashrc::configure_man_command()
 {
     # List $MANPATH and force output to be one entry per line.
     alias manpath="echo -e \${MANPATH//:/\\\n}"

@@ -1,0 +1,10 @@
+# vim: set filetype=sshconfig
+
+# Configuration Example
+# Host example-alias
+#     Hostname example.com
+#     Port 22
+#     User username-on-the-host
+#     IdentityFile ~/.ssh/id_rsa
+#     ForwardAgent yes
+#     StrictHostKeyChecking yes

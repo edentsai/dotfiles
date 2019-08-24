@@ -1,3 +1,5 @@
+# vim: set filetype=sshconfig
+
 # SSH Configuration Reference: http://man.openbsd.org/ssh_config
 
 Host *
@@ -42,11 +44,11 @@ Host *
     # Specify the path to the control socket used for connection sharing as described
     # in the ControlMaster section above or the string none to disable connection sharing.
     #
-    # Pattern: ~/.ssh/control/{USERNAME}@{HOST}:{PORT}.sock
+    # Pattern: ~/.ssh/tmp/control-socket-{USERNAME}@{HOST}:{PORT}.sock
     #     %r    The remote username.
     #     %h    The remote hostname.
     #     %p    The remote port.
-    ControlPath ~/.ssh/control/%r@%h:%p.sock
+    ControlPath ~/.ssh/tmp/control-socket-%r@%h:%p.sock
 
     # When used in conjunction with ControlMaster,
     # specifies that the master connection should remain open
@@ -57,11 +59,6 @@ Host *
     # Specifies whether to use compression.
     Compression no
 
-# Configuration Example
-# Host example-alias
-#     Hostname example.com
-#     Port 22
-#     User username-on-the-host
-#     IdentityFile ~/.ssh/id_rsa
-#     ForwardAgent yes
-#     StrictHostKeyChecking yes
+# Include the SSH configurations
+# - `Include` directive require SSH 7.3+
+Include ~/.ssh/config.d/*.sshconfig
