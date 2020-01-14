@@ -48,7 +48,7 @@ Host *
     #     %r    The remote username.
     #     %h    The remote hostname.
     #     %p    The remote port.
-    ControlPath ~/.ssh/tmp/control-socket-%r@%h:%p.sock
+    ControlPath ~/.ssh/control-sockets/%r@%h:%p.sock
 
     # When used in conjunction with ControlMaster,
     # specifies that the master connection should remain open

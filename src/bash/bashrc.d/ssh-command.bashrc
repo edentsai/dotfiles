@@ -5,7 +5,7 @@
 function bashrc::configure_ssh_command()
 {
     local ssh_control_dir
-    readonly ssh_control_dir="${HOME}/.ssh/control"
+    readonly ssh_control_dir="${HOME}/.ssh/control-sockets"
     if ! test -d "${ssh_control_dir}"; then
         mkdir -v -p "${ssh_control_dir}";
     fi
