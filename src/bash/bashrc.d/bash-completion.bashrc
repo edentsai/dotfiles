@@ -26,7 +26,7 @@ function bashrc::load_bash_completion_if_exists_when_progcomp_enabled()
 
     local file
     for file in "${files_in_priority_order[@]}"; do
-        if test -r "${file}"; then
+        if test -f "${file}" && test -r "${file}"; then
             source "${file}"
 
             break
