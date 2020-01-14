@@ -19,6 +19,7 @@ function bashrc::load_bash_completion_if_exists_when_progcomp_enabled()
     local readonly files_in_priority_order=(
         "${HOME}/opt/bash-completion/share/bash-completion/bash_completion"
         "${HOME}/opt/share/bash-completion/bash_completion"
+        "${HOME}/.bash/share/brew/share/bash-completion/bash_completion"
         "/usr/local/share/bash-completion/bash_completion"
         "/usr/share/bash-completion/bash_completion"
         "${HOME}/.bash/share/bash-completion/bash_completion"

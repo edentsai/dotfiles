@@ -1,6 +1,7 @@
 # vim: set filetype=conf
 
 /bashrc.d/host/**/*.bashrc
+/share/brew/share/bash-completion/completions
 
 /tmp/histories/**/bash-history-*
 /tmp/histories/**/lesshst-*
