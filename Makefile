@@ -458,37 +458,64 @@ _error-if-source-path-is-invalid/%: _error-if-target-path-not-supported/%
 
 # Reference: https://suva.sh/posts/well-documented-makefiles/
 .DEFAULT_GOAL := help
-.PHONY += help
+.PHONY: help
 help: ## Display help message
 help: _display-help-for-public-targets
 
-.PHONY += _help
+# Display help message for publish targets with description by RegExp in below pattern:
+#   <target>: ## <description>
+.PHONY: _display-help-for-public-targets
+_display-help-for-public-targets: ## Display help message for public targets
+_display-help-for-public-targets: HELP_AWK_REGEXP_TARGET_WITH_DESCRIPTION := /^[a-zA-Z][a-zA-Z0-9\_\-\%]+: \#\# .*/
+_display-help-for-public-targets: HELP_AWK_PRINT_TARGET_WITH_FIXED_WIDTH ?= 30
+_display-help-for-public-targets:
+	@awk '$(HELP_AWK_SCRIPT_TO_LIST_TARGET_WITH_DESCRIPTION)' $(MAKEFILE_LIST) \
+		| sort --stable --field-separator ":" --key "1,1" \
+		| awk '$(HELP_AWK_SCRIPT_TO_FORMAT_TARGETS_WITH_MULTIPLE_LINE_DESCRIPTION)';
+
+.PHONY: _help
 _help: ## Display help message for private targets
 _help: _display-help-for-private-targets
 
-# Find private targets with description by regular expression in AWK:
-#   Pattern> _Target: ## Description
-.PHONY += _display-help-for-private-targets
+# Display help message for private targets with description by RegExp in below pattern:
+#   <_target>: ## <description>
+.PHONY: _display-help-for-private-targets
 _display-help-for-private-targets: ## Display help message for private targets
-_display-help-for-private-targets: HELP_AWK_REGEXP_TARGET_WITH_DESCRIPTION := /^\_[a-zA-Z0-9\_\-\%]+:.*?\#\#/
-_display-help-for-private-targets: HELP_AWK_ALIGN_RESERVED_CHARS = 40
+_display-help-for-private-targets: HELP_AWK_REGEXP_TARGET_WITH_DESCRIPTION := /^\_[a-zA-Z][a-zA-Z0-9\_\-\%]+: \#\# .*/
+_display-help-for-private-targets: HELP_AWK_PRINT_TARGET_WITH_FIXED_WIDTH ?= 40
 _display-help-for-private-targets:
-	@awk '$(HELP_AWK_SCRIPT)' $(MAKEFILE_LIST);
+	@awk '$(HELP_AWK_SCRIPT_TO_LIST_TARGET_WITH_DESCRIPTION)' $(MAKEFILE_LIST) \
+		| sort --stable --field-separator ":" --key "1,1" \
+		| awk '$(HELP_AWK_SCRIPT_TO_FORMAT_TARGETS_WITH_MULTIPLE_LINE_DESCRIPTION)';
 
-# Find targets with description by regular expression in AWK:
-#   Pattern> Target: ## Description
-.PHONY += _display-help-for-public-targets
-_display-help-for-public-targets: ## Display help message for public targets
-_display-help-for-public-targets: HELP_AWK_REGEXP_TARGET_WITH_DESCRIPTION := /^[a-zA-Z][a-zA-Z0-9\_\-]+:.*?\#\#/
-_display-help-for-public-targets: HELP_AWK_ALIGN_RESERVED_CHARS = 30
-_display-help-for-public-targets:
-	@awk '$(HELP_AWK_SCRIPT)' $(MAKEFILE_LIST);
-
-define HELP_AWK_SCRIPT
+# An AWK script to list targets with description by RegExp in below pattern:
+#   <target>: ## <description>
+define HELP_AWK_SCRIPT_TO_LIST_TARGET_WITH_DESCRIPTION
 	BEGIN { \
 		FS = ":.*##"; \
+	} \
+	$(HELP_AWK_REGEXP_TARGET_WITH_DESCRIPTION) { \
+		print $$0; \
+	}
+endef
+
+# An AWK Script to format targets with multiple-line description by RegExp in below pattern:
+#   <target>: <description>
+#
+# for example:
+#
+#  foo: ## first line of description
+#  foo: ## ...
+#  foo: ## last line of description
+#  bar: ## do something else
+#
+define HELP_AWK_SCRIPT_TO_FORMAT_TARGETS_WITH_MULTIPLE_LINE_DESCRIPTION
+	BEGIN { \
+		FS = ":.*##"; \
+		color_none = "\033[0m"; \
+		color_cyan = "\033[0;36m"; \
 		printf "Usage: \n"; \
-		printf "    make \033[36m<target>\033[0m \n"; \
+		printf "    make %s<target>%s \n", color_cyan, color_none; \
 		printf "\n"; \
 		printf "Targets: \n"; \
 		last_target = ""; \
@@ -499,7 +526,11 @@ define HELP_AWK_SCRIPT
 		gsub(/^[[:space:]]/, "", target); \
 		gsub(/^[[:space:]]/, "", description); \
 		name = (target == last_target) ? "" : target; \
-		printf "    \033[36m%-$(HELP_AWK_ALIGN_RESERVED_CHARS)s  \033[0m%s \n", name, description; \
+		printf "    %s%-$(HELP_AWK_PRINT_TARGET_WITH_FIXED_WIDTH)s%s  %s \n", \
+			color_cyan, \
+			name, \
+			color_none, \
+			description; \
 		last_target = target; \
 	} \
 	END { \
