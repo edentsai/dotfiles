@@ -1,20 +1,11 @@
 MAKEFLAGS += --warn-undefined-variables
 SHELL := /bin/sh
 .SHELLFLAGS := -o nounset -o errexit -c
-.SUFFIXES :=
 
-USER_PUID ?= $(shell id -u)
-USER_PGID ?= $(shell id -g)
-USER_HOME ?= $(abspath $(HOME))
+PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+PROJECT_NAME ?= dotfiles
+
 HOSTNAME ?= $(shell hostname)
-
-ROOT_MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
-PROJECT_DIR := $(shell dirname $(ROOT_MAKEFILE))
-PROJECT_DIR_REALPATH := $(realpath $(PROJECT_DIR))
-PROJECT_NAME ?= $(shell basename $(PROJECT_DIR))
-PROJECT_NAMESPACE ?= $(shell whoami)
-PROJECT_PATH ?= $(PROJECT_NAMESPACE)/$(PROJECT_NAME)
-PROJECT_PATH_SLUG := $(subst /,-,$(PROJECT_PATH))
 
 BACKUP_TIMESTAMP := $(shell date +%Y-%m-%dT%T%z)
 
