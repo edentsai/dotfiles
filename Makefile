@@ -11,11 +11,19 @@ BACKUP_TIMESTAMP := $(shell date +%Y-%m-%dT%T%z)
 
 EXIT_CODE_GENERAL_ERROR := 1
 
+# Colorful Texts
+
 TEXT_OK := [OK]
 TEXT_INFO := [INFO]
 TEXT_ERROR := [ERROR]
-SUPPORTED_COLOR := $(shell tput colors > /dev/null 2>&1 && echo "yes" || echo "no")
-ifeq ("$(SUPPORTED_COLOR)", "yes")
+IS_COLOR_SUPPORTED := $(shell \
+	if tput colors > /dev/null 2>&1; then \
+		echo "$(EXIT_CODE_OK)"; \
+	else \
+		echo "$(EXIT_CODE_GENERAL_ERROR)"; \
+	fi; \
+)
+ifeq ("$(IS_COLOR_SUPPORTED)", "$(EXIT_CODE_OK)")
 	TEXT_COLOR_NONE := \033[0m
 	TEXT_COLOR_RED := \033[0;31m
 	TEXT_COLOR_GREEN := \033[0;32m
