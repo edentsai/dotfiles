@@ -1,0 +1,9 @@
+#!/usr/bin/env ash
+# vim: set filetype=sh
+
+# Return if not running interactive ash.
+if [[ "${PS1:-}" == "" ]]; then
+    return
+fi
+
+# TODO Configure ash in local
