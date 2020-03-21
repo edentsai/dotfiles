@@ -1,4 +1,10 @@
 # vim: set filetype=conf
 
+# Ash
+
+src/dot-ashrc.d/.ash_history
+src/dot-ashrc.d/histories/.ash_history
+src/dot-ashrc.d/histories/.ash_history_*
+
 # Backup log files
 backup/**/backup-list-*

@@ -1,0 +1,33 @@
+#!/usr/bin/env ash
+# vim: set filetype=sh
+
+# Return if not running interactive ash.
+if [[ "${PS1:-}" == "" ]]; then
+    return
+fi
+
+# Configure env variables for `history` command.
+ashrc__configure_history_command()
+{
+    # Ignore duplicate commands or commands that have leading whitespace.
+    export HISTCONTROL="ignoredups:ignorespace"
+
+    # Display the time stamp information associated with each history entry
+    export HISTTIMEFORMAT='%Y-%m-%dT%H:%M:%S%z    '
+
+    # The number of lines or commands that are stored in memory in a history list.
+    export HISTSIZE="1000"
+
+    # Ignore specific commands.
+    export HISTIGNORE="history"
+
+    # The name of the file to which the command history is saved. The default is `~/.bash_history'.
+    local username
+    local hostname
+    username="$(id -un)"
+    hostname="$(hostname)"
+    export HISTFILE="${HOME}/.ashrc.d/histories/.ash_history_${username}_${hostname}"
+}
+
+ashrc__configure_history_command
+ashrc__create_history_file_if_not_exists "${HISTFILE}"

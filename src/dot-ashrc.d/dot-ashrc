@@ -35,6 +35,25 @@ ashrc__source_ashrc_files_if_readable_in_directory()
     return ${EXIT_CODE_GENERAL_OK}
 }
 
+# Create a history file with limited permissions if not exists,
+# for examples:
+#   - .ash_history
+ashrc__create_history_file_if_not_exists()
+{
+    local file="${1}"
+    local dir
+    dir="$(dirname "${file}")"
+    if ! test -d "${dir}"; then
+        mkdir -v -p "${dir}"
+        chmod 750 "${dir}"
+    fi
+
+    if ! test -w "${file}"; then
+        touch "${file}"
+        chmod 750 "${file}"
+    fi
+}
+
 # TODO Configure ash
 
 ashrc__source_ashrc_files_if_readable_in_directory "${HOME}/.ashrc.d/ashrc.d"
