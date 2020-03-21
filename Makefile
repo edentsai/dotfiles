@@ -8,6 +8,12 @@ HOSTNAME ?= $(shell hostname)
 
 BACKUP_TIMESTAMP := $(shell date +%Y-%m-%dT%T%z)
 
+# Stow
+
+STOW_OPTS ?=
+STOW_PACKAGES_DIR ?= $(PROJECT_DIR)/src
+STOW_USER_HOME ?= $(HOME)
+
 # Shell exit codes
 
 EXIT_CODE_OK := 0
@@ -36,6 +42,31 @@ ifeq ("$(IS_COLOR_SUPPORTED)", "$(EXIT_CODE_OK)")
 	TEXT_INFO := $(TEXT_COLOR_CYAN)$(TEXT_INFO)$(TEXT_COLOR_NORMAL)
 	TEXT_ERROR := $(TEXT_COLOR_RED)$(TEXT_ERROR)$(TEXT_COLOR_NORMAL)
 endif
+
+.PHONY: stow-refresh-ignore-files
+stow-refresh-ignore-files: ## Stow refresh ignore files in each package by the following rules:
+stow-refresh-ignore-files: ##   - Any files are not named with the prefix `dot-*`
+stow-refresh-ignore-files: _treat-warnings-as-errors
+	@for path in "$(STOW_PACKAGES_DIR)" $(STOW_PACKAGES_DIR)/dot-*; do \
+		if ! test -d "$${path}"; then \
+			continue; \
+		fi; \
+		cd "$${path}"; \
+		dir=$$(dirname "$${path}"); \
+		file="$${path}/.stow-local-ignore"; \
+		if ls -1A \
+			| grep -v \
+				-e '^dot-.*' \
+				-e '\.gitignore' \
+				-e '\.stow-local-ignore' \
+			> "$${file}"; \
+		then \
+			echo "$(TEXT_INFO) Update: $${file}"; \
+		else \
+			echo "$(TEXT_INFO)  Clear: $${file}"; \
+			rm "$${file}"; \
+		fi; \
+	done;
 
 _%/$(HOME)/.bash:               SOURCE_PATH = $(PROJECT_DIR)/src/bash
 _%/$(HOME)/.bash_logout:        SOURCE_PATH = $(PROJECT_DIR)/src/bash/bash_logout
