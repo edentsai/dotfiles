@@ -14,6 +14,7 @@ EXIT_CODE_OK := 0
 EXIT_CODE_GENERAL_ERROR := 1
 
 # Colorful Texts
+# @see https://unix.stackexchange.com/a/10065
 
 TEXT_OK := [OK]
 TEXT_INFO := [INFO]
@@ -26,14 +27,14 @@ IS_COLOR_SUPPORTED := $(shell \
 	fi; \
 )
 ifeq ("$(IS_COLOR_SUPPORTED)", "$(EXIT_CODE_OK)")
-	TEXT_COLOR_NONE := \033[0m
-	TEXT_COLOR_RED := \033[0;31m
-	TEXT_COLOR_GREEN := \033[0;32m
-	TEXT_COLOR_CYAN := \033[0;36m
+	TEXT_COLOR_NORMAL := $(shell tput sgr0)
+	TEXT_COLOR_RED := $(shell tput setaf 1)
+	TEXT_COLOR_GREEN := $(shell tput setaf 2)
+	TEXT_COLOR_CYAN := $(shell tput setaf 6)
 
-	TEXT_OK := $(TEXT_COLOR_GREEN)$(TEXT_OK)$(TEXT_COLOR_NONE)
-	TEXT_INFO := $(TEXT_COLOR_CYAN)$(TEXT_INFO)$(TEXT_COLOR_NONE)
-	TEXT_ERROR := $(TEXT_COLOR_RED)$(TEXT_ERROR)$(TEXT_COLOR_NONE)
+	TEXT_OK := $(TEXT_COLOR_GREEN)$(TEXT_OK)$(TEXT_COLOR_NORMAL)
+	TEXT_INFO := $(TEXT_COLOR_CYAN)$(TEXT_INFO)$(TEXT_COLOR_NORMAL)
+	TEXT_ERROR := $(TEXT_COLOR_RED)$(TEXT_ERROR)$(TEXT_COLOR_NORMAL)
 endif
 
 _%/$(HOME)/.bash:               SOURCE_PATH = $(PROJECT_DIR)/src/bash
