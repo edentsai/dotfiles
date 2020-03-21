@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# vim: set filetype=sh
+
+# Return if not running interactive bash.
+if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
+    return
+fi
+
+# Source .bashrc file if readable.
+bashrc::source_bashrc_file_if_readable()
+{
+    local readonly bashrc_file="${1}"
+    if test -r "${bashrc_file}"; then
+        source "${bashrc_file}"
+    fi
+}
+
+# Source all of *.bashrc files in a specified directory if readable
+bashrc::source_bashrc_files_in_directory_if_readable()
+{
+    local readonly EXIT_CODE_GENERAL_OK=0
+    local readonly EXIT_CODE_GENERAL_ERROR=1
+
+    local readonly dir_path="${1}"
+    if ! test -d "${dir_path}"; then
+        return ${EXIT_CODE_GENERAL_ERROR}
+    fi
+
+    local bashrc_file
+    for bashrc_file in "${dir_path}"/*.bashrc; do
+        if test -r "${bashrc_file}"; then
+            source "${bashrc_file}"
+        fi
+    done
+    unset bashrc_file
+
+    return ${EXIT_CODE_OK}
+}
+
+# TODO Configure bash
+
+bashrc::source_bashrc_files_in_directory_if_readable "${HOME}/.bashrc.d/bashrc.d"
+bashrc::source_bashrc_file_if_readable "${HOME}/.bashrc_local"
