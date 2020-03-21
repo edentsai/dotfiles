@@ -1,30 +1,31 @@
-MAKEFLAGS += --warn-undefined-variables
 SHELL := /bin/sh
 .SHELLFLAGS := -o nounset -o errexit -c
-.SUFFIXES :=
 
-USER_PUID ?= $(shell id -u)
-USER_PGID ?= $(shell id -g)
-USER_HOME ?= $(abspath $(HOME))
+PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+PROJECT_NAME ?= dotfiles
+
 HOSTNAME ?= $(shell hostname)
-
-ROOT_MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
-PROJECT_DIR := $(shell dirname $(ROOT_MAKEFILE))
-PROJECT_DIR_REALPATH := $(realpath $(PROJECT_DIR))
-PROJECT_NAME ?= $(shell basename $(PROJECT_DIR))
-PROJECT_NAMESPACE ?= $(shell whoami)
-PROJECT_PATH ?= $(PROJECT_NAMESPACE)/$(PROJECT_NAME)
-PROJECT_PATH_SLUG := $(subst /,-,$(PROJECT_PATH))
 
 BACKUP_TIMESTAMP := $(shell date +%Y-%m-%dT%T%z)
 
+# Shell exit codes
+
+EXIT_CODE_OK := 0
 EXIT_CODE_GENERAL_ERROR := 1
+
+# Colorful Texts
 
 TEXT_OK := [OK]
 TEXT_INFO := [INFO]
 TEXT_ERROR := [ERROR]
-SUPPORTED_COLOR := $(shell tput colors > /dev/null 2>&1 && echo "yes" || echo "no")
-ifeq ("$(SUPPORTED_COLOR)", "yes")
+IS_COLOR_SUPPORTED := $(shell \
+	if tput colors > /dev/null 2>&1; then \
+		echo "$(EXIT_CODE_OK)"; \
+	else \
+		echo "$(EXIT_CODE_GENERAL_ERROR)"; \
+	fi; \
+)
+ifeq ("$(IS_COLOR_SUPPORTED)", "$(EXIT_CODE_OK)")
 	TEXT_COLOR_NONE := \033[0m
 	TEXT_COLOR_RED := \033[0;31m
 	TEXT_COLOR_GREEN := \033[0;32m
@@ -467,37 +468,66 @@ _error-if-source-path-is-invalid/%: _error-if-target-path-not-supported/%
 
 # Reference: https://suva.sh/posts/well-documented-makefiles/
 .DEFAULT_GOAL := help
-.PHONY += help
+.PHONY: help
 help: ## Display help message
+help: _treat-warnings-as-errors
 help: _display-help-for-public-targets
 
-.PHONY += _help
+# Display help message for publish targets with description by RegExp in below pattern:
+#   <target>: ## <description>
+.PHONY: _display-help-for-public-targets
+_display-help-for-public-targets: ## Display help message for public targets
+_display-help-for-public-targets: HELP_AWK_REGEXP_TARGET_WITH_DESCRIPTION := /^[a-zA-Z][a-zA-Z0-9\_\-\%]+: \#\# .*/
+_display-help-for-public-targets: HELP_AWK_PRINT_TARGET_WITH_FIXED_WIDTH ?= 30
+_display-help-for-public-targets: _treat-warnings-as-errors
+	@awk '$(HELP_AWK_SCRIPT_TO_LIST_TARGET_WITH_DESCRIPTION)' $(MAKEFILE_LIST) \
+		| sort --stable --field-separator ":" --key "1,1" \
+		| awk '$(HELP_AWK_SCRIPT_TO_FORMAT_TARGETS_WITH_MULTIPLE_LINE_DESCRIPTION)';
+
+.PHONY: _help
 _help: ## Display help message for private targets
+_help: _treat-warnings-as-errors
 _help: _display-help-for-private-targets
 
-# Find private targets with description by regular expression in AWK:
-#   Pattern> _Target: ## Description
-.PHONY += _display-help-for-private-targets
+# Display help message for private targets with description by RegExp in below pattern:
+#   <_target>: ## <description>
+.PHONY: _display-help-for-private-targets
 _display-help-for-private-targets: ## Display help message for private targets
-_display-help-for-private-targets: HELP_AWK_REGEXP_TARGET_WITH_DESCRIPTION := /^\_[a-zA-Z0-9\_\-\%]+:.*?\#\#/
-_display-help-for-private-targets: HELP_AWK_ALIGN_RESERVED_CHARS = 40
-_display-help-for-private-targets:
-	@awk '$(HELP_AWK_SCRIPT)' $(MAKEFILE_LIST);
+_display-help-for-private-targets: HELP_AWK_REGEXP_TARGET_WITH_DESCRIPTION := /^\_[a-zA-Z][a-zA-Z0-9\_\-\%]+: \#\# .*/
+_display-help-for-private-targets: HELP_AWK_PRINT_TARGET_WITH_FIXED_WIDTH ?= 40
+_display-help-for-private-targets: _treat-warnings-as-errors
+	@awk '$(HELP_AWK_SCRIPT_TO_LIST_TARGET_WITH_DESCRIPTION)' $(MAKEFILE_LIST) \
+		| sort --stable --field-separator ":" --key "1,1" \
+		| awk '$(HELP_AWK_SCRIPT_TO_FORMAT_TARGETS_WITH_MULTIPLE_LINE_DESCRIPTION)';
 
-# Find targets with description by regular expression in AWK:
-#   Pattern> Target: ## Description
-.PHONY += _display-help-for-public-targets
-_display-help-for-public-targets: ## Display help message for public targets
-_display-help-for-public-targets: HELP_AWK_REGEXP_TARGET_WITH_DESCRIPTION := /^[a-zA-Z][a-zA-Z0-9\_\-]+:.*?\#\#/
-_display-help-for-public-targets: HELP_AWK_ALIGN_RESERVED_CHARS = 30
-_display-help-for-public-targets:
-	@awk '$(HELP_AWK_SCRIPT)' $(MAKEFILE_LIST);
-
-define HELP_AWK_SCRIPT
+# An AWK script to list targets with description by RegExp in below pattern:
+#   <target>: ## <description>
+define HELP_AWK_SCRIPT_TO_LIST_TARGET_WITH_DESCRIPTION
 	BEGIN { \
 		FS = ":.*##"; \
+	} \
+	$(HELP_AWK_REGEXP_TARGET_WITH_DESCRIPTION) { \
+		print $$0; \
+	}
+endef
+
+# An AWK Script to format targets with multiple-line description by RegExp in below pattern:
+#   <target>: <description>
+#
+# for example:
+#
+#  foo: ## first line of description
+#  foo: ## ...
+#  foo: ## last line of description
+#  bar: ## do something else
+#
+define HELP_AWK_SCRIPT_TO_FORMAT_TARGETS_WITH_MULTIPLE_LINE_DESCRIPTION
+	BEGIN { \
+		FS = ":.*##"; \
+		color_none = "\033[0m"; \
+		color_cyan = "\033[0;36m"; \
 		printf "Usage: \n"; \
-		printf "    make \033[36m<target>\033[0m \n"; \
+		printf "    make %s<target>%s \n", color_cyan, color_none; \
 		printf "\n"; \
 		printf "Targets: \n"; \
 		last_target = ""; \
@@ -508,10 +538,29 @@ define HELP_AWK_SCRIPT
 		gsub(/^[[:space:]]/, "", target); \
 		gsub(/^[[:space:]]/, "", description); \
 		name = (target == last_target) ? "" : target; \
-		printf "    \033[36m%-$(HELP_AWK_ALIGN_RESERVED_CHARS)s  \033[0m%s \n", name, description; \
+		printf "    %s%-$(HELP_AWK_PRINT_TARGET_WITH_FIXED_WIDTH)s%s  %s \n", \
+			color_cyan, \
+			name, \
+			color_none, \
+			description; \
 		last_target = target; \
 	} \
 	END { \
 		printf "\n"; \
 	}
 endef
+
+# Treat warnings as errors in a Makefile if any variable is undefined.
+# Reference: https://www.artificialworlds.net/blog/2015/04/22/treat-warnings-as-errors-in-a-gnu-makefile/
+.PHONY: _treat-warnings-as-errors
+_treat-warnings-as-errors: ## Treat warnings as errors in Makefile,
+_treat-warnings-as-errors: ## exit with error code if any warnings are found
+_treat-warnings-as-errors: MAKECMDGOALS ?= $(.DEFAULT_GOAL)
+_treat-warnings-as-errors:
+	@if make $(MAKECMDGOALS) --dry-run --warn-undefined-variables > /dev/null 2>&1 \
+		| grep -i -e "Makefile:[0-9]*: warning: "; \
+	then \
+		exit $(EXIT_CODE_GENERAL_ERROR); \
+	else \
+		exit $(EXIT_CODE_OK); \
+	fi; \
