@@ -106,6 +106,12 @@ stow-uninstall-packages: _treat-warnings-as-errors
 	done; \
 	echo "$(TEXT_OK) Stow uninstalled packages.";
 
+.PHONY: stow-check-badlinks
+stow-check-badlinks: ## Stow check the installed packages in $HOME directory which
+stow-check-badlinks: ## are bad links.
+stow-check-badlinks: _treat-warnings-as-errors
+	@chkstow --target "$(STOW_USER_HOME)" --badlinks;
+
 _%/$(HOME)/.bash:               SOURCE_PATH = $(PROJECT_DIR)/src/bash
 _%/$(HOME)/.bash_logout:        SOURCE_PATH = $(PROJECT_DIR)/src/bash/bash_logout
 _%/$(HOME)/.bash_profile:       SOURCE_PATH = $(PROJECT_DIR)/src/bash/bash_profile
