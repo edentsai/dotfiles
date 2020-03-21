@@ -68,6 +68,25 @@ stow-refresh-ignore-files: _treat-warnings-as-errors
 		fi; \
 	done;
 
+.PHONY: stow-install-packages
+stow-install-packages: ## Stow install packages into $HOME directory.
+stow-install-packages: _treat-warnings-as-errors
+	@echo "$(TEXT_INFO) Stow installing packages into the directory $(STOW_USER_HOME) ..."; \
+	for path in $(STOW_PACKAGES_DIR) $(STOW_PACKAGES_DIR)/dot-*; do \
+		if ! test -d "$${path}"; then \
+			continue; \
+		fi; \
+		dir=$$(dirname "$${path}"); \
+		name=$$(basename "$${path}"); \
+		stow --verbose \
+			--dotfiles \
+			--target "$(STOW_USER_HOME)" \
+			--dir "$${dir}" \
+			--stow "$${name}" \
+			$(STOW_OPTS); \
+	done; \
+	echo "$(TEXT_OK) Stow installed packages.";
+
 _%/$(HOME)/.bash:               SOURCE_PATH = $(PROJECT_DIR)/src/bash
 _%/$(HOME)/.bash_logout:        SOURCE_PATH = $(PROJECT_DIR)/src/bash/bash_logout
 _%/$(HOME)/.bash_profile:       SOURCE_PATH = $(PROJECT_DIR)/src/bash/bash_profile
