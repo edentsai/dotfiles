@@ -73,39 +73,6 @@ function unshift_manpaths_to_global()
     export MANPATH="$new_paths:$paths"
 }
 
-# Enhancement `cd` command.
-# - `cd ...`  instead of `cd ../..`
-# - `cd ....` instead of `cd ../../..`
-# - `cd ..[1-9]`:
-#   - `cd ..2`  instead of `cd ../..`
-#   - `cd ..3`  instead of `cd ../../..`
-function cd()
-{
-    local target_path="$1"
-    local dir="";
-    if [[ "$target_path" =~ ^\.\.+$ ]]; then
-        # `cd ...` to `cd ../..`
-        # `cd ....` to `cd ../../..`
-        local num=${#1};
-        while [ $num -ne 1 ]; do
-            dir="${dir}../"
-            ((num--))
-        done
-        builtin cd "$dir"
-    elif [[ "$target_path" =~ ^\.\.([1-9])$ ]]; then
-        # `cd ..2` to `cd ../..`
-        # `cd ..3` to `cd ../../..`
-        local num="${BASH_REMATCH[1]}"
-        while [ $num -ne 0 ]; do
-            dir="${dir}../"
-            ((num--))
-        done
-        builtin cd "$dir"
-    else
-        builtin cd "$@"
-    fi
-}
-
 # Display the last commit id of current branch.
 function git_last_commit_id()
 {
