@@ -51,6 +51,25 @@ bashrc::source_bashrc_files_in_directory_if_readable()
     return ${EXIT_CODE_OK}
 }
 
+# Create history file with limited permissions (750) if not exists,
+# for examples:
+#   - .bash_history
+bashrc::create_history_file_if_not_exists()
+{
+    local file="${1}"
+
+    local dir="$(dirname "${file}")"
+    if ! test -d "${dir}"; then
+        mkdir -v -p "${dir}"
+        chmod 750 "${dir}"
+    fi
+
+    if ! test -f "${file}"; then
+        touch "${file}"
+        chmod 750 "${file}"
+    fi
+}
+
 bashrc::display_startup_message
 bashrc::source_bashrc_files_in_directory_if_readable "${HOME}/.bashrc.d/bashrc.d"
 bashrc::source_bashrc_files_in_directory_if_readable "${HOME}/.bashrc.d/bashrc.d/os/$(uname -s)" || true

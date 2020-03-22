@@ -6,5 +6,11 @@ src/dot-ashrc.d/.ash_history
 src/dot-ashrc.d/histories/.ash_history
 src/dot-ashrc.d/histories/.ash_history_*
 
+# Bash
+
+src/dot-bashrc.d/.bash_history
+src/dot-bashrc.d/histories/.bash_history
+src/dot-bashrc.d/histories/.bash_history_*
+
 # Backup log files
 backup/**/backup-list-*

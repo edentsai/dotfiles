@@ -1,4 +1,3 @@
 # vim: set filetype=conf
 
-/tmp/histories/**/bash-history-*
 /tmp/histories/**/lesshst-*

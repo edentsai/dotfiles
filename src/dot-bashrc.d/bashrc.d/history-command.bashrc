@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 # vim: set filetype=sh
 
-# Bashrc configuration for `history` command.
-function bashrc::configure_history_command()
+# Return if not running interactive bash.
+if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
+    return
+fi
+
+
+# Configure shell options and env variables for `history` command.[
+bashrc::configure_history_command()
 {
     # Set to append bash commands to History file, not overwrites.
     shopt -s histappend
@@ -22,21 +28,24 @@ function bashrc::configure_history_command()
     # Ignore specific commands.
     export HISTIGNORE="history"
 
-
     # Store Bash History Immediately.
     # By default, Bash only records a session to the HISTFILE file when the session terminates.
     # export PROMPT_COMMAND="history -a"
 
     # The name of the file to which the command history is saved. The default is `~/.bash_history'.
-    local readonly username=$(whoami)
-    local readonly hostname=$(hostname)
-    export HISTFILE="${HOME}/.bash/tmp/histories/${hostname}/bash-history-${username}"
+    local username
+    local hostname
+    username="$(id -un)"
+    hostname="$(hostname)"
+    export HISTFILE="${HOME}/.bashrc.d/histories/.bash_history_${username}_${hostname}"
 
-    # Init HISTFILE if not exist and writable.
+    # Init HISTFILE if not exist or not writable.
     if ! test -w "${HISTFILE}"; then
-        local readonly HISTFILE_DIR=$(dirname "${HISTFILE}")
-        mkdir -v -p "${HISTFILE_DIR}"
-        chmod 750 "${HISTFILE_DIR}"
+        local histfile_dir
+        histfile_dir="$(dirname "${HISTFILE}")"
+
+        mkdir -v -p "${histfile_dir}"
+        chmod 750 "${histfile_dir}"
 
         touch "${HISTFILE}"
         chmod 750 "${HISTFILE}"
@@ -44,3 +53,4 @@ function bashrc::configure_history_command()
 }
 
 bashrc::configure_history_command
+bashrc::create_history_file_if_not_exists "${HISTFILE}"
