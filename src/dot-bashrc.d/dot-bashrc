@@ -72,6 +72,7 @@ bashrc::create_history_file_if_not_exists()
 }
 
 bashrc::display_startup_message
+bashrc::source_bashrc_files_in_directory_if_readable "${HOME}/.bashrc.d/functions.d"
 bashrc::source_bashrc_files_in_directory_if_readable "${HOME}/.bashrc.d/bashrc.d"
 bashrc::source_bashrc_files_in_directory_if_readable "${HOME}/.bashrc.d/bashrc.d/os/$(uname -s)" || true
 bashrc::source_bashrc_files_in_directory_if_readable "${HOME}/.bashrc.d/bashrc.d/hosts/$(hostname)" || true
