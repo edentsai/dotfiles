@@ -53,3 +53,16 @@ cd()
 
     return ${?}
 }
+
+# Configure aliases for `cd` command to change directory quickly.
+bashrc::configure_cd_aliases()
+{
+    alias ..="cd .."
+    alias ...="cd ../.."
+
+    alias cd..="cd .."
+    alias cd...="cd ../.."
+    alias cd-="cd -"
+}
+
+bashrc::configure_cd_aliases
