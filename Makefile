@@ -56,6 +56,19 @@ clear-ash-histories: _treat-warnings-as-errors
 		-print \
 		-delete
 
+.PHONY: clear-bash-histories
+clear-bash-histories: ## Clear Bash's history files.
+clear-bash-histories: BASH_DIR ?= $(PROJECT_DIR)/src/dot-bashrc.d
+clear-bash-histories: BASH_HISTFILE_DIR ?= $(PROJECT_DIR)/src/dot-bashrc.d/histories
+clear-bash-histories: _treat-warnings-as-errors
+	@find "$(BASH_DIR)" "$(BASH_HISTFILE_DIR)" \
+		-mindepth 0 \
+		-maxdepth 1 \
+		-type f \
+		\( -name ".bash_history" -or -name ".bash_history_*" \) \
+		-print \
+		-delete
+
 .PHONY: stow-refresh-ignore-files
 stow-refresh-ignore-files: ## Stow refresh ignore files in each package by the following rules:
 stow-refresh-ignore-files: ##   - Any files are not named with the prefix `dot-*`
