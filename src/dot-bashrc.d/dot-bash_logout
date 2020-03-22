@@ -6,4 +6,25 @@ if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
     return
 fi
 
-# TODO Tear down on EXIT bash
+# Celar console when logout Bash
+bash_logout::clear_console()
+{
+    if [[ "${PS1:-}" == "" ]]; then
+        return
+    fi
+
+    if command -v "clear_console" > /dev/null 2>&1; then
+        clear_console -q
+
+        return
+    fi
+
+    if command -v "clear" > /dev/null 2>&1; then
+        clear
+    fi
+
+    return
+}
+
+# Set a trap for clear the console screen on EXIT bash to increate privacy
+trap bash_logout::clear_console EXIT
