@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 # vim: set filetype=sh
 
-# Bashrc configuration for `ps` command.
-function bashrc::configure_ps_command()
+# Return if not running interactive bash.
+if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
+    return
+fi
+
+# Configure aliases for `ps` command
+bashrc::configure_ps_command()
 {
     # Display process status with more information.
     #   -u | Display more information
