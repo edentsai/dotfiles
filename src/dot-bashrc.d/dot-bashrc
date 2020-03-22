@@ -6,6 +6,20 @@ if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
     return
 fi
 
+# Display startup message.
+bashrc::display_startup_message()
+{
+    bash --version
+    echo
+
+    local readonly DATE_FORMAT_ISO_8601="%Y-%m-%dT%H:%M:%S%z"
+    local logined_at
+    logined_at="$(date +${DATE_FORMAT_ISO_8601})"
+    echo "Bash started at ${logined_at}"
+    echo
+    unset logined_at
+}
+
 # Source .bashrc file if readable.
 bashrc::source_bashrc_file_if_readable()
 {
@@ -37,7 +51,6 @@ bashrc::source_bashrc_files_in_directory_if_readable()
     return ${EXIT_CODE_OK}
 }
 
-# TODO Configure bash
-
+bashrc::display_startup_message
 bashrc::source_bashrc_files_in_directory_if_readable "${HOME}/.bashrc.d/bashrc.d"
 bashrc::source_bashrc_file_if_readable "${HOME}/.bashrc_local"

@@ -6,19 +6,6 @@ if [ -z "${BASH_VERSION:-}" ] || [ -z "${PS1:-}" ]; then
     return
 fi
 
-function bashrc::show_bash_version()
-{
-    bash --version
-    echo
-}
-
-function bashrc::show_startup_message()
-{
-    local readonly login_at=$(date +%Y-%m-%dT%H:%M:%S%z)
-    echo "Bash started at ${login_at}"
-    echo
-}
-
 # Load bashrc files in directory if exists, for example:
 #     load_bashrc_files_in_directory_if_exists $HOME/bashrc.d
 #     -> source $HOME/bashrc.d/*.bashrc
@@ -78,7 +65,5 @@ function bashrc::load_bashrc_local_if_exists()
     fi
 }
 
-bashrc::show_bash_version
-bashrc::show_startup_message
 bashrc::load_bashrc_configuration
 bashrc::load_bashrc_local_if_exists
