@@ -65,7 +65,12 @@ clear-bash-histories: _treat-warnings-as-errors
 		-mindepth 0 \
 		-maxdepth 1 \
 		-type f \
-		\( -name ".bash_history" -or -name ".bash_history_*" \) \
+		\( \
+			-name ".bash_history" \
+			-or -name ".bash_history_*" \
+			-or -name ".lesshst" \
+			-or -name ".lesshst_*" \
+		\) \
 		-print \
 		-delete
 

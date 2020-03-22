@@ -54,6 +54,7 @@ bashrc::source_bashrc_files_in_directory_if_readable()
 # Create history file with limited permissions (750) if not exists,
 # for examples:
 #   - .bash_history
+#   - .lesshst
 bashrc::create_history_file_if_not_exists()
 {
     local file="${1}"

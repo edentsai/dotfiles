@@ -12,5 +12,9 @@ src/dot-bashrc.d/.bash_history
 src/dot-bashrc.d/histories/.bash_history
 src/dot-bashrc.d/histories/.bash_history_*
 
+src/dot-bashrc.d/.lesshst
+src/dot-bashrc.d/histories/.lesshst
+src/dot-bashrc.d/histories/.lesshst_*
+
 # Backup log files
 backup/**/backup-list-*
