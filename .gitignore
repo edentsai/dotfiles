@@ -16,5 +16,9 @@ src/dot-bashrc.d/.lesshst
 src/dot-bashrc.d/histories/.lesshst
 src/dot-bashrc.d/histories/.lesshst_*
 
+src/dot-bashrc.d/.mycli_history
+src/dot-bashrc.d/histories/.mycli_history
+src/dot-bashrc.d/histories/.mycli_history_*
+
 # Backup log files
 backup/**/backup-list-*

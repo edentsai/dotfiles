@@ -55,6 +55,7 @@ bashrc::source_bashrc_files_in_directory_if_readable()
 # for examples:
 #   - .bash_history
 #   - .lesshst
+#   - .mycli_history
 bashrc::create_history_file_if_not_exists()
 {
     local file="${1}"

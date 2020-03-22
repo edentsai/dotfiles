@@ -70,6 +70,8 @@ clear-bash-histories: _treat-warnings-as-errors
 			-or -name ".bash_history_*" \
 			-or -name ".lesshst" \
 			-or -name ".lesshst_*" \
+			-or -name ".mycli_history" \
+			-or -name ".mycli_history_*" \
 		\) \
 		-print \
 		-delete
