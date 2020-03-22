@@ -43,6 +43,19 @@ ifeq ("$(IS_COLOR_SUPPORTED)", "$(EXIT_CODE_OK)")
 	TEXT_ERROR := $(TEXT_COLOR_RED)$(TEXT_ERROR)$(TEXT_COLOR_NORMAL)
 endif
 
+.PHONY: clear-ash-histories
+clear-ash-histories: ## Clear Ash's history files.
+clear-ash-histories: ASH_DIR ?= $(PROJECT_DIR)/src/dot-ashrc.d
+clear-ash-histories: ASH_HISTFILE_DIR ?= $(PROJECT_DIR)/src/dot-ashrc.d/histories
+clear-ash-histories: _treat-warnings-as-errors
+	@find "$(ASH_DIR)" "$(ASH_HISTFILE_DIR)" \
+		-mindepth 0 \
+		-maxdepth 1 \
+		-type f \
+		\( -name ".ash_history" -or -name ".ash_history_*" \) \
+		-print \
+		-delete
+
 .PHONY: stow-refresh-ignore-files
 stow-refresh-ignore-files: ## Stow refresh ignore files in each package by the following rules:
 stow-refresh-ignore-files: ##   - Any files are not named with the prefix `dot-*`
