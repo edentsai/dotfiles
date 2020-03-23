@@ -145,11 +145,6 @@ stow-check-badlinks: ## are bad links.
 stow-check-badlinks: _treat-warnings-as-errors
 	@chkstow --target "$(STOW_USER_HOME)" --badlinks;
 
-_%/$(HOME)/.bash:               SOURCE_PATH = $(PROJECT_DIR)/src/bash
-_%/$(HOME)/.bash_logout:        SOURCE_PATH = $(PROJECT_DIR)/src/bash/bash_logout
-_%/$(HOME)/.bash_profile:       SOURCE_PATH = $(PROJECT_DIR)/src/bash/bash_profile
-_%/$(HOME)/.bashrc:             SOURCE_PATH = $(PROJECT_DIR)/src/bash/bashrc
-_%/$(HOME)/.bashrc_local:       SOURCE_PATH = $(PROJECT_DIR)/src/bash/bashrc_local
 _%/$(HOME)/.bin:                SOURCE_PATH = $(PROJECT_DIR)/bin
 _%/$(HOME)/.curlrc:             SOURCE_PATH = $(PROJECT_DIR)/src/curl/curlrc
 _%/$(HOME)/.dotfiles:           SOURCE_PATH = $(PROJECT_DIR)
@@ -181,11 +176,6 @@ _%/$(HOME)/.vimrc_local:        SOURCE_PATH = $(PROJECT_DIR)/src/vim/_vimrc_loca
 
 dotfiles_target_paths  += $(HOME)/.dotfiles
 bin_target_paths       += $(HOME)/.bin
-bash_target_paths      += $(HOME)/.bash
-bash_target_paths      += $(HOME)/.bash_logout
-bash_target_paths      += $(HOME)/.bash_profile
-bash_target_paths      += $(HOME)/.bashrc
-bash_target_paths      += $(HOME)/.bashrc_local
 curl_target_paths      += $(HOME)/.curlrc
 fonts_target_paths     += $(HOME)/.fonts
 git_target_paths       += $(HOME)/.git
@@ -222,7 +212,6 @@ all: install
 backup: ## Backup existing all configurations at target paths.
 backup: backup-dotfiles
 backup: backup-bin
-backup: backup-bash
 backup: backup-curl
 backup: backup-fonts
 backup: backup-git
@@ -245,10 +234,6 @@ backup-dotfiles: $(dotfiles_target_paths:%=_backup/%)
 .PHONY: backup-bin
 backup-bin: ## Backup existing target path of bin in $HOME/
 backup-bin: $(bin_target_paths:%=_backup/%)
-
-.PHONY: backup-bash
-backup-bash: ## Backup existing target path of src/bash in $HOME/
-backup-bash: $(bash_target_paths:%=_backup/%)
 
 .PHONY: backup-curl
 backup-curl: ## Backup existing target path of src/curl in $HOME/
@@ -310,7 +295,6 @@ backup-vim: $(vim_target_paths:%=_backup/%)
 install: ## Install symbolic links of all configurations into $HOME/
 install: install-dotfiles
 install: install-bin
-install: install-bash
 install: install-curl
 install: install-fonts
 install: install-git
@@ -333,10 +317,6 @@ install-dotfiles: $(dotfiles_target_paths:%=_install-link/%)
 .PHONY: install-bin
 install-bin: ## Install symbolic links of bin into $HOME/
 install-bin: $(bin_target_paths:%=_install-link/%)
-
-.PHONY: install-bash
-install-bash: ## Install symbolic links of src/bash into $HOME/
-install-bash: $(bash_target_paths:%=_install-link/%)
 
 .PHONY: install-curl
 install-curl: ## Install symbolic links of src/curl into $HOME/
@@ -398,7 +378,6 @@ install-vim: $(vim_target_paths:%=_install-link/%)
 uninstall: ## Delete all of symbolic links in $HOME/
 uninstall: uninstall-dotfiles
 uninstall: uninstall-bin
-uninstall: uninstall-bash
 uninstall: uninstall-fonts
 uninstall: uninstall-git
 uninstall: uninstall-most
@@ -420,10 +399,6 @@ uninstall-dotfiles: $(dotfiles_target_paths:%=_uninstall-link/%)
 .PHONY: uninstall-bin
 uninstall-bin: ## Delete installed symbolic links of bin in $HOME/
 uninstall-bin: $(bin_target_paths:%=_uninstall-link/%)
-
-.PHONY: uninstall-bash
-uninstall-bash: ## Delete installed symbolic links of src/bash in $HOME/
-uninstall-bash: $(bash_target_paths:%=_uninstall-link/%)
 
 .PHONY: uninstall-curl
 uninstall-curl: ## Delete installed symbolic links of src/curl in $HOME/
