@@ -1,0 +1,18 @@
+#!/usr/bin/env ash
+# vim: set filetype=sh
+
+# Return if not running interactive ash.
+if [[ "${PS1:-}" == "" ]]; then
+    return
+fi
+
+# Source a ashrc file if readable.
+ash_profile__source_ashrc_file_if_readable()
+{
+    local readonly ashrc_file="${1}"
+    if test -r "${ashrc_file}"; then
+        source "${ashrc_file}"
+    fi
+}
+
+ash_profile__source_ashrc_file_if_readable "${HOME}/.ashrc"

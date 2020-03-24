@@ -1,0 +1,60 @@
+#!/usr/bin/env ash
+# vim: set filetype=sh
+
+# Return if not running interactive ash.
+if [[ "${PS1:-}" == "" ]]; then
+    return
+fi
+
+# Load .ashrc file if exists
+ashrc__source_ashrc_file_if_readable()
+{
+    local readonly ashrc_file="${1}"
+    if test -r "${ashrc_file}"; then
+        source "${ashrc_file}"
+    fi
+}
+
+# Source all of .ashrc files in a specified directory
+ashrc__source_ashrc_files_if_readable_in_directory()
+{
+    local readonly EXIT_CODE_GENERAL_OK=0
+    local readonly EXIT_CODE_GENERAL_ERROR=1
+
+    local readonly dir_path="${1}"
+    if ! test -d "${dir_path}"; then
+        return ${EXIT_CODE_GENERAL_ERROR}
+    fi
+
+    for file in "${dir_path}"/*.ashrc; do
+        if test -r "${file}"; then
+            source "${file}"
+        fi
+    done
+
+    return ${EXIT_CODE_GENERAL_OK}
+}
+
+# Create a history file with limited permissions if not exists,
+# for examples:
+#   - .ash_history
+ashrc__create_history_file_if_not_exists()
+{
+    local file="${1}"
+    local dir
+    dir="$(dirname "${file}")"
+    if ! test -d "${dir}"; then
+        mkdir -v -p "${dir}"
+        chmod 750 "${dir}"
+    fi
+
+    if ! test -w "${file}"; then
+        touch "${file}"
+        chmod 750 "${file}"
+    fi
+}
+
+# TODO Configure ash
+
+ashrc__source_ashrc_files_if_readable_in_directory "${HOME}/.ashrc.d/ashrc.d"
+ashrc__source_ashrc_file_if_readable "${HOME}/.ashrc_local"
