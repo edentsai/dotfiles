@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# vim: set filetype=sh
+
+# Return if not running interactive bash.
+if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
+    return
+fi
+
+# Source a .bashrc file if readable.
+bash_profile::source_bashrc_file_if_readable()
+{
+    local readonly bashrc_file="${1}"
+    if test -r "${bashrc_file}"; then
+        source "${bashrc_file}"
+    fi
+}
+
+bash_profile::source_bashrc_file_if_readable "${HOME}/.bashrc"
