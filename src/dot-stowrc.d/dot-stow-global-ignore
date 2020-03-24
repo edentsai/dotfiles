@@ -1,0 +1,26 @@
+# Git
+
+.git
+.gitattributes
+.gitignore
+.gitkeep
+.gitmodules
+
+# HG
+.hg
+.hgignore
+
+# Stow
+.stow-local-ignore
+.stow
+
+# SVN
+.svn
+
+# MacOS
+.DS_store
+
+# Vim
+.netrwhist
+.swp
+.lock

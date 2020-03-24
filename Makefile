@@ -8,12 +8,19 @@ HOSTNAME ?= $(shell hostname)
 
 BACKUP_TIMESTAMP := $(shell date +%Y-%m-%dT%T%z)
 
+# Stow
+
+STOW_OPTS ?=
+STOW_PACKAGES_DIR ?= $(PROJECT_DIR)/src
+STOW_USER_HOME ?= $(HOME)
+
 # Shell exit codes
 
 EXIT_CODE_OK := 0
 EXIT_CODE_GENERAL_ERROR := 1
 
 # Colorful Texts
+# @see https://unix.stackexchange.com/a/10065
 
 TEXT_OK := [OK]
 TEXT_INFO := [INFO]
@@ -26,15 +33,84 @@ IS_COLOR_SUPPORTED := $(shell \
 	fi; \
 )
 ifeq ("$(IS_COLOR_SUPPORTED)", "$(EXIT_CODE_OK)")
-	TEXT_COLOR_NONE := \033[0m
-	TEXT_COLOR_RED := \033[0;31m
-	TEXT_COLOR_GREEN := \033[0;32m
-	TEXT_COLOR_CYAN := \033[0;36m
+	TEXT_COLOR_NORMAL := $(shell tput sgr0)
+	TEXT_COLOR_RED := $(shell tput setaf 1)
+	TEXT_COLOR_GREEN := $(shell tput setaf 2)
+	TEXT_COLOR_CYAN := $(shell tput setaf 6)
 
-	TEXT_OK := $(TEXT_COLOR_GREEN)$(TEXT_OK)$(TEXT_COLOR_NONE)
-	TEXT_INFO := $(TEXT_COLOR_CYAN)$(TEXT_INFO)$(TEXT_COLOR_NONE)
-	TEXT_ERROR := $(TEXT_COLOR_RED)$(TEXT_ERROR)$(TEXT_COLOR_NONE)
+	TEXT_OK := $(TEXT_COLOR_GREEN)$(TEXT_OK)$(TEXT_COLOR_NORMAL)
+	TEXT_INFO := $(TEXT_COLOR_CYAN)$(TEXT_INFO)$(TEXT_COLOR_NORMAL)
+	TEXT_ERROR := $(TEXT_COLOR_RED)$(TEXT_ERROR)$(TEXT_COLOR_NORMAL)
 endif
+
+.PHONY: stow-refresh-ignore-files
+stow-refresh-ignore-files: ## Stow refresh ignore files in each package by the following rules:
+stow-refresh-ignore-files: ##   - Any files are not named with the prefix `dot-*`
+stow-refresh-ignore-files: _treat-warnings-as-errors
+	@for path in "$(STOW_PACKAGES_DIR)" $(STOW_PACKAGES_DIR)/dot-*; do \
+		if ! test -d "$${path}"; then \
+			continue; \
+		fi; \
+		cd "$${path}"; \
+		dir=$$(dirname "$${path}"); \
+		file="$${path}/.stow-local-ignore"; \
+		if ls -1A \
+			| grep -v \
+				-e '^dot-.*' \
+				-e '\.gitignore' \
+				-e '\.stow-local-ignore' \
+			> "$${file}"; \
+		then \
+			echo "$(TEXT_INFO) Update: $${file}"; \
+		else \
+			echo "$(TEXT_INFO)  Clear: $${file}"; \
+			rm "$${file}"; \
+		fi; \
+	done;
+
+.PHONY: stow-install-packages
+stow-install-packages: ## Stow install packages into $HOME directory.
+stow-install-packages: _treat-warnings-as-errors
+	@echo "$(TEXT_INFO) Stow installing packages into the directory $(STOW_USER_HOME) ..."; \
+	for path in $(STOW_PACKAGES_DIR) $(STOW_PACKAGES_DIR)/dot-*; do \
+		if ! test -d "$${path}"; then \
+			continue; \
+		fi; \
+		dir=$$(dirname "$${path}"); \
+		name=$$(basename "$${path}"); \
+		stow --verbose \
+			--dotfiles \
+			--target "$(STOW_USER_HOME)" \
+			--dir "$${dir}" \
+			--stow "$${name}" \
+			$(STOW_OPTS); \
+	done; \
+	echo "$(TEXT_OK) Stow installed packages.";
+
+.PHONY: stow-uninstall-packages
+stow-uninstall-packages: ## Stow uninstall packages from $HOME directory.
+stow-uninstall-packages: _treat-warnings-as-errors
+	@echo "$(TEXT_INFO) Stow uninstalling packages from the directory $(STOW_USER_HOME) ..."; \
+	for path in $(STOW_PACKAGES_DIR) $(STOW_PACKAGES_DIR)/dot-*; do \
+		if ! test -d "$${path}"; then \
+			continue; \
+		fi; \
+		dir=$$(dirname "$${path}"); \
+		name=$$(basename "$${path}"); \
+		stow --verbose \
+			--dotfiles \
+			--target "$(STOW_USER_HOME)" \
+			--dir "$${dir}" \
+			--delete "$${name}" \
+			$(STOW_OPTS); \
+	done; \
+	echo "$(TEXT_OK) Stow uninstalled packages.";
+
+.PHONY: stow-check-badlinks
+stow-check-badlinks: ## Stow check the installed packages in $HOME directory which
+stow-check-badlinks: ## are bad links.
+stow-check-badlinks: _treat-warnings-as-errors
+	@chkstow --target "$(STOW_USER_HOME)" --badlinks;
 
 _%/$(HOME)/.bash:               SOURCE_PATH = $(PROJECT_DIR)/src/bash
 _%/$(HOME)/.bash_logout:        SOURCE_PATH = $(PROJECT_DIR)/src/bash/bash_logout
