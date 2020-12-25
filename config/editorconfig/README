@@ -1,0 +1,23 @@
+## EditorConfig
+
+[EditorConfig] helps maintain consistent coding styles
+for multiple developers working on the same project
+across various editors and IDEs.
+
+### Installation
+
+```shell
+# Create a symbolic link:
+ln -v -s "${PWD}/editorconfig" "${HOME}/.editorconfig"
+
+# Or just copy the file:
+cp "${PWD}/editorconfig" "${HOME}/.editorconfig"
+```
+
+### References
+
+- [EditorConfig]
+- [EditorConfig Specification]
+
+[EditorConfig]: https://editorconfig.org
+[EditorConfig Specification]: https://editorconfig-specification.readthedocs.io
