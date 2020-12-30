@@ -9,3 +9,28 @@
 if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
   return
 fi
+
+#######################################################################
+# Configure Bash variables.
+#
+# Globals:
+#   LC_ALL
+#   LANG
+# Arguments:
+#   None
+#######################################################################
+function bashrc::configure()
+{
+  export LC_ALL="en_US.UTF-8"
+  export LANG="en_US.UTF-8"
+}
+
+function bashrc::main()
+{
+  bashrc::configure
+}
+
+bashrc::main
+
+unset -f bashrc::main
+unset -f bashrc::configure
