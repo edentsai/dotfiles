@@ -29,6 +29,31 @@ insert_final_newline = true
 # newline characters in the file.
 trim_trailing_whitespace = true
 
+[{*.bash,*.sh}]
+
+indent_style = space
+indent_size = 2
+
+[{*.bashrc,bashrc}]
+
+indent_style = space
+indent_size = 2
+
+[{*.bash_profile,bash_profile}]
+
+indent_style = space
+indent_size = 2
+
+[{*.bash_login,bash_login}]
+
+indent_style = space
+indent_size = 2
+
+[{*.bash_logout,bash_logout}]
+
+indent_style = space
+indent_size = 2
+
 [{*.markdown,*.md,README}]
 
 indent_style = space
