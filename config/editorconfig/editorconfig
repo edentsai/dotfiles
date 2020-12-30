@@ -28,3 +28,15 @@ insert_final_newline = true
 # Remove all whitespace characters preceding
 # newline characters in the file.
 trim_trailing_whitespace = true
+
+[{*.markdown,*.md,README}]
+
+indent_style = space
+indent_size = 4
+
+# Don't remove the trailing whitespace in Markdown.
+#
+# - We can use two or more spaces
+#   (commonly referred to as "trailing whitespace")
+#   as line breaks in nearly every Markdown application.
+trim_trailing_whitespace = false
