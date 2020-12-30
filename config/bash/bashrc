@@ -9,3 +9,33 @@
 if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
   return
 fi
+
+#######################################################################
+# Configure Bash variables.
+#
+# Globals:
+#   LC_ALL
+#   LANG
+# Arguments:
+#   None
+#######################################################################
+function bashrc::configure()
+{
+  # Used to determine the locale category for any category
+  # not specifically selected with a variable starting with LC_.
+  export LANG="en_US.UTF-8"
+
+  # This variable overrides the value of LANG
+  # and any other LC_ variable specifying a locale category.
+  export LC_ALL="en_US.UTF-8"
+}
+
+function bashrc::main()
+{
+  bashrc::configure
+}
+
+bashrc::main
+
+unset -f bashrc::main
+unset -f bashrc::configure
