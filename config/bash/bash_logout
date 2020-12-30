@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Bash Configuration when Logout Shell.
+#
+# When an interactive login shell exits,
+# or a non-interactive login shell executes the exit builtin command,
+
+# - Bash reads and executes commands
+#   from the file `$HOME/.bash_logout` if it exists.
+#
+# @link https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
+
+# Return if not running interactive bash.
+if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
+    return
+fi
