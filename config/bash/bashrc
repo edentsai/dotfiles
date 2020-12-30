@@ -44,6 +44,18 @@ function bashrc::main()
     bash_config_home="${XDG_CONFIG_HOME}/bash"
   fi
 
+  # Source the bashrc files in order.
+  local ordered_bashrc_files=( \
+    "${bash_config_home}/bashrc.d/bash-prompt.bashrc" \
+  )
+
+  local bashrc_file
+  for bashrc_file in "${ordered_bashrc_files[@]}"; do
+    if test -f "${bashrc_file}"; then
+      source "${bashrc_file}"
+    fi
+  done
+
   # Source the bashrc files for localhost only.
   if test -f "${bashrc_file}"; then
     source "${bash_config_home}/local.bashrc"
