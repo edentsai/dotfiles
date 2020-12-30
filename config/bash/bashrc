@@ -16,6 +16,7 @@ fi
 # Globals:
 #   LC_ALL
 #   LANG
+#   XDG_CONFIG_HOME
 # Arguments:
 #   None
 #######################################################################
@@ -23,11 +24,30 @@ function bashrc::configure()
 {
   export LC_ALL="en_US.UTF-8"
   export LANG="en_US.UTF-8"
+
+  # $XDG_CONFIG_HOME defines the base directory relative to
+  # which user specific configuration files should be stored.
+  #
+  # - If $XDG_CONFIG_HOME is either not set or empty,
+  #   a default equal to `$HOME/.config` should be used.
+  if [[ "${XDG_CONFIG_HOME:-}" == "" ]]; then
+    export XDG_CONFIG_HOME="${HOME}/.config"
+  fi
 }
 
 function bashrc::main()
 {
   bashrc::configure
+
+  local bash_config_home="${HOME}/.config/bash"
+  if [[ "${XDG_COFNIG_HOME:-}" != "" ]]; then
+    bash_config_home="${XDG_CONFIG_HOME}/bash"
+  fi
+
+  # Source the bashrc files for localhost only.
+  if test -f "${bashrc_file}"; then
+    source "${bash_config_home}/local.bashrc"
+  fi
 }
 
 bashrc::main
