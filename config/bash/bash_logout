@@ -14,3 +14,57 @@
 if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
     return
 fi
+
+########################################################################
+# Clear the console screen of the top-level shell.
+#
+# Globals:
+#   PS1
+#   SHLVL
+########################################################################
+function bash_logout::clear_console_of_top_level_shell()
+{
+  local number_of_shell_levels="${SHLVL:-1}"
+  if (( "${number_of_shell_levels}" > "1" )); then
+    return
+  fi
+
+  if [[ "${PS1:-}" == "" ]]; then
+    return
+  fi
+
+  if command -v "clear_console" > /dev/null 2>&1; then
+    clear_console -q
+
+    return
+  fi
+
+  if command -v "clear" > /dev/null 2>&1; then
+    clear
+  fi
+
+  return
+}
+
+########################################################################
+# Clean up for security and privacy.
+########################################################################
+function bash_logout::cleanup()
+{
+  # Clear the console screen of the top-level shell
+  # to increase security and privacy.
+  #
+  # @link https://unix.stackexchange.com/a/451150
+  #       Why is there a call to `clear_console` in `~/.bash_logout`?
+  bash_logout::clear_console_of_top_level_shell
+}
+
+function bash_logout::main()
+{
+  # Set a trap to clean up the current shell on EXIT.
+  trap 'bash_logout::cleanup' EXIT
+}
+
+bash_logout::main
+
+unset -f bash_logout::main
