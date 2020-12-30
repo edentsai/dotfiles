@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Bash Configuration.
+#
+# @link https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
+# @link https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
+
+# Return if not running interactive bash.
+if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
+  return
+fi
