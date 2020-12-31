@@ -5,19 +5,19 @@
 [Vim] doesn't support XDG base directory,
 so we need to create a symbolic link to `$HOME/.vim` as workaround:
 
-```shell
-ln -v -s "${PWD}" "${XDG_CONFIG_HOME}/vim"
+    ```shell
+    ln -v -s "${PWD}" "${XDG_CONFIG_HOME}/vim"
 
-ln -v -s "${XDG_CONFIG_HOME}/vim" "${HOME}/.vim"
-```
+    ln -v -s "${XDG_CONFIG_HOME}/vim" "${HOME}/.vim"
+    ```
 
 We can do something with variables
 to make things easy with XDG base directories,
 for example:
 
-```vim vimrc
-source $XDG_CONFIG_HOME/vim/vimrc.d/mappings.vim
-```
+    ```vim vimrc
+    source $XDG_CONFIG_HOME/vim/vimrc.d/mappings.vim
+    ```
 
 ### References
 
