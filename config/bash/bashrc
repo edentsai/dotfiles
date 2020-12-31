@@ -35,6 +35,66 @@ function bashrc::configure()
   fi
 }
 
+#######################################################################
+# Source a bashrc file if it is exists.
+#
+# Arguments:
+#   bashrc_file
+# Returns:
+#   0 if the bashrc file not exists,
+#   128 if the arguments are invalid,
+#   or returns the status of the last command executed
+#   in the bashrc file,
+#   fails if the bashrc file cannot be read.
+#######################################################################
+function bashrc::source_bashrc_file_if_exists()
+{
+  local readonly EXIT_STATUS_INVALID_ARGUMENT="128"
+  local script_file="${BASH_SOURCE[0]:-"${0}"}"
+
+  local arguments=("${@}")
+  local number_of_arguments="${#arguments[@]}"
+  if (( "${number_of_arguments}" != "1" )); then
+    printf "%s: %s: %s: %s \n" \
+      "${script_file}" \
+      "${FUNCNAME} failed at line ${LINENO}" \
+      "too many arguments" \
+      "only accept a bashrc file" \
+      1>&2
+
+    return "${EXIT_STATUS_INVALID_ARGUMENT}"
+  fi
+
+  local bashrc_file="${arguments[0]}"
+  if [[ "${bashrc_file}" == "" ]]; then
+    printf "%s: %s: %s: %s\n" \
+      "${script_file}" \
+      "${FUNCNAME} failed at line ${LINENO}" \
+      "invalid argument" \
+      "bashrc file cannot be empty" \
+      1>&2
+
+    return "${EXIT_STATUS_INVALID_ARGUMENT}"
+  fi
+
+  if test -e "${bashrc_file}"; then
+    source "${bashrc_file}"
+
+    local last_exit_status="${?}"
+    if [[ "${last_exit_status}" != "0" ]]; then
+      printf "%s: %s: %s \n" \
+        "${script_file}: ${FUNCNAME} failed at line ${LINENO}" \
+        "source ${bashrc_file} failed" \
+        "exit status ${last_exit_status}" \
+        1>&2
+    fi
+
+    return "${last_exit_status}"
+  fi
+
+  return 0
+}
+
 function bashrc::main()
 {
   bashrc::configure
@@ -51,18 +111,16 @@ function bashrc::main()
 
   local bashrc_file
   for bashrc_file in "${ordered_bashrc_files[@]}"; do
-    if test -f "${bashrc_file}"; then
-      source "${bashrc_file}"
-    fi
+    bashrc::source_bashrc_file_if_exists "${bashrc_file}"
   done
 
   # Source the bashrc files for localhost only.
-  if test -f "${bashrc_file}"; then
-    source "${bash_config_home}/local.bashrc"
-  fi
+  bashrc_file="${bash_config_home}/local.bashrc"
+  bashrc::source_bashrc_file_if_exists "${bashrc_file}"
 }
 
 bashrc::main
 
 unset -f bashrc::main
 unset -f bashrc::configure
+unset -f bashrc::source_bashrc_file_if_exists
