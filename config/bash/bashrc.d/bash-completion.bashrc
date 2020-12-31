@@ -67,6 +67,11 @@ function bashrc::bash_completion::configure()
   if [[ "${BASH_COMPLETION_USER_DIR:-}" == "" ]]; then
     export BASH_COMPLETION_USER_DIR="${data_home}/bash-completion"
   fi
+
+  # TODO
+  #if [[ "${BASH_COMPLETION_COMPAT_DIR:-}" == "" ]]; then
+  #    export BASH_COMPLETION_COMPAT_DIR="${XDG_CONFIG_HOME}/bash/bash_completion.d"
+  #fi
 }
 
 #######################################################################
