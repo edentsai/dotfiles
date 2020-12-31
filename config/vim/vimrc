@@ -1,0 +1,8 @@
+" Vim Configuration.
+"
+" @link https://www.vim.org/
+" @link https://learnvimscriptthehardway.stevelosh.com/chapters/42.html
+
+" Skip initialization for vim-tiny or vim-small. {
+  if 0 | endif
+" }
