@@ -6,3 +6,28 @@
 " Skip initialization for vim-tiny or vim-small. {
   if 0 | endif
 " }
+
+" Settings for Compatiblility, Filetype and Syntax. {
+  " Do not compatible with the old-fashion vi mode.
+  set nocompatible
+
+  " Enable filetype detection.
+  "
+  " NOTE:
+  "
+  " - "filetype off" is required as a workaround,
+  "   There was a bug in Vim's file detection
+  "   that used to cause this weird behaviour.
+  "   (it has been fixed in Vim 7.3.430)
+  "
+  " @link https://github.com/VundleVim/Vundle.vim/issues/176#issuecomment-6259090
+  filetype off
+  filetype on
+
+  " Enable filetype-specific indent and plugin.
+  filetype indent on
+  filetype plugin on
+
+  " Enable syntax highlight.
+  syntax on
+" }
