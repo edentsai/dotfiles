@@ -107,6 +107,7 @@ function bashrc::main()
   # Source the bashrc files in order.
   local ordered_bashrc_files=( \
     "${bash_config_home}/bashrc.d/bash-prompt.bashrc" \
+    "${bash_config_home}/bashrc.d/bash-completion.bashrc" \
   )
 
   local bashrc_file
