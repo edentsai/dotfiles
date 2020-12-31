@@ -31,3 +31,66 @@
   " Enable syntax highlight.
   syntax on
 " }
+
+" Settings for Encodings. {
+  " Sets the character encoding used inside Vim.
+  set encoding=utf-8
+
+  " Specify the character encoding used in the script.
+  "
+  " - See ":help scriptencoding" for more details.
+  "
+  " NOTE:
+  "
+  " - If you set the "encoding" option in your ".vimrc",
+  "   "scriptencoding" must be placed after that.
+  "   for example:
+  " 
+  "     ```vim
+  "     " Good.
+  "     set encoding=utf-8
+  "     scriptencoding utf-8
+  "     ```
+  "
+  "     ```vim
+  "     " Bad (DO NOT DO THIS).
+  "     scriptencoding utf-8
+  "     set encoding=utf-8
+  "     ```
+  scriptencoding utf-8
+
+  " Sets the character encoding for the file of this buffer.
+  "
+  " - When "fileencoding" is different from "encoding",
+  "   conversion will be done when writing the file.
+  " - When "fileencoding" is empty,
+  "   the same value as "encoding" will be used
+  "   (no conversion when reading or writing a file).
+  " - See ":help fileencoding" for more details.
+  set fileencoding=utf-8
+
+  " This is a list of character encodings considered
+  " when starting to edit an existing file.
+  "
+  " - When a file is read,
+  "   Vim tries to use the first mentioned character encoding.
+  " - If an error is detected, the next one in the list is tried.
+  " - When an encoding is found that works,
+  "   "fileencoding" is set to it.
+  " - If all fail, "fileencoding" is set to an empty string,
+  "   which means the value of "encoding" is used.
+  " - "enc-jp" is Extended UNIX Code Packed Format for Japanese.
+  " - "enc-kr" is Extended UNIX Code Packed Format for Korean..
+  "
+  " NOTE:
+  "
+  " - "ucs-bom" must not come after utf-8 if you want it to be used.
+  " - See ":help fileencodings" for more details.
+  set fileencodings=ucs-bom,utf-8,big5,euc-jp,euc-kr,gb2312,latin1
+
+  " Encoding used for the terminal.
+  "
+  " - This specifies what character encoding the keyboard
+  "   produces and the display will understand.
+  set termencoding=utf-8
+" }
