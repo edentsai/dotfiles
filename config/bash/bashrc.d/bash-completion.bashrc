@@ -66,6 +66,33 @@ function bashrc::bash_completion::configure()
   if [[ "${BASH_COMPLETION_USER_DIR:-}" == "" ]]; then
     export BASH_COMPLETION_USER_DIR="${data_home}/bash-completion"
   fi
+
+  # Bash Completion will source all of files
+  # by `$BASH_COMPLETION_COMPAT_DIR/*` at startup,
+  # that cause you cannot use a newer completion script
+  # by BASH_COMPLETION_USER_DIR.
+  #
+  # For example, there are two completion scripts
+  # with difference versions for the `git` command:
+  #
+  # 1. older script: `$BASH_COMPLETION_COMPAT_DIR/git-completion.bash`.
+  # 2. newer script: `$BASH_COMPLETION_USER_DIR/git-completion.bash`.
+  #
+  # Bash completion will source the older script
+  # `$BASH_COMPLETION_COMPAT_DIR/git-completion.bash` at startup,
+  # when Git completion already existed in current shell,
+  # the newer script `$BASH_COMPLETION_USER_DIR/git-completion.bash`
+  # will never be source.
+  #
+  # @link https://github.com/scop/bash-completion/blob/2.11/bash_completion#L2244-L2252
+  #
+  # NOTE:
+  #   Handle `$BASH_COMPLETION_COMPAT_DIR` if you have newer completions
+  #   in `$BASH_COMPLETION_USER_DIR` or `$XDG_DATA_DIRS`.
+  #
+  # # if [[ "${BASH_COMPLETION_COMPAT_DIR:-}" == "" ]]; then
+  # #    export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
+  # # fi
 }
 
 #######################################################################
