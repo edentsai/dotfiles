@@ -1,0 +1,4 @@
+# Bash
+
+config/bash/local.bashrc
+config/bash/local.bashrc.d/*

@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+# Bash Configuration when Login Shell.
+#
+# When Bash is invoked as an interactive login shell,
+# or as a non-interactive shell with the --login option.
+#
+# @link https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
+
+# Return if not running interactive bash.
+if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
+  return
+fi
+
+###############################################################################
+# Source the first bashrc in the following order:
+#
+# 1. Use `$HOME/.bashrc` if it exists.
+# 2. or use `$XDG_CONFIG_HOME/bash/bashrc` if it exists,
+#    if $XDG_CONFIG_HOME is either not set or empty,
+#    a default equal to `$HOME/.config` should be used.
+#
+# Globals:
+#   BASH_SOURCE
+#   HOME
+#   XDG_CONFIG_HOME
+# Arguments:
+#   None
+# Returns:
+#   0 if all bashrc files are not found,
+#   or returns the status of the last command executed
+#   in the bashrc file,
+#   fails if the bashrc file cannot be read.
+###############################################################################
+function bash_login::source_bashrc_if_exists()
+{
+  local xdg_config_home="${HOME}/.config"
+  if [[ "${XDG_CONFIG_HOME:-}" != "" ]]; then
+    xdg_config_home="${XDG_CONFIG_HOME}"
+  fi
+
+  local ordered_bashrc_files=( \
+    "${HOME}/.bashrc" \
+    "${xdg_config_home}/bash/bashrc" \
+  )
+
+  local bashrc_file
+  for bashrc_file in "${ordered_bashrc_files[@]}"; do
+    if test -e "${bashrc_file}"; then
+      source "${bashrc_file}"
+
+      local last_exit_status="${?}"
+      if [[ "${last_exit_status}" != "0" ]]; then
+        local script_file="${BASH_SOURCE[0]:-"${0}"}"
+        printf "%s: %s: %s: %s\n" \
+          "${script_file}" \
+          "${FUNCNAME} failed at line ${LINENO}" \
+          "source file ${bashrc_file} failed" \
+          "exit status ${last_exit_status}" \
+          1>&2
+      fi
+
+      return "${last_exit_status}"
+    fi
+  done
+
+  return 0
+}
+
+bash_login::source_bashrc_if_exists
+
+unset -f bash_login::source_bashrc_if_exists

@@ -1,0 +1,194 @@
+#!/usr/bin/env bash
+
+# Bash Configuration.
+#
+# @link https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
+# @link https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
+
+# Return if not running interactive bash.
+if [[ "${BASH_VERSION:-}" == "" ]] || [[ "${PS1:-}" == "" ]]; then
+  return
+fi
+
+#######################################################################
+# Configure Bash variables.
+#
+# Globals:
+#   LC_ALL
+#   LANG
+# Arguments:
+#   None
+#######################################################################
+function bashrc::configure()
+{
+  # Used to determine the locale category for any category
+  # not specifically selected with a variable starting with LC_.
+  export LANG="en_US.UTF-8"
+
+  # This variable overrides the value of LANG
+  # and any other LC_ variable specifying a locale category.
+  export LC_ALL="en_US.UTF-8"
+}
+
+#######################################################################
+# Configure XDG base direcories in Bash.
+#
+# Globals:
+#   HOME
+#   XDG_CONFIG_HOME
+#   XDG_CONFIG_DIRS
+#   XDG_CACHE_HOME
+#   XDG_DATA_HOME
+#   XDG_DATA_DIRS
+# Arguments:
+#   None
+#
+# @link https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+#######################################################################
+function bashrc::configure_base_directories()
+{
+  # $XDG_CONFIG_HOME defines the base directory relative to
+  # which user specific configuration files should be stored.
+  #
+  # - If $XDG_CONFIG_HOME is either not set or empty,
+  #   a default equal to `$HOME/.config` should be used.
+  if [[ "${XDG_CONFIG_HOME:-}" == "" ]]; then
+    export XDG_CONFIG_HOME="${HOME}/.config"
+  fi
+
+  # $XDG_CONFIG_DIRS defines the preference-ordered set
+  # of base directories to search for configuration files
+  # in addition to the $XDG_CONFIG_HOME base directory.
+  #
+  # - The directories in $XDG_CONFIG_DIRS
+  #   should be seperated with a colon ':'.
+  # - If $XDG_CONFIG_DIRS is either not set or empty,
+  #   a value equal to `/etc/xdg` should be used.
+  if [[ "${XDG_CONFIG_DIRS:-}" == "" ]]; then
+    export XDG_CONFIG_DIRS="/etc/xdg"
+  fi
+
+  # $XDG_CACHE_HOME defines the base directory
+  # relative to which user specific non-essential data files
+  # should be stored.
+  #
+  # - If $XDG_CACHE_HOME is either not set or empty,
+  #   a default equal to `$HOME/.cache` should be used.
+  if [[ "${XDG_CACHE_HOME:-}" == "" ]]; then
+    export XDG_CACHE_HOME="${HOME}/.cache"
+  fi
+
+  # $XDG_DATA_HOME defines the base directory
+  # relative to which user specific data files
+  # should be stored.
+  #
+  # - If $XDG_DATA_HOME is either not set or empty,
+  #   a default equal to `$HOME/.local/share` should be used.
+  if [[ "${XDG_DATA_HOME:-}" == "" ]]; then
+    export XDG_DATA_HOME="${HOME}/.local/share"
+  fi
+
+  # $XDG_DATA_DIRS defines the preference-ordered set
+  # of base directories to search for data files
+  # in addition to the $XDG_DATA_HOME base directory.
+  #
+  # - The directories in $XDG_DATA_DIRS
+  #   should be seperated with a colon ':'.
+  # - If $XDG_DATA_DIRS is either not set or empty,
+  #   a value equal to `/usr/local/share:/usr/share` should be used.
+  if [[ "${XDG_DATA_DIRS:-}" == "" ]]; then
+    export XDG_DATA_DIRS="/usr/local/share:/usr/share"
+  fi
+}
+
+#######################################################################
+# Source a bashrc file if it is exists.
+#
+# Arguments:
+#   bashrc_file
+# Returns:
+#   0 if the bashrc file not exists,
+#   128 if the arguments are invalid,
+#   or returns the status of the last command executed
+#   in the bashrc file,
+#   fails if the bashrc file cannot be read.
+#######################################################################
+function bashrc::source_bashrc_file_if_exists()
+{
+  local readonly EXIT_STATUS_INVALID_ARGUMENT="128"
+  local script_file="${BASH_SOURCE[0]:-"${0}"}"
+
+  local arguments=("${@}")
+  local number_of_arguments="${#arguments[@]}"
+  if (( "${number_of_arguments}" != "1" )); then
+    printf "%s: %s: %s: %s \n" \
+      "${script_file}" \
+      "${FUNCNAME} failed at line ${LINENO}" \
+      "too many arguments" \
+      "only accept a bashrc file" \
+      1>&2
+
+    return "${EXIT_STATUS_INVALID_ARGUMENT}"
+  fi
+
+  local bashrc_file="${arguments[0]}"
+  if [[ "${bashrc_file}" == "" ]]; then
+    printf "%s: %s: %s: %s\n" \
+      "${script_file}" \
+      "${FUNCNAME} failed at line ${LINENO}" \
+      "invalid argument" \
+      "bashrc file cannot be empty" \
+      1>&2
+
+    return "${EXIT_STATUS_INVALID_ARGUMENT}"
+  fi
+
+  if test -e "${bashrc_file}"; then
+    source "${bashrc_file}"
+
+    local last_exit_status="${?}"
+    if [[ "${last_exit_status}" != "0" ]]; then
+      printf "%s: %s: %s \n" \
+        "${script_file}: ${FUNCNAME} failed at line ${LINENO}" \
+        "source ${bashrc_file} failed" \
+        "exit status ${last_exit_status}" \
+        1>&2
+    fi
+
+    return "${last_exit_status}"
+  fi
+
+  return 0
+}
+
+function bashrc::main()
+{
+  bashrc::configure
+  bashrc::configure_base_directories
+
+  local bash_config_home="${HOME}/.config/bash"
+  if [[ "${XDG_CONFIG_HOME:-}" != "" ]]; then
+    bash_config_home="${XDG_CONFIG_HOME}/bash"
+  fi
+
+  # Source the bashrc files in order.
+  local ordered_bashrc_files=( \
+    "${bash_config_home}/bashrc.d/bash-prompts.bashrc" \
+  )
+
+  local bashrc_file
+  for bashrc_file in "${ordered_bashrc_files[@]}"; do
+    bashrc::source_bashrc_file_if_exists "${bashrc_file}"
+  done
+
+  # Source the bashrc files for localhost only.
+  bashrc_file="${bash_config_home}/local.bashrc"
+  bashrc::source_bashrc_file_if_exists "${bashrc_file}"
+}
+
+bashrc::main
+
+unset -f bashrc::main
+unset -f bashrc::configure
+unset -f bashrc::configure_base_directories
+unset -f bashrc::source_bashrc_file_if_exists
