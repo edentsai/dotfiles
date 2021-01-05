@@ -175,6 +175,7 @@ function bashrc::main()
   local ordered_bashrc_files=( \
     "${bash_config_home}/bashrc.d/bash-prompts.bashrc" \
     "${bash_config_home}/bashrc.d/bash-completion.bashrc" \
+    "${bash_config_home}/bashrc.d/homebrew.bashrc" \
   )
 
   local bashrc_file
