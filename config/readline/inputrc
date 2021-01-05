@@ -1,0 +1,342 @@
+# Readline Configuration.
+#
+# GNU Readline is a software library that provides line-editing
+# and history capabilities for interactive programs
+# with a command-line interface, such as Bash.
+#
+# @link https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
+# @link https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File-Syntax.html
+# @link https://www.gnu.org/software/bash/manual/html_node/Sample-Init-File.html
+# @link https://www.gnu.org/software/bash/manual/html_node/Bindable-Readline-Commands.html
+
+# Controls what happens when Readline wants to ring the terminal bell.
+#
+# - If set to "none",
+#   Readline never rings the bell.
+# - If set to "visible",
+#   Readline uses a visible bell if one is available.
+# - If set to "audible",
+#   Readline attempts to ring the terminal’s bell.
+# - Default: "audible"
+set bell-style audible
+
+# If set to "on",
+# Readline attempts to briefly move the cursor
+# to an opening parenthesis when a closing parenthesis is inserted.
+#
+# - Default: "off".
+set blink-matching-paren on
+
+# If set to "on", when listing completions,
+# Readline displays the common prefix of the set
+# of possible completions using a different color.
+#
+# - The color definitions are taken from
+#   the value of the LS_COLORS environment variable.
+# - Default: "off".
+set colored-completion-prefix on
+
+# If set to "on",
+# Readline displays possible completions
+# using different colors to indicate their file type.
+#
+# - The color definitions are taken from
+#   the value of the LS_COLORS environment variable.
+# - Default: "off".
+set colored-stats on
+
+# The number of screen columns used to display possible matches
+# when performing completion.
+#
+# - The value is ignored if it is less than 0
+#   or greater than the terminal screen width.
+# - A value of 0 will cause matches to be displayed one per line.
+# - Default: "-1".
+set completion-display-width -1
+
+# If set to "on",
+# Readline performs filename matching and completion
+# in a case-insensitive fashion.
+#
+# - Default: "off".
+set completion-ignore-case on
+
+# If set to "on", and completion-ignore-case is enabled,
+# Readline treats hyphens ("-") and underscores ("_") as equivalent
+# when performing case-insensitive filename matching and completion.
+#
+# - Default: "off".
+set completion-map-case on
+
+# The length in characters of the common prefix
+# of a list of possible completions
+# that is displayed without modification.
+#
+# - When set to a value greater than zero,
+#   common prefixes longer than this value are replaced
+#   with an ellipsis when displaying possible completions.
+# - For example:
+#
+#     ```shell
+#     $ ls
+#     longFileNameLINUX-2.6.37-4  longFileNameLINUX-2.6.37-7
+#     longFileNameLINUX-2.6.37-6  longFileNameLINUX-2.6.37-8
+#     longFileNameLINUX-2.6.38-9  longFileNameLINUX-2.6.38-11
+#     ...(long list)
+#
+#     $ ls long<TAB>
+#     ...7-4   ...7-6   ...7-7   ...7-8   ...8-11  ...8-9
+#
+#     $ ls longFileNameLINUX-2.6.3
+#   ```
+#
+# - NOTE: This will make the colored-completion-prefix dislabed.
+# @link https://www.reddit.com/r/commandline/comments/kbeoe/you_can_make_readline_and_bash_much_more_user/
+# set completion-prefix-display-length 2
+
+# The number of possible completions that determines
+# when the user is asked whether the list of possibilities
+# should be displayed.
+#
+# - If the number of possible completions
+#   is greater than or equal to this value,
+#   Readline will ask whether or not the user wishes to view them;
+#   otherwise, they are simply listed.
+# - This variable must be set to an integer value greater than or equal to 0.
+# - A negative value means Readline should never ask.
+# - Default: 100.
+set completion-query-items 50
+
+# If set to "on",
+# Readline will convert characters with the eighth bit
+# set to an ASCII key sequence by stripping the eighth bit
+# and prefixing an ESC character, converting them to
+# a meta-prefixed key sequence.
+#
+# - The default value is "on", but will be set to "off"
+#   if the locale is one that contains eight-bit characters.
+# - Allow iso-latin1 characters to be inserted rather
+#   than converted to prefix-meta sequences.
+# - Default: "on".
+set convert-meta off
+
+# If set to "on",
+# Readline will inhibit word completion.
+#
+# - Completion characters will be inserted into the line
+#   as if they had been mapped to self-insert.
+# - Default: "off".
+set disable-completion off
+
+# The editing-mode variable controls
+# which default set of key bindings is used.
+#
+# - By default, Readline starts up in Emacs editing mode,
+#   where the keystrokes are most similar to Emacs.
+# - This variable can be set to either "emacs" or "vi".
+# - Default: "emacs".
+set editing-mode emacs
+
+# If set to "on",
+# tilde expansion is performed when Readline attempts word completion.
+#
+# - Default: "off".
+set expand-tilde off
+
+# If set to "on",
+# the history code attempts to place the point
+# (the current cursor position) at the same location
+# on each history line retrieved with previous-history or next-history.
+#
+# - Default: "off".
+set history-preserve-point off
+
+# Set the maximum number of history entries saved in the history list.
+#
+# - If set to zero,
+#   any existing history entries are deleted
+#   and no new entries are saved.
+# - If set to a value less than zero,
+#   the number of history entries is not limited.
+# - If an attempt is made to set history-size to a non-numeric value,
+#   the maximum number of history entries will be set to 500.
+# - By default, the number of history entries is not limited.
+set history-size 500
+
+# If set to "on",
+# Readline will enable eight-bit input
+# (it will not clear the eighth bit in the characters it reads),
+# regardless of what the terminal claims it can support.
+#
+# - The default value is "off", but Readline will set it to "on"
+#   if the locale contains eight-bit characters.
+# - The name meta-flag is a synonym for this variable.
+# - Default: "off".
+set input-meta on
+
+# The string of characters that should terminate an incremental search
+# without subsequently executing the character as a command.
+#
+# - If this variable has not been given a value,
+#   the characters ESC and C-J will terminate an incremental search.
+#
+# @link https://www.gnu.org/software/bash/manual/html_node/Searching.html
+## set isearch-terminators ???
+
+# If set to "on",
+# completed directory names have a slash appended.
+#
+# - Default: "on".
+set mark-directories on
+
+# If set to "on",
+# causes Readline to display an asterisk ("*")
+# at the start of history lines which have been modified.
+#
+# - Default: "off".
+set mark-modified-lines on
+
+# If set to "on",
+# completed names which are symbolic links to directories
+# have a slash appended (subject to the value of mark-directories).
+#
+# - Default: "off".
+set mark-symlinked-directories on
+
+# If set to "on",
+# causes Readline to match files whose names
+# begin with a "." (hidden files) when performing filename completion.
+#
+# - If set to "off", the leading "." must be supplied by the user
+#   in the filename to be completed.
+# - Default: "on".
+set match-hidden-files on
+
+# If set to "on",
+# menu completion displays the common prefix of the list
+# of possible completions (which may be empty)
+# before cycling through the list.
+#
+# - Default: "off".
+set menu-complete-display-prefix on
+
+# If set to "on",
+# Readline will display characters with the eighth bit
+# set directly rather than as a meta-prefixed escape sequence.
+#
+# - The default is "off", but Readline will set it to "on"
+#   if the locale contains eight-bit characters.
+# - Default: "off".
+set output-meta on
+
+# If set to "on",
+# Readline uses an internal more-like pager
+# to display a screenful of possible completions at a time.
+#
+# - Default: "on".
+set page-completions on
+
+# If set to "on",
+# Readline will display completions with matches sorted
+# horizontally in alphabetical order rather than down the screen.
+#
+# - Default: "off".
+set print-completions-horizontally on
+
+# This alters the default behavior of the completion functions.
+#
+# - If set to "on",
+#   words which have more than one possible completion
+#   cause the matches to be listed immediately instead of
+#   ringing the bell.
+# - Default: "off".
+set show-all-if-ambiguous on
+
+# This alters the default behavior of the completion functions
+# in a fashion similar to show-all-if-ambiguous.
+#
+# - If set to "on",
+#   words which have more than one possible completion
+#   without any possible partial completion
+#   (the possible completions don’t share a common prefix)
+#   cause the matches to be listed immediately instead of
+#   ringing the bell.
+# - Default: "off".
+set show-all-if-unmodified on
+
+# If set to "on",
+# this alters the default completion behavior
+# when inserting a single match into the line.
+#
+# - It’s only active when performing completion
+#   in the middle of a word.
+# - If enabled,
+#   readline does not insert characters from the completion
+#   that match characters after point in the word being completed,
+#   so portions of the word following the cursor are not duplicated.
+#   For instance, attempting completion when the cursor is after
+#   the "e" in "Makefile" will result in "Makefile" rather than
+#   "Makefilefile", assuming there is a single possible completion.
+# - Default: "off".
+set skip-completed-text on
+
+# If set to "on",
+# a character denoting a file’s type is appended to the filename
+# when listing possible completions.
+#
+# - Default: "off".
+set visible-stats on
+
+#####################################################################
+
+# # Set editing mode
+# set editing-mode emacs
+# # set editing-mode vi
+
+# some defaults / modifications for the emacs mode
+$if editing-mode == emacs
+    # <Tab> for Menu complete.
+    "\e\t": menu-complete
+
+    # <Shift-Tab> for menu complete backaard.
+    "\e[Z": menu-complete-backward
+
+    # <Up> / <Down> arrows for history search
+    "\e[A": history-search-backward
+    "\e[B": history-search-forward
+
+    # TODO:  <Ctrl-Up/Down> 被 macOS mission control 綁定了
+    # `<Ctrl-Up>` and `<Ctrl-Down>` arrows for history moving.
+    "\e[1;5A": previous-history
+    "\e[1;5B": next-history
+    "\e[5A": previous-history
+    "\e[5B": next-history
+    "\e\e[A": previous-history
+    "\e\e[B": next-history
+
+    # `<Ctrl-Left>` and `<Ctrl-Right>` for word moving.
+    "\e[1;5C": forward-word
+    "\e[1;5D": backward-word
+    "\e[5C": forward-word
+    "\e[5D": backward-word
+    "\e\e[C": forward-word
+    "\e\e[D": backward-word
+
+    # Allow use Home/End/PageUp/PageDown/Delete/Insert keys
+    #
+    # - `<Home>`: beginning-of-line
+    # - `<End>`: end-of-line
+    # - `<PageUp>`: beginning-of-history
+    # - `<PageDown>`: end-of-history
+    # - `<Delete>`: delete-char
+    # - `<Insert>`: quoted-insert
+    "\e[1~": beginning-of-line
+    "\e[4~": end-of-line
+    "\e[5~": beginning-of-history
+    "\e[6~": end-of-history
+    "\e[3~": delete-char
+    "\e[2~": quoted-insert
+$endif
+
+Control-j: history-search-forward
+Control-k: history-search-backward
