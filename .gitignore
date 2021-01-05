@@ -2,3 +2,7 @@
 
 config/bash/local.bashrc
 config/bash/local.bashrc.d/*
+
+# GnuPG
+
+config/gnupg/sshcontrol

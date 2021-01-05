@@ -54,6 +54,65 @@ so we need to create symbolic links to `$HOME/.gnupg` as workaround.
         export GPG_TTY="$(tty)"
         ```
 
+### SSH Authentication with GnuPG
+
+> **References**
+>
+> [Using a GPG key for SSH authentication on macOS and Debian](https://gregrs-uk.github.io/2018-08-06/gpg-key-ssh-mac-debian/)
+
+Copy `sshcontrol-example` to `sshcontrol`,
+then we will edit it later:
+
+```shell
+cp -v sshcontrol-example sshcontrol
+
+ln -v -s \
+    "${XDG_CONFIG_HOME}/gnupg/sshcontrol" \
+    "${HOME}/.gnupg/sshcontrol"
+```
+
+#### Use GPG Subkey for SSH Authentication
+
+1.  Add a GPG subkey with `authenticate` capability:
+
+    ```shell
+    gpg --keyid-format "0xlong" \
+        --edit-key "<GPG_KEY_ID>"
+    
+    gpg> addkey
+    ...
+    
+    gpg> save
+    ```
+
+2.  Apply the GPG subkey into `sshcontrol`:
+
+    ```shell
+
+    gpg --keyid-format "0xlong" \
+        --list-secret-keys \
+        --with-keygrip
+    
+    echo "<GPG_SUBKEY_KEYGRIP>" | tee -a sshcontrol
+    
+    # Verify it is works:
+    ssh-add -l
+    # ssh-ed25519 <SSH_PUBLIC_KEY> (none)
+    ```
+
+3.  Export public key in OpenSSH format from a specific GPG Subkey:
+
+    ```shell
+    gpg --list-secret-keys \
+        --keyid-format "0xlong"
+    
+    gpg --export-ssh-key "<GPG_SUBKEY_ID>" | tee ssh-public-key.pub
+    # ssh-ed25519 <SSH_PUBLIC_KEY> openpgp:<HASH>
+    ```
+
+4.  Finally, you can add the public key into `$HOME/.ssh/authorized_keys`
+    on the server which you're connecting.
+
 ### References
 
 -   [GnuPG]
@@ -65,5 +124,6 @@ so we need to create symbolic links to `$HOME/.gnupg` as workaround.
     -   [GPG Agnet Options](https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html)
 -   [ArchLinux - GnuPG](https://wiki.archlinux.org/index.php/GnuPG)
 -   [GPG Quickstart Guide](https://medium.com/@acparas/gpg-quickstart-guide-d01f005ca99)
+- [Using a GPG key for SSH authentication on macOS and Debian](https://gregrs-uk.github.io/2018-08-06/gpg-key-ssh-mac-debian/)
 
 [GnuPG]: <https://www.gnupg.org>
