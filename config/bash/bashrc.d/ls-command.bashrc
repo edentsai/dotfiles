@@ -79,6 +79,57 @@ function bashrc::ls_command::configure_colors_for_freebsd()
 }
 
 #######################################################################
+# Configure LS_COLORS for Linux with `dircolors`.
+#
+# @link https://www.gnu.org/software/coreutils/manual/html_node/dircolors-invocation.html
+#
+# Globals:
+#   HOME
+#   LS_COLORS
+#   XDG_CONFIG_HOME
+#######################################################################
+function bashrc::ls_command::configure_colors_for_linux()
+{
+  local config_home="${HOME}/.config"
+  if [[ "${XDG_CONFIG_HOME:-}" != "" ]]; then
+    config_home="${XDG_CONFIG_HOME}"
+  fi
+
+  # Skip if LS_COLORS already configured.
+  if [[ "${LS_COLORS:-}" != "" ]]; then
+    return
+  fi
+
+  # Found the first dircolors file in the following paths:
+  #
+  # 1. `$HOME/.dircolors`
+  # 2. `$XDG_CONFIG_HOME/dircolors/dircolors`
+  local dircolors_file="${config_home}/dircolors/dircolors";
+  if test -e "${HOME}/.dircolors"; then
+    dircolors_file="${HOME}/.dircolors";
+  elif test -e "${config_home}/dircolors/dircolors"; then
+    dircolors_file="${config_home}/dircolors/dircolors"
+  else
+    return
+  fi
+
+  # Export LS_COLORS variable for Linux.
+  if command -v "dircolors" > /dev/null 2>&1; then
+    eval "$(dircolor --bourne-shell "${dircolors_file}")"
+
+    return
+  fi
+
+  # Export LS_COLORS variable
+  # when GNU coreutils installed on macOS.
+  if command -v "gdircolors" > /dev/null 2>&1; then
+    eval "$(gdircolors --bourne-shell "${dircolors_file}")"
+  fi
+
+  return
+}
+
+#######################################################################
 # Define aliases for `ls` or `gls` commands in Bash.
 #
 # - Aliases for `ls` depends on macOS or Linux.
@@ -246,6 +297,7 @@ function bashrc::ls_command::define_aliases()
 function bashrc::ls_command::main()
 {
   bashrc::ls_command::configure_colors_for_freebsd
+  bashrc::ls_command::configure_colors_for_linux
   bashrc::ls_command::define_aliases
 }
 
@@ -253,4 +305,5 @@ bashrc::ls_command::main
 
 unset -f bashrc::ls_command::main
 unset -f bashrc::ls_command::configure_colors_for_freebsd
+unset -f bashrc::ls_command::configure_colors_for_linux
 unset -f bashrc::ls_command::define_aliases
