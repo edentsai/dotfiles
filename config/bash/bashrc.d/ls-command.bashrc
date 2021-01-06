@@ -78,12 +78,179 @@ function bashrc::ls_command::configure_colors_for_freebsd()
   fi
 }
 
+#######################################################################
+# Define aliases for `ls` or `gls` commands in Bash.
+#
+# - Aliases for `ls` depends on macOS or Linux.
+# - Alaises for `gls` when GNU coreutils installed on macOS.
+#
+# @link https://www.gnu.org/software/coreutils/manual/html_node/ls-invocation.html#ls-invocation
+# @link https://www.gnu.org/software/coreutils/manual/html_node/General-output-formatting.html#General-output-formatting
+#######################################################################
+function bashrc::ls_command::define_aliases()
+{
+  local readonly OS_NAME_DARWIN="Darwin"
+  local readonly OS_NAME_LINUX="Linux"
+  local readonly OS_NAME_MACOS="${OS_NAME_DARWIN}"
+
+  local os_name
+  os_name="$(uname -s)"
+
+  case "${os_name}" in
+    "${OS_NAME_DARWIN}" | "${OS_NAME_MACOS}")
+      # Options on FreeBSD / macOS:
+      #
+      # -1
+      #   Force output to be one entry per line.
+      #
+      # -A
+      #   List all entries except for "." and "..".
+      #
+      # -d
+      #   Directories are listed as plain files
+      #   (not searched recursively).
+      #
+      # -G
+      #   Enable colorized output.
+      #   (This option is equivalent to defining CLICOLOR in the environment.
+      #
+      # -F
+      #   Display a slash (`/') immediately after each pathname
+      #   that is a directory,
+      #   an asterisk (`*') after each that is executable,
+      #   an at sign (`@') after each symbolic link,
+      #   an equals sign (`=') after each socket,
+      #   a percent sign (`%') after each whiteout,
+      #   and a vertical bar (`|') after each that is a FIFO.
+      #
+      # -l
+      #   (The lowercase letter `ell`).
+      #   List in long format. A total sum for all the file sizes
+      #   is output on a line before the long listing.
+      #
+      # -h
+      #   When used with the -l option (the lowercase letter `ell`),
+      #   use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte,
+      #   Terabyte and Petabyte in order to reduce the number
+      #   of digits to three or less using base 2 for sizes.
+      #
+      # -T
+      #   When used with the -l option (the lowercase letter `ell`),
+      #   display complete time information for the file,
+      #   including month, day, hour, minute, second, and year.
+
+      # List files with colorized output and classify symbol.
+      alias ls="ls -G -F"
+
+      # List files in one entry per line.
+      alias l1="ls -1"
+
+      # List all files included hidden files.
+      alias la="ls -A"
+
+      # List hidden files only.
+      alias l.="ls -A -d .*"
+
+      # List files in the long format with completed information.
+      alias ll="ls -l -h -T"
+
+      # List all files in the long format with completed information.
+      alias lla="ll -A"
+
+      # List hidden files in the long format
+      # with completion information.
+      alias ll.="ll -A -d .*"
+      ;;
+    "${OS_NAME_LINUX}")
+      # Options on Linux:
+      #
+      # -1
+      #   List one file per line.
+      #   Avoid '\n' with -q or -b
+      #
+      # -A, --almost-all
+      #   do not ignore entries starting with ".",
+      #   and do not list implied "." and "..".
+      #
+      # --color[=WHEN]
+      #   Colorize the output;
+      #   WHEN can be "always" (default if omitted), "auto", or "never".
+      #
+      # -d, --directory
+      #   List directories themselves, not their contents.
+      #
+      # -F, --classify
+      #   Append indicator (one of */=>@|) to entries.
+      #
+      # --group-directories-first
+      #   Group directories before files;
+      #
+      # -l
+      #   Use a long listing format.
+      #
+      # -h, --human-readable
+      #   With -l and -s, print sizes like 1K 234M 2G etc.
+      #
+      # --si
+      #   Likewise, but use powers of 1000 not 1024.
+      #
+      # --time-style=TIME_STYLE
+      #   Time/date format with -l optoin,
+      #   see TIME_STYLE in `man ls` for more details.
+      #
+      #     %b  locale's abbreviated month name (e.g., Jan).
+      #     %e  day of month, space padded; same as "%_d".
+      #     %H  hour (00..23).
+      #     %M  minute (00..59).
+      #     %Y  year.
+
+      # List files with colorized output and classify symbol.
+      alias ls="ls --color='auto' --classify"
+
+      # List files in one entry per line.
+      alias l1="ls -1"
+
+      # List all files included hidden files.
+      alias la="ls --almost-all"
+
+      # List hidden files only.
+      alias l.="ls --almost-all --directory .*"
+
+      # List files in the long format with completed information,
+      #
+      # - Use same time style with FreeBsd `ls -l -h`,
+      #   for example: "Jan  5 12:16 2021"
+      alias ll="ls -l --human-readable --time-style='+%b %e %H:%M %Y'"
+
+      # List all files in the long format with completed information.
+      alias lla="ll --almost-all"
+
+      # List hidden files in the long format
+      # with completion information.
+      alias ll.="ll --almost-all --directory .*"
+      ;;
+  esac
+
+  # Aliases for `gls` command when GNU coreutils installed on macOS.
+  if ! command -v "${prerequisite_command}" > /dev/null 2>&1; then
+    alias gls="gls --color=auto --classify"
+    alias gl1="gls -1"
+    alias gla="gls --almost-all"
+    alias gl.="gls --almost-all --directory .*"
+    alias gll="gls -l --human-readable --time-style='+%b %e %H:%M %Y'"
+    alias glla="gl --almost-all"
+    alias gll.="gl --almost-all --directory .*"
+  fi
+}
+
 function bashrc::ls_command::main()
 {
   bashrc::ls_command::configure_colors_for_freebsd
+  bashrc::ls_command::define_aliases
 }
 
 bashrc::ls_command::main
 
 unset -f bashrc::ls_command::main
 unset -f bashrc::ls_command::configure_colors_for_freebsd
+unset -f bashrc::ls_command::define_aliases
