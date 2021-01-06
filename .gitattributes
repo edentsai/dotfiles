@@ -1,0 +1,6 @@
+# Git Attributes Configuration.
+#
+# @link https://www.git-scm.com/docs/gitattributes
+
+# Allows trailing whitespaces in Markdown file.
+**/*.md whitespace=space-before-tab
